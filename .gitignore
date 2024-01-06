@@ -1,0 +1,4 @@
+experiments/d3rlpy/d3rlpy_data
+experiments/d3rlpy/d3rlpy_logs
+experiments/d3rlpy/models/**
+experiments/d3rlpy/videos
