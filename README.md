@@ -52,7 +52,6 @@ Are better DT than CQL and BC?
 **TODO:**
 
 #### Minigrid (Door Key)
-    - Currently working on: Edgar Planell, *** Put your name here if you are working on it ***
 This environment has a key that the agent must pick up in order to unlock a goal and then get to the green goal square. This environment is difficult, because of the sparse reward, to solve using classical RL algorithms. It is useful to experiment with curiosity or curriculum learning.
 **TODO:**
 
