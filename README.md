@@ -36,6 +36,45 @@ This project is licensed under the [MIT License](LICENSE).
 - Edgar Planell
 - Alex Barrachina
 
+## Experiments
+
+### Pendulum
+Perform the test on the simplest gym with d3rl to test the decision transformers. We choose the pendulum environment because it is the simplest and we can see if the DT is able to learn the optimal policy.
+**TODO:** Hyperparemter tuning (the simplest possible model).    
+
+### Compare DT with other algorithms
+Test the same environments as in the original paper, for the DT, CQL, BC algorithms and compare the results.
+Are better DT than CQL and BC?
+#### Open AI Gym (HalfCheetah, Hopper, Walker, Reacher)
+**TODO:**
+
+#### Atari games (Breakout, QBert, Pong, Seaquest)
+**TODO:**
+
+#### Minigrid (Door Key)
+    - Currently working on: Edgar Planell, *** Put your name here if you are working on it ***
+This environment has a key that the agent must pick up in order to unlock a goal and then get to the green goal square. This environment is difficult, because of the sparse reward, to solve using classical RL algorithms. It is useful to experiment with curiosity or curriculum learning.
+**TODO:**
+
+### Test DT with different hyperparameters. 
+Are important size of model, number of layers, number of heads, number of attention heads, number of epochs, learning rate, batch size, etc.?
+Which are the best hyperparameters for DT in every game?
+#### Open AI Gym (HalfCheetah, Hopper, Walker, Reacher)
+**TODO:**
+
+#### Atari games (Breakout, QBert, Pong, Seaquest)
+**TODO:**
+
+#### Minigrid (Door Key)
+**TODO:**
+
+### Test DT with different data experiences.
+Are important the size of the dataset and the type of data?
+#### Atari games (mixed, expert)
+**TODO:**
+
+#### Open AI Gym (medium, medium-replay, medium-expert)
+**TODO:**
 
 
 ## Acknowledgements
