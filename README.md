@@ -63,7 +63,10 @@ docker run -it --gpus all --rm -v $(pwd):/home gamemindsdt:latest bash
 
 To run the experiments, you need to run the command `python main.py <experiment_name>` in the folder `/home`. The command will run the experiment `<experiment_name>`. For example:
 ```bash
-python main.py pendulum
+python main.py test_pendulum
+```
+```bash
+python main.py test_atari_breakout
 ```
 
 
