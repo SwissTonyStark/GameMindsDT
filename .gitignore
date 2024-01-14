@@ -1,5 +1,8 @@
-experiments/d3rlpy/d3rlpy_data
-experiments/d3rlpy/d3rlpy_logs
-experiments/d3rlpy/models/**
-experiments/d3rlpy/videos
+d3rlpy_data
+d3rlpy_logs
+models
+videos
 GameMindsDT.code-workspace
+.old
+__pycache__
+

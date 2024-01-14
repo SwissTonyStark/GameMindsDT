@@ -38,6 +38,38 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Experiments
 
+We have used docker and notebooks to run the experiments. The notebooks are in the folder `notebooks` and the docker files are in the folder `docker`.
+
+### Docker Experiments
+
+We use docker to run the experiments.
+
+Before running the docker, you need to install the nvidia-docker2 if we want to use the GPU and you don't have installed yet. You need a nvidia GPU at least compatible with CUDA 11.0. You can check the version of CUDA with the command `nvidia-smi`
+
+```bash
+sudo apt install -y nvidia-docker2
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+```
+
+To buid the docker, you need to run the command `docker build -t gamemindsdt:latest .` in the folder `docker`. This command will build the docker with the name `gamemindsdt:latest`. The docker will install all the requirements and will clone the repository in the folder `/home`.
+
+To run the docker, you need to run the command `docker run -it --gpus all --rm -v $(pwd):/home gamemindsdt:latest bash`. This command will run the docker with the name `gamemindsdt:latest` and will mount the current folder in the folder `/home`. The command will open a bash in the docker.
+
+```bash
+docker build -t gamemindsdt:latest . 
+docker run -it --gpus all --rm -v $(pwd):/home gamemindsdt:latest bash
+```
+
+To run the experiments, you need to run the command `python main.py <experiment_name>` in the folder `/home`. The command will run the experiment `<experiment_name>`. For example:
+```bash
+python main.py test_pendulum
+```
+```bash
+python main.py test_atari_breakout
+```
+
+
 ### Pendulum
 Perform the test on the simplest gym with d3rl to test the decision transformers. We choose the pendulum environment because it is the simplest and we can see if the DT is able to learn the optimal policy.
 **TODO:** Hyperparemter tuning (the simplest possible model).    
