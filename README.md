@@ -87,3 +87,8 @@ TBD(Contact information for inquiries and collaborations.)
 ![Uploading Logo.png…]()
 
 
+sudo apt install -y nvidia-docker2
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+
+docker build -t gamemindsdt:latest . &&  docker run -it --gpus all --rm -v $(pwd):/home gamemindsdt:latest bash
