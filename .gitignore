@@ -2,6 +2,7 @@ d3rlpy_data
 d3rlpy_logs
 models
 videos
+datasets
 GameMindsDT.code-workspace
 .old
 __pycache__
