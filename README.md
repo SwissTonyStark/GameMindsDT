@@ -38,7 +38,7 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## References and aknowledgements
 - [Decision Transformer: Reinforcement Learning via Sequence Modeling](https://arxiv.org/abs/2106.01345)
-- [d3rlpy]https://d3rlpy.readthedocs.io/en/v2.3.0/references/algos.html
+- [[d3rlpy](https://d3rlpy.readthedocs.io/en/v2.3.0/)
 
 ## Experiments
 
@@ -113,6 +113,23 @@ https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/ed31d936-d1b8-4d5
 And in this chart you can see the comparision of the DT model with the DQN model in terms of solved episodes:
 
 ![Chart](https://github.com/SwissTonyStark/GameMindsDT/blob/main/assets/door-key-test-comparision-bar-chart.png)
+
+##### Comparing DT with other offline algorithms in Door Key 16x16 environment
+
+We will make new experiments in Door Key 16x16 environment from Minigrid Gym with Offline algorithms from d3rlpy. You can see the code in notebook 03-test-door-key-16x16-offline-algorithms-d3rlpy.ipynb.
+
+We test the following offline algorithms:
+* Discrete Decision Transformer (DT)
+* Discrete Behaviour Clonig (BC)
+* Discrete CQL (CQL)
+
+We have tried to make a fair comparison, using the same dataset and without tweaking too many hyperparameters.
+
+The intuition behind this is that in problems of sparse reward or delayed reward, offline RL algorithms can be very effective because they learn from experts. And they don't need as much exploration.
+
+As we can see, the best algorithm by far is DT.
+
+![Chart](https://github.com/SwissTonyStark/GameMindsDT/blob/main/assets/door-key-test-offline-comparision-bar-chart.png)
 
 
 **TODO:**
