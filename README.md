@@ -108,11 +108,11 @@ Despite this, we have noticed that the training is very unstable, and it can yie
 
 Here you can see a video of the DT model playing the door-to-key-16x16 environment:
 
-[![Door Key](https://github.com/SwissTonyStark/GameMindsDT/blob/main/assets/rl-video-episode-0.mp4)
+![Door Key](https://github.com/SwissTonyStark/GameMindsDT/blob/main/assets/rl-video-episode-0.mp4)
 
 And in this chart you can see the comparision of the DT model with the DQN model in terms of solved episodes:
 
-[![Chart](https://github.com/SwissTonyStark/GameMindsDT/blob/main/assets/door-key-test-comparision-bar-chart.png)
+![Chart](https://github.com/SwissTonyStark/GameMindsDT/blob/main/assets/door-key-test-comparision-bar-chart.png)
 
 
 **TODO:**
