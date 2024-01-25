@@ -36,10 +36,6 @@ This project is licensed under the [MIT License](LICENSE).
 - Edgar Planell
 - Alex Barrachina
 
-## References and aknowledgements
-- [Decision Transformer: Reinforcement Learning via Sequence Modeling](https://arxiv.org/abs/2106.01345)
-- [[d3rlpy](https://d3rlpy.readthedocs.io/en/v2.3.0/)
-
 ## Experiments
 
 We have used docker and notebooks to run the experiments. The notebooks are in the folder `notebooks` and the docker files are in the folder `docker`.
@@ -65,12 +61,12 @@ docker build -t gamemindsdt:latest .
 docker run -it --gpus all --rm -v $(pwd):/home gamemindsdt:latest bash
 ```
 
-To run the experiments, you need to run the command `python main.py <experiment_name>` in the folder `/home`. The command will run the experiment `<experiment_name>`. For example:
+To run the experiments, you need to run the command `python main.py <experiment_name>` in the folder `/home/app`. The command will run the experiment `<experiment_name>`. For example:
 ```bash
 python main.py test_pendulum
 ```
 ```bash
-python main.py test_atari_breakout
+python main.py test_atari_games
 ```
 
 
@@ -155,7 +151,9 @@ Are important the size of the dataset and the type of data?
 **TODO:**
 
 
-## Acknowledgements
+## References and Acknowledgements
+- [Decision Transformer: Reinforcement Learning via Sequence Modeling](https://arxiv.org/abs/2106.01345)
+- [d3rlpy](https://d3rlpy.readthedocs.io/en/v2.3.0/)
 TBD.
 
 ## Contact

@@ -4,7 +4,7 @@ import d3rlpy
 
 from config import config
 from src.tests.pendulum import run_pendulum
-from src.tests.atari_breakout import run_atari_breakout
+from src.tests.atari_games import run_atari_tests
 import logging
 
 seed=1
@@ -21,8 +21,8 @@ if not isExist:
 
 if sys.argv[1] == "test_pendulum":
     run_pendulum()
-elif sys.argv[1] == "test_atari_breakout":
-    run_atari_breakout()
+elif sys.argv[1] == "test_atari_games":
+    run_atari_tests()
 else:
     logging.error("Invalid argument")
     exit(1)
