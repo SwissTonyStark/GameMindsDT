@@ -145,6 +145,10 @@ https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/07b4d3c3-8e25-4e0
 
 https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/25c57515-57ee-4cac-a0a3-3f70b3b7251a
 
+##### Comparing DT with other offline algorithms in Atari games (QBert, Seaquest, Pong, Breakout)
+
+We have trained the 4 games with the d3rply library on the 3 algorithms, DT, BC, and CQL, without hardly touching the hyperparameters, and the results show that DT is better compared to the others.
+
 
 ### Test DT with different hyperparameters. 
 Are important size of model, number of layers, number of heads, number of attention heads, number of epochs, learning rate, batch size, etc.?
