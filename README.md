@@ -36,6 +36,15 @@ This project is licensed under the [MIT License](LICENSE).
 - Edgar Planell
 - Alex Barrachina
 
+## Possible Decision Transformer Variants to Implement and test
+- ![Decision Transformer](https://arxiv.org/abs/2106.01345)
+- ![Hierarchical Decision Transformer](https://arxiv.org/abs/2209.10447)
+- ![Elastic Decision Transformer](https://kristery.github.io/edt/)
+- ![Critic-Guided Decision Transformer](https://arxiv.org/abs/2312.13716)
+- ![Online Decision Transformer](https://arxiv.org/pdf/2202.05607.pdf)
+- ![Constrained Decision Transformer a](https://www.offline-saferl.org/)
+- ![Constrained Decision Transformer b](https://arxiv.org/abs/2302.07351)
+
 ## Experiments
 
 We have used docker and notebooks to run the experiments. The notebooks are in the folder `notebooks` and the docker files are in the folder `docker`.

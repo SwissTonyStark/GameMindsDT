@@ -2,5 +2,6 @@ d3rlpy
 pyvirtualdisplay 
 pygame 
 moviepy
+matplotlib
 gym[atari,accept-rom-license]
 

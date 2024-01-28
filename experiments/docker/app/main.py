@@ -19,6 +19,10 @@ isExist = os.path.exists(config["videos_path"])
 if not isExist:
     os.makedirs(config["videos_path"])
 
+isExist = os.path.exists(config["results_path"])
+if not isExist:
+    os.makedirs(config["results_path"])
+
 if sys.argv[1] == "test_pendulum":
     run_pendulum()
 elif sys.argv[1] == "test_atari_games":

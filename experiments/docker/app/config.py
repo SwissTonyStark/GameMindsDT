@@ -9,6 +9,7 @@ config = {
     "base_path": base_path,
     "models_path": os.path.join(base_path,"models"),
     "videos_path": os.path.join(base_path,"videos"),
+    "results_path": os.path.join(base_path,"results"),
     "seed": 1,
     "device": device,
 }
