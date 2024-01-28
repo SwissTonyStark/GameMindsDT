@@ -37,13 +37,13 @@ This project is licensed under the [MIT License](LICENSE).
 - Alex Barrachina
 
 ## Possible Decision Transformer Variants to Implement and test
-- ![Decision Transformer](https://arxiv.org/abs/2106.01345)
-- ![Hierarchical Decision Transformer](https://arxiv.org/abs/2209.10447)
-- ![Elastic Decision Transformer](https://kristery.github.io/edt/)
-- ![Critic-Guided Decision Transformer](https://arxiv.org/abs/2312.13716)
-- ![Online Decision Transformer](https://arxiv.org/pdf/2202.05607.pdf)
-- ![Constrained Decision Transformer a](https://www.offline-saferl.org/)
-- ![Constrained Decision Transformer b](https://arxiv.org/abs/2302.07351)
+- [Decision Transformer](https://arxiv.org/abs/2106.01345)
+- [Hierarchical Decision Transformer](https://arxiv.org/abs/2209.10447)
+- [Elastic Decision Transformer](https://kristery.github.io/edt/)
+- [Critic-Guided Decision Transformer](https://arxiv.org/abs/2312.13716)
+- [Online Decision Transformer](https://arxiv.org/pdf/2202.05607.pdf)
+- [Constrained Decision Transformer a](https://www.offline-saferl.org/)
+- [Constrained Decision Transformer b](https://arxiv.org/abs/2302.07351)
 
 ## Experiments
 
@@ -148,7 +148,8 @@ https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/25c57515-57ee-4ca
 ##### Comparing DT with other offline algorithms in Atari games (QBert, Seaquest, Pong, Breakout)
 
 We have trained the 4 games with the d3rply library on the 3 algorithms, DT, BC, and CQL, without hardly touching the hyperparameters, and the results show that DT is better compared to the others.
-
+For the test, we have run 100 matches of each game for each algorithm. And we have averaged the results.
+![atari_results](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/dd963e67-5b0e-45c2-b26d-578ec7ff2ea6)
 
 ### Test DT with different hyperparameters. 
 Are important size of model, number of layers, number of heads, number of attention heads, number of epochs, learning rate, batch size, etc.?
