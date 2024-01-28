@@ -89,9 +89,6 @@ Are better DT than CQL and BC?
 #### Open AI Gym (HalfCheetah, Hopper, Walker, Reacher)
 **TODO:**
 
-#### Atari games (Breakout, QBert, Pong, Seaquest)
-**TODO:**
-
 #### Minigrid (Door Key)
 This environment has a key that the agent must pick up in order to unlock a goal and then get to the green goal square. This environment is difficult, because of the sparse reward, to solve using classical RL algorithms. It is useful to experiment with curiosity or curriculum learning.
 
@@ -113,7 +110,7 @@ Despite this, we have noticed that the training is very unstable, and it can yie
 
 Here you can see a video of the DT model playing the door-to-key-16x16 environment:
 
-https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/ed31d936-d1b8-4d54-8c3b-0e0fc23ddb9c
+https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/f37aaa6a-2002-48d0-96f6-75ce65a02d30
 
 And in this chart you can see the comparision of the DT model with the DQN model in terms of solved episodes:
 
@@ -136,8 +133,18 @@ As we can see, the best algorithm by far is DT.
 
 ![Chart](https://github.com/SwissTonyStark/GameMindsDT/blob/main/assets/door-key-test-offline-comparision-bar-chart.png)
 
+#### Atari games (QBert, Seaquest, Pong, Breakout)
 
-**TODO:**
+We have trained the four games from the original paper using the Decision Transformer from d3rlpy. Here we show example videos of a game. The source code used for the training is in the Experiments section / Docker.
+
+https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/adf01b3d-a509-4941-ae85-4cdf5f98e090
+
+https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/56462ebf-ef7c-40fa-ab68-2d1576b308c4 
+
+https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/07b4d3c3-8e25-4e06-9a88-a88c9b2c5632
+
+https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/25c57515-57ee-4cac-a0a3-3f70b3b7251a
+
 
 ### Test DT with different hyperparameters. 
 Are important size of model, number of layers, number of heads, number of attention heads, number of epochs, learning rate, batch size, etc.?
