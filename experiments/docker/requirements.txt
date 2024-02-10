@@ -1,6 +1,0 @@
-d3rlpy
-pyvirtualdisplay 
-pygame 
-moviepy
-gym[atari,accept-rom-license]
-
