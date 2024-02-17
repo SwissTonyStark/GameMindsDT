@@ -1,0 +1,111 @@
+import argparse
+import os
+import pprint
+
+from dt_mine_rl.lib.common import AGENT_DT_NUN_ESC_BUTTON
+from dt_mine_rl.lib.common import AGENT_DT_NUM_CAMERA_ACTIONS
+
+from dt_models.dt_model_common import ActEncoderDecoder
+
+from lib.dataset import EpisodeDataset
+
+from transformers import DecisionTransformerConfig, TrainingArguments, Trainer
+
+from torch.utils.data import random_split
+
+from dt_models.dt_model_hf import TrainableDT
+from dt_models.dt_model_hf import DecisionTransformerGymEpisodeCollator
+
+from config import config
+
+
+def main(args):
+
+    env_key = "MineRLBasaltFindCave-v0"
+
+    app_config = config["envs"][env_key]
+    
+    pprint.PrettyPrinter(indent=4,sort_dicts=True).pprint(app_config)
+
+    # If training dir already exists and flag is set, do not train
+    models_dir = app_config["models_dir"]
+    if os.path.exists(models_dir) and config["common"]["skip_if_exists"]:
+        print(f"Output directory {models_dir} already exists. Skipping training.")
+        return
+
+    act_button_encoder = None
+
+    if (app_config["button_act_csv_path"] is not None):
+        act_button_encoder = ActEncoderDecoder(app_config["button_act_csv_path"], app_config["button_encoder_num_actions"])
+    
+
+    episode_dataset = EpisodeDataset(
+        app_config["embeddings_dir"],
+        app_config["embedding_dim"],
+        max_files_to_load=app_config["max_files_to_load"],
+        downsampling=app_config["downsampling"],
+        skip_noops=app_config["skip_noops"],
+        act_button_encoder=act_button_encoder)
+    
+    state_dim, action_dim = episode_dataset.get_state_and_act_dim()
+
+    dataset_size = len(episode_dataset)
+    train_size = int(0.9 * dataset_size)
+    test_size = dataset_size - train_size
+    
+    train_dataset, eval_dataset = random_split(episode_dataset, [train_size, test_size])
+
+    collator = DecisionTransformerGymEpisodeCollator( 
+        state_dim, action_dim, app_config["sequence_length"], app_config["max_ep_len"], app_config["minibatch_samples"], app_config["gamma"], app_config["scale_rewards"])
+
+    # Initializing a DecisionTransformer configuration
+    decision_transformer_config = DecisionTransformerConfig(
+        n_head=app_config["n_heads"],
+        n_layer=app_config["n_layers"],
+        hidden_size=app_config["hidden_size"],
+        n_positions=app_config["sequence_length"] * 3,
+        max_ep_len=app_config["max_ep_len"],
+        state_dim=state_dim, 
+        act_dim=action_dim,
+        agent_num_button_actions = app_config["button_encoder_num_actions"],
+        agent_num_camera_actions = AGENT_DT_NUM_CAMERA_ACTIONS,
+        agent_esc_button = AGENT_DT_NUN_ESC_BUTTON,
+        temperature_button = app_config["temperature_buttons"],
+        temperature_camera = app_config["temperature_camera"],
+        temperature_esc = app_config["temperature_esc"]
+        )
+    
+    model = TrainableDT(decision_transformer_config)
+
+    os.makedirs(models_dir, exist_ok=True)
+
+    training_args = TrainingArguments(
+        output_dir=models_dir,
+        remove_unused_columns=False,
+        num_train_epochs=app_config["num_train_epochs"],
+        per_device_train_batch_size=app_config["batch_size"],
+        per_device_eval_batch_size=app_config["batch_size"],
+        learning_rate=app_config["lr"],
+        optim="adamw_torch",
+        evaluation_strategy="epoch",
+        save_strategy="epoch",
+        save_total_limit=3
+    )
+
+    trainer = Trainer(
+        model=model,
+        args=training_args,
+        train_dataset=train_dataset,
+        eval_dataset=eval_dataset,
+        data_collator=collator,
+    )
+
+    trainer.train()
+
+    # Save the final model
+    trainer.save_model(models_dir)
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser("Train a DT agent on VPT embeddings for the BASALT Benchmark")
+    args = parser.parse_args()
+    main(args)
