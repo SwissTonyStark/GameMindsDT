@@ -71,23 +71,7 @@ def get_timestep(terminal_pos):
     return arrayTimesteps
 
 
-model_cfg = {
-    "state_dim": 4*30,
-    "act_dim": 30 , # act_dim=Contextlength?
-    "ffn_dim": 12,  #FeedForwardNetwork Dimension
-    "embed_dim": 128,
-    "num_heads": 16,
-    "num_blocks": 1,
-    "max_timesteps": 4096,
-    "mlp_ratio": 4,
-    "dropout": 0.1,
-    "vocab_size": 4,
-    "rtg_dim": 1
 
-}
-
-model_dt = DecisionTransformer(**model_cfg)
-model_dt
 
 env = gym.make('hopper-bullet-medium-v0')
 dataset = env.get_dataset()
@@ -102,15 +86,31 @@ rtgs = optimized_get_rtgs(terminals_pos, dataset['rewards'])
 timesteps = get_timestep(terminals_pos)
 max_timesteps = max(timesteps)
 
-blocks = 16
+blocks = 6
 dataset = MyDataset(arrayObservations, arrayActions, timesteps, rtgs, terminals_pos, blocks)
 DTDataLoader = DataLoader(dataset, batch_size=1, shuffle=False)
 
+state_dim = env.observation_space.shape[0]
+act_dim = env.action_space.shape[0]
+
+model_cfg = {
+    "state_dim": state_dim,
+    "act_dim": act_dim, # act_dim=Contextlength?
+    "h_dim": 6,  #embed_dim
+    "num_heads": 2,
+    "num_blocks": 1,
+    "context_len": blocks,
+    "max_timesteps": max_timesteps,
+    "mlp_ratio": 4,
+    "dropout": 0.1,
+}
+
+model_dt = DecisionTransformer(**model_cfg)
+model_dt
 
 criterion = nn.MSELoss()
 # Definir el optimizador
 optimizer = optim.Adam(model_dt.parameters(), lr=0.001)
-
 
 num_epochs = 5
 timestep = 0

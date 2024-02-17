@@ -55,7 +55,7 @@ class MyDataset(Dataset):
         states = (self.observations[seq_start : seq_end])
         actions = (self.actions[seq_start : seq_end])
         rtgs = (self.rtgs[seq_start : seq_end])
-        steps = (self.steps)
+        steps = (self.steps[seq_start : seq_end])
         
         if n_padding > 0:
             padding = np.zeros(n_padding)
@@ -67,7 +67,7 @@ class MyDataset(Dataset):
         
         states = torch.FloatTensor(states)
         actions = torch.FloatTensor(actions)
-        rtgs = torch.FloatTensor(rtgs)
-        steps = torch.FloatTensor(steps)
+        rtgs = torch.FloatTensor(rtgs).unsqueeze(dim=-1) #T x 1 
+        steps = torch.tensor(steps, dtype=torch.int)
 
         return states, actions, rtgs, steps
