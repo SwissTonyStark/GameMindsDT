@@ -73,7 +73,7 @@ def get_timestep(terminal_pos):
 
 
 
-env = gym.make('hopper-bullet-medium-v0')
+env = gym.make('hopper-bullet-mixed-v0')
 dataset = env.get_dataset()
 
 arrayObservations = dataset['observations'] # Observation data in a [N x dim_observation] numpy array  ==> Para 'hopper-bullet-mixed-v0" = [59345 x 15]
@@ -84,7 +84,7 @@ arrayTerminals = dataset['terminals'] # Terminal flags in a [N x 1] numpy array 
 terminals_pos, num_episodes = get_episodes()
 rtgs = optimized_get_rtgs(terminals_pos, dataset['rewards'])
 timesteps = get_timestep(terminals_pos)
-max_timesteps = max(timesteps)
+max_timesteps = max(timesteps) + 1
 
 blocks = 6
 dataset = MyDataset(arrayObservations, arrayActions, timesteps, rtgs, terminals_pos, blocks)
@@ -126,7 +126,7 @@ for epoch in range(num_epochs):
         optimizer.zero_grad()
 
         # Paso 2: Propagación hacia adelante (Forward pass)
-        _, _, act_preds = model_dt(steps, max_timesteps, states, actions, rtgs) # timestep, max_timesteps, states, actions, returns_to_go
+        _, _, act_preds = model_dt(steps, states, actions, rtgs) # timestep, max_timesteps, states, actions, returns_to_go
         #outputs = model(batch_obs)
 
         # Paso 3: Calcular la pérdida

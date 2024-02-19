@@ -92,7 +92,7 @@ class DecoderBlock(nn.Module):
         self.attn = MaskedSelfAttention(h_dim, num_heads, seq_len, dropout)
         self.ln1 = nn.LayerNorm(h_dim)
         self.mlp = MLP(h_dim, mlp_ratio, dropout)
-        self.ln_2 = nn.LayerNorm(h_dim)
+        self.ln2 = nn.LayerNorm(h_dim)
 
     def forward(self, x):
         """ x = self.ln2(x) # add residual
@@ -123,7 +123,7 @@ class DecisionTransformer(nn.Module):
 
         self.norm = nn.LayerNorm(h_dim)
 
-        self.transformerGPT = nn.ModuleList([DecoderBlock(h_dim, num_heads, self.seq_len, mlp_ratio, dropout) for _ in range(num_blocks)])
+        self.transformerGPT = nn.Sequential(*([DecoderBlock(h_dim, num_heads, self.seq_len, mlp_ratio, dropout) for _ in range(num_blocks)]))
 
         self.rtg_pred = nn.Linear(in_features=h_dim, out_features=1)
         self.state_pred = nn.Linear(in_features=h_dim, out_features=state_dim)
@@ -132,7 +132,7 @@ class DecisionTransformer(nn.Module):
             nn.Tanh()
         )
 
-    def forward(self, timestep, max_timesteps, states, actions, returns_to_go):
+    def forward(self, timestep, states, actions, returns_to_go):
 
         B, T, _ = states.shape # [batch size, seq length, h_dim]
 
@@ -143,7 +143,7 @@ class DecisionTransformer(nn.Module):
 
         state_embedding += timestep_embedding
         act_embedding += timestep_embedding
-        returns_to_go += timestep_embedding
+        rtg_embedding += timestep_embedding
 
         # (R{1}, S{1}, A{1}, ..., R{i}, S{i}, A{i}, ..., R{n}, S{n}, A{n}) | 1 < i < n
         stacked_inputs = torch.stack((rtg_embedding, state_embedding, act_embedding), dim=1) # [B, rtg_dim, state_dim, act_dim]

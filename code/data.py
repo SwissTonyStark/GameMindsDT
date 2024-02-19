@@ -25,21 +25,18 @@ class MyDataset(Dataset):
         self.blocks = blocks
 
     def __len__(self):
-        return len(self.observations)
+        return len(self.terminals)
 
     def __getitem__(self, idx):
         # to avoid blocks in between of 2 trajectories, if the idx is too close to the end of a trajectory, re-position
-        # the idx to a block_size away to the end of the trajectory
+        # the idx to a block_size away to the end of the trajectory []
         episode_ends = np.array(self.terminals)
         episode_starts=np.roll(episode_ends, shift=1) + 1
         episode_starts[0] = 0
-
-        print("episode start", len(episode_starts))
-        print("episode end", len(episode_ends))
-        print(idx)
+        
         start, end = list(zip(episode_starts, episode_ends +1))[idx]
 
-        episode_length = end - start
+        episode_length = end - start 
 
         # Sample a start point for the sequence within the episode
         if episode_length >= self.blocks:
