@@ -5,7 +5,7 @@ Installation:
 ```bash
 
 # Install the required libraries
-pip install -e requirements.txt
+pip install -r requirements.txt
 
 # Install the library
 pip install -e .
