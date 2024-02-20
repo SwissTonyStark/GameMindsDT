@@ -8,7 +8,7 @@ import os
 
 
 class EpisodeDataset(Dataset):
-    def __init__(self, data_path, expected_embedding_dim=None, max_files_to_load=None, downsampling=1, skip_noops=False, act_button_encoder=None):
+    def __init__(self, data_path, expected_embedding_dim=None, max_files_to_load=None, downsampling=1, skip_noops=False, act_button_encoder=None , end_cut_episode_length=None):
 
         self.expected_embedding_dim = expected_embedding_dim
         self.downsampling = downsampling
@@ -19,6 +19,8 @@ class EpisodeDataset(Dataset):
         self.episodes = get_all_npz_files_in_dir(data_path)
         if max_files_to_load is not None:
             self.episodes = self.episodes[:max_files_to_load]
+
+        self.end_cut_episode_length = end_cut_episode_length
 
     def __len__(self):
         return len(self.episodes)
@@ -34,7 +36,7 @@ class EpisodeDataset(Dataset):
     def __getitem__(self, idx):
 
         episode = self.episodes[idx]
-        transitions = load_embedded_trajectories_as_transitions([episode], self.act_button_encoder, progress_bar=False, expected_embedding_dim=self.expected_embedding_dim, downsampling=self.downsampling, skip_noops=self.skip_noops)
+        transitions = load_embedded_trajectories_as_transitions([episode], self.act_button_encoder, progress_bar=False, expected_embedding_dim=self.expected_embedding_dim, downsampling=self.downsampling, skip_noops=self.skip_noops, end_cut_episode_length=self.end_cut_episode_length)
         return transitions[0]
 
 
@@ -45,7 +47,7 @@ def hotfix_flattened_embeddings(embeddings, embedding_dim):
     """Reshape accidentally flattened embeddings back into correct shape"""
     return embeddings.reshape(-1, embedding_dim)
 
-def load_embedded_trajectories_as_transitions(npz_file_paths, act_button_encoder=None, max_episode_length=None, progress_bar=False, expected_embedding_dim=None, downsampling=1, skip_noops=False):
+def load_embedded_trajectories_as_transitions(npz_file_paths, act_button_encoder=None, max_episode_length=None, progress_bar=False, expected_embedding_dim=None, downsampling=1, skip_noops=False, end_cut_episode_length=None):
 
     episodes = []
 
@@ -110,7 +112,8 @@ def load_embedded_trajectories_as_transitions(npz_file_paths, act_button_encoder
         rewards[current_index:current_index + n] = [0.0] * n    
         #for i in range(max(current_index + n - 100, current_index), max(current_index + n - 10, current_index)):
         #    rewards[i] = 1.0
-        rewards[current_index + n] = 1.0  
+        #rewards[max(current_index, current_index + n - 100): current_index + n] = 10.0  
+        rewards[current_index + n] = 100.0
         dones[current_index + n] = True
         current_index += n + 1
 
@@ -125,14 +128,15 @@ def load_embedded_trajectories_as_transitions(npz_file_paths, act_button_encoder
         dones = dones[:current_index]
         infos = infos[:current_index] 
 
-        # Cut to last 64 transitions
-        #if (len(obs)>128):
-        #    obs = obs[-128:]
-        #    next_obs = next_obs[-128:]
-        #    acts = acts[-128:]
-        #    rewards = rewards[-128:]
-        #    dones = dones[-128:]
-        #    infos = infos[-128:]
+        #Cut to last 64 transitions
+        if end_cut_episode_length is not None:
+            if (len(obs)>end_cut_episode_length):
+                obs = obs[-end_cut_episode_length:]
+                next_obs = next_obs[-end_cut_episode_length:]
+                acts = acts[-end_cut_episode_length:]
+                rewards = rewards[-end_cut_episode_length:]
+                dones = dones[-end_cut_episode_length:]
+                infos = infos[-end_cut_episode_length:]
             
 
         # EPV: Cut off arrays from the front

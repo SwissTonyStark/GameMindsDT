@@ -39,7 +39,6 @@ ENV_TO_BASALT_2022_SEEDS = {
     "MineRLBasaltMakeWaterfall-v0": [95674, 39036, 70373, 84685, 91255, 56595, 53737, 12095, 86455, 19570, 40250],
     "MineRLBasaltCreateVillageAnimalPen-v0": [21212, 85236, 14975, 57764, 56029, 65215, 83805, 35884, 27406, 5681265, 20848],
     "MineRLBasaltBuildVillageHouse-v0": [52216, 29342, 67640, 73169, 86898, 70333, 12658, 99066, 92974, 32150, 78702],
-    #"MineRLBasaltFindCave-v0": [65101, 65101, 65101, 65101, 65101, 65101, 65101],
 }
 
 # Hotpatch the MineRL BASALT envs to report more statistics.

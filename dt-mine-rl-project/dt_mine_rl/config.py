@@ -1,4 +1,5 @@
 import os
+from dt_mine_rl.lib.common import ENV_TO_BASALT_2022_SEEDS
 import yaml
 import torch
 
@@ -29,16 +30,16 @@ config = {
 common_vpt_dir=os.path.join(config["common"]["path_data"], "VPT-models")
 
 config_common_envs = {
-    "num_train_epochs": 10,
+    "num_train_epochs": 4,
     "batch_size": 1,
     "downsampling": 2,
     "lr": 1e-3,
     "l2_weight": 0,
     "entropy_weight": 0,
     "embedding_dim": 1024,
-    "n_heads": 4,
+    "n_heads": 8,
     "n_layers": 6,
-    "hidden_size": 512,
+    "hidden_size": 128,
     "subset_training_max_len": 16,
     "save_every_n_epochs": 10,
     "skip_noops": True,
@@ -55,41 +56,46 @@ common_embeddings_dir = os.path.join(config["common"]["path_data"], "embeddings"
 common_models_path = os.path.join(config["common"]["path_data"], "dt_models")
 common_rollout_output_path = os.path.join(config["common"]["path_data"], "dt_rollouts")
 
-sequence_length_find_cave = 128
-sequence_length_waterfall = 1024
-
 config["envs"] = {
-    "MineRLBasaltFindCave-v0": dict(**config_common_envs, {
+    "MineRLBasaltFindCave-v0": {**config_common_envs, **{
         "models_dir": os.path.join(common_models_path, "MineRLBasaltFindCave-v0"),
         "rollout_output_dir": os.path.join(common_rollout_output_path, "MineRLBasaltFindCave-v0"),
         "embeddings_dir": os.path.join(common_embeddings_dir, "MineRLBasaltFindCave-v0"),
-        "sequence_length": 128,
-        "hidden_size": 2048,
+        "batch_size":1, 
+        "downsampling": 1,
+        "num_train_epochs": 3,
+        "sequence_length": 96,
+        "hidden_size": 256,
         "max_ep_len": 5000,
-        "minibatch_samples": 1, 
-        "gamma":0.99,
+        "minibatch_samples": 4, 
+        "gamma":1.0,
         "scale_rewards":1,
         "mode": "delayed",
         "temperature_buttons": 1,
-        "temperature_camera": 2,
+        "temperature_camera": 1,
         "temperature_esc": 1,
-        "environment_seeds": None,
-        "rollout_max_steeps_per_seed": 3000
-    }),
-    "MineRLBasaltMakeWaterfall-v0": dict(**config_common_envs, {
+        "end_cut_episode_length": 96,
+        "environment_seeds": ENV_TO_BASALT_2022_SEEDS["MineRLBasaltFindCave-v0"], 
+        "rollout_max_steeps_per_seed": 5000,
+        "env_targets": [150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150],
+    }},
+    "MineRLBasaltMakeWaterfall-v0": {**config_common_envs, **{
         "models_dir": os.path.join(common_models_path, "MineRLBasaltMakeWaterfall-v0"),
         "rollout_output_dir": os.path.join(common_rollout_output_path, "MineRLBasaltMakeWaterfall-v0"),
         "embeddings_dir": os.path.join(common_embeddings_dir, "MineRLBasaltMakeWaterfall-v0"),
-        "sequence_length": 1024,
+        "batch_size": 4,
+        "sequence_length": 256,
+        "hidden_size": 512,
         "max_ep_len": 5000,
-        "minibatch_samples": 2, 
+        "minibatch_samples": 4, 
         "gamma":0.99,
         "scale_rewards":1,
         "mode": "delayed",
         "temperature_buttons": 1,
-        "temperature_camera": 2,
+        "temperature_camera": 1,
         "temperature_esc": 1,
-        "environment_seeds": None,
-        "rollout_max_steeps_per_seed": 3000
-    })
+        "environment_seeds": ENV_TO_BASALT_2022_SEEDS["MineRLBasaltMakeWaterfall-v0"],
+        "rollout_max_steeps_per_seed": 3000,
+        "env_targets": [150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150],
+    }}
 }

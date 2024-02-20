@@ -2,6 +2,7 @@ import math
 from transformers import DecisionTransformerModel
 import torch
 
+
 import numpy as np
 import random
 from dataclasses import dataclass
@@ -40,23 +41,15 @@ class DecisionTransformerGymEpisodeCollator:
 
     def sample(self, feature, si, s, a, r, d, rtg, timesteps, mask):
 
-        # get sequences from dataset
         s.append(np.array(feature["obs"][si : si + self.sequence_length]).reshape(1, -1, self.state_dim))
         a.append(np.array(feature["acts"][si : si + self.sequence_length]).reshape(1, -1, self.act_dim))
         r.append(np.array(feature["rewards"][si : si + self.sequence_length]).reshape(1, -1, 1))
 
         d.append(np.array(feature["dones"][si : si + self.sequence_length]).reshape(1, -1))
 
-        #si_time = random.randint(0, self.sequence_length - 1)
-        #si_time = random.randint(0, self.max_ep_len - self.max_len - 1)
-
-        #ts = [(si_time + i) % self.sequence_length for i in range(self.sequence_length)]
-
-        #timesteps.append(np.array(ts).reshape(1, -1))
-
         timesteps.append(np.arange(si, si + self.sequence_length).reshape(1, -1))
-        #timesteps.append(np.zeros((1, self.max_len)))
-        timesteps[-1][timesteps[-1] >= self.max_ep_len] = self.max_ep_len - 1  # padding cutoff
+
+        timesteps[-1][timesteps[-1] >= self.max_ep_len] = self.max_ep_len - 1 
  
         rtg_sum = self._discount_cumsum(np.array(feature["rewards"]), gamma=self.gamma)[si: si + self.sequence_length].reshape(1,-1,1)
 
@@ -66,7 +59,6 @@ class DecisionTransformerGymEpisodeCollator:
             print("if true")
             rtg[-1] = np.concatenate([rtg[-1], np.zeros((1, 1, 1))], axis=1)
 
-        # padding and state + reward normalization
         tlen = s[-1].shape[1]
         s[-1] = np.concatenate([np.zeros((1, self.sequence_length - tlen, self.state_dim)), s[-1]], axis=1)
         a[-1] = np.concatenate(
@@ -76,7 +68,7 @@ class DecisionTransformerGymEpisodeCollator:
         r[-1] = np.concatenate([np.zeros((1, self.sequence_length - tlen, 1)), r[-1]], axis=1)
         d[-1] = np.concatenate([np.ones((1, self.sequence_length - tlen)) * 2, d[-1]], axis=1)
         rtg[-1] = np.concatenate([np.zeros((1, self.sequence_length - tlen, 1)), rtg[-1]], axis=1) / self.scale
-        #timesteps[-1] = np.concatenate([np.zeros((1, self.max_len - tlen)), timesteps[-1]], axis=1)
+
         mask.append(np.concatenate([np.zeros((1, self.sequence_length - tlen)), np.ones((1, tlen))], axis=1))
 
     def __call__(self, features):
@@ -100,7 +92,6 @@ class DecisionTransformerGymEpisodeCollator:
             p=p_sample,  
         )
 
-        # a batch of dataset features
         s, a, r, d, rtg, timesteps, mask = [], [], [], [], [], [], []
 
         for feature in features:
@@ -135,9 +126,88 @@ class DecisionTransformerGymEpisodeCollator:
         }
 
 
+class ActionPolicy(nn.Module):
+    def __init__(self, config):
+        super(ActionPolicy, self).__init__()
+        self.agent_num_button_actions = config.agent_num_button_actions
+        self.agent_num_camera_actions = config.agent_num_camera_actions
+        self.agent_esc_button = config.agent_esc_button
+
+        self.predict_action = nn.ModuleDict({
+            'buttons': nn.Sequential(
+                nn.Linear(config.hidden_size, self.agent_num_button_actions),
+            ),
+            'camera': nn.Sequential(
+                nn.Linear(config.hidden_size, self.agent_num_camera_actions),
+            ),
+            'esc': nn.Sequential(
+                nn.Linear(config.hidden_size, self.agent_esc_button),
+            )
+        })
+
+    def forward(self, x):
+        actions = {action_type: module(x) for action_type, module in self.predict_action.items()}
+        return actions
+    
+# Thanks to d3lply library for the following code Parameter and GlobalPositionEncoding
+class Parameter(nn.Module):  # type: ignore
+    _parameter: nn.Parameter
+
+    def __init__(self, data: torch.Tensor):
+        super().__init__()
+        self._parameter = nn.Parameter(data)
+
+    def forward(self) -> torch.Tensor:
+        return self._parameter
+
+    def __call__(self) -> torch.Tensor:
+        return super().__call__()
+
+    @property
+    def data(self) -> torch.Tensor:
+        return self._parameter.data
+
+class GlobalPositionEncoding(nn.Module):
+    def __init__(self, embed_dim: int, max_timestep: int, context_size: int):
+        super().__init__()
+        self._embed_dim = embed_dim
+        self._global_position_embedding = Parameter(
+            torch.zeros(1, max_timestep, embed_dim, dtype=torch.float32)
+        )
+        self._block_position_embedding = Parameter(
+            torch.zeros(1, 3 * context_size, embed_dim, dtype=torch.float32)
+        )
+
+    def forward(self, t: torch.Tensor) -> torch.Tensor:
+        assert t.dim() == 2, "Expects (B, T)"
+        batch_size, context_size = t.shape
+
+        # (B, 1, 1) -> (B, 1, N)
+        last_t = torch.repeat_interleave(
+            t[:, -1].view(-1, 1, 1), self._embed_dim, dim=-1
+        )
+        # (1, Tmax, N) -> (B, Tmax, N)
+        batched_global_embedding = torch.repeat_interleave(
+            self._global_position_embedding(),
+            batch_size,
+            dim=0,
+        )
+        # (B, Tmax, N) -> (B, 1, N)
+        global_embedding = torch.gather(batched_global_embedding, 1, last_t)
+
+        # (1, 3 * Cmax, N) -> (1, T, N)
+        block_embedding = self._block_position_embedding()[:, :context_size, :]
+
+        # (B, 1, N) + (1, T, N) -> (B, T, N)
+        return global_embedding + block_embedding
+
 class TrainableDT(DecisionTransformerModel):
     def __init__(self, config):
         super().__init__(config)
+
+        self.embed_timestep = GlobalPositionEncoding(
+            config.hidden_size, config.max_ep_len + 1, config.n_positions // 3
+        )
 
         self.state_dim = config.state_dim
         self.act_dim = config.act_dim
@@ -152,11 +222,7 @@ class TrainableDT(DecisionTransformerModel):
 
         self.disable_esc_button = False
 
-        self.action_size = self.agent_num_button_actions + self.agent_num_camera_actions + self.agent_esc_button
-
-        self.predict_action = nn.Sequential(
-            nn.Linear(config.hidden_size, self.action_size)
-        )
+        self.predict_action = ActionPolicy(config)
 
     def set_default_temperatures(self, temperature_buttons, temperature_camera, temperature_esc):
         self.temperature_buttons = temperature_buttons
@@ -177,11 +243,9 @@ class TrainableDT(DecisionTransformerModel):
         else:
             action_preds = output[1]
 
-        action_preds = action_preds * attention_mask.float().unsqueeze(-1)
-
-        action_preds_button = action_preds[:, :, :self.agent_num_button_actions]
-        action_preds_camera = action_preds[:, :, self.agent_num_button_actions:self.agent_num_button_actions + self.agent_num_camera_actions]
-        action_preds_esc = action_preds[:, :, -self.agent_esc_button:]
+        action_preds_button = action_preds["buttons"] * attention_mask.float().unsqueeze(-1)
+        action_preds_camera = action_preds["camera"] * attention_mask.float().unsqueeze(-1)
+        action_preds_esc = action_preds["esc"] * attention_mask.float().unsqueeze(-1)
 
         multi_categorical = MultiCategorical(action_preds_button, action_preds_camera, action_preds_esc)
 
@@ -194,8 +258,6 @@ class TrainableDT(DecisionTransformerModel):
 
         loss = -log_probs.mean()
 
-        #print(loss)
-
         return {"loss": loss}
 
     def original_forward(self, **kwargs):
@@ -205,7 +267,6 @@ class TrainableDT(DecisionTransformerModel):
         return output
 
     def get_dt_action(self, states, actions, rewards, returns_to_go, timesteps, device, temperature_camera=None):
-        # This implementation does not condition on past rewards
 
         states = states.reshape(1, -1, self.state_dim)
         actions = actions.reshape(1, -1, self.act_dim)
@@ -240,9 +301,9 @@ class TrainableDT(DecisionTransformerModel):
             return_dict=False,
         )
 
-        action_logits_button = action_logits[:,-1,:self.agent_num_button_actions]
-        action_logits_camera = action_logits[:,-1,self.agent_num_button_actions:self.agent_num_button_actions + self.agent_num_camera_actions]
-        action_logits_esc = action_logits[:,-1,self.agent_num_button_actions + self.agent_num_camera_actions:]
+        action_logits_button = action_logits["buttons"][:,-1]
+        action_logits_camera = action_logits["camera"][:,-1]
+        action_logits_esc = action_logits["esc"][:,-1]
 
         multi_categorical = MultiCategorical(action_logits_button, action_logits_camera, action_logits_esc)
 

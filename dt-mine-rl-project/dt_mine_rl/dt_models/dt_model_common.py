@@ -69,3 +69,4 @@ class ActEncoderDecoder:
     
     def decode(self, index):
         return int(self.index_to_act.get(index, None))
+    

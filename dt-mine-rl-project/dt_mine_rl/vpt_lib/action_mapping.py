@@ -185,7 +185,9 @@ class CameraHierarchicalMapping(ActionMapping):
             (k, self.factored_buttons_to_groups(ac["buttons"], v)) for k, v in self.BUTTONS_GROUPS.items() if k != "camera"
         )
         # Set camera "on off" action based on whether non-null camera action was given
-        camera_is_null = np.all(ac["camera"] == self.camera_null_bin, axis=1)
+        #Drif
+        #camera_is_null = np.all(ac["camera"] == self.camera_null_bin, axis=1)
+        camera_is_null = np.all(False, axis=1)
         choices_by_group["camera"] = ["none" if is_null else "camera" for is_null in camera_is_null]
 
         new_button_ac = []
@@ -220,7 +222,8 @@ class CameraHierarchicalMapping(ActionMapping):
         new_button_ac = self.BUTTON_IDX_TO_FACTORED[np.squeeze(ac["buttons"], -1)]
         camera_off = self.BUTTON_IDX_TO_CAMERA_META_OFF[np.squeeze(ac["buttons"], -1)]
         new_camera_ac = self.CAMERA_IDX_TO_FACTORED[np.squeeze(ac["camera"], -1)]
-        new_camera_ac[camera_off] = self.camera_null_bin
+        #Drinf
+        #new_camera_ac[camera_off] = self.camera_null_bin
 
         return dict(buttons=new_button_ac, camera=new_camera_ac)
 

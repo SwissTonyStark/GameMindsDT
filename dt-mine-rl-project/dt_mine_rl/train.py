@@ -21,7 +21,7 @@ from config import config
 
 def main(args):
 
-    env_key = "MineRLBasaltFindCave-v0"
+    env_key = args.env
 
     app_config = config["envs"][env_key]
     
@@ -45,7 +45,8 @@ def main(args):
         max_files_to_load=app_config["max_files_to_load"],
         downsampling=app_config["downsampling"],
         skip_noops=app_config["skip_noops"],
-        act_button_encoder=act_button_encoder)
+        act_button_encoder=act_button_encoder,
+        end_cut_episode_length=app_config["end_cut_episode_length"])
     
     state_dim, action_dim = episode_dataset.get_state_and_act_dim()
 
@@ -107,5 +108,6 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser("Train a DT agent on VPT embeddings for the BASALT Benchmark")
+    parser.add_argument("--env", type=str, required=True, help="Environment to train")
     args = parser.parse_args()
     main(args)
