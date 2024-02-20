@@ -1,0 +1,42 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: New Train DT",
+            "type": "python",
+            "request": "launch",
+            "program": "dt-mine-rl-project/dt_mine_rl/train.py",
+            "console": "integratedTerminal",
+            "justMyCode": false
+        },
+        {
+            "name": "Python: New Rollout DT",
+            "type": "python",
+            "request": "launch",
+            "program": "dt-mine-rl-project/dt_mine_rl/rollout.py",
+            "console": "integratedTerminal",
+            "justMyCode": false
+        },
+        {
+            "name": "Python: Rollout DT",
+            "type": "python",
+            "request": "launch",
+            "program": "experiments/minecraft/basalt-benchmark/basalt/rollout_model.py",
+            "args": "--output_dir /home/drinf/Desktop/PROJECTS/machine_learning/fib_postgraduate/GameMindsDT/experiments/minecraft/data/rollouts/MineRLBasaltFindCave-v0             --agent_type dt             --agent_file /home/drinf/Desktop/PROJECTS/machine_learning/fib_postgraduate/GameMindsDT/experiments/minecraft/data/dt_models/MineRLBasaltFindCave-v0             --vpt_model /home/drinf/Desktop/PROJECTS/machine_learning/fib_postgraduate/GameMindsDT/experiments/minecraft/data/VPT-models/foundation-model-1x.model             --vpt_weights /home/drinf/Desktop/PROJECTS/machine_learning/fib_postgraduate/GameMindsDT/experiments/minecraft/data/VPT-models/foundation-model-1x.weights             --env MineRLBasaltFindCave-v0",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "Python: Train DT",
+            "type": "python",
+            "request": "launch",
+            "program": "experiments/minecraft/basalt-benchmark/basalt/train_dt.py",
+            "args": "--embeddings_dir /home/drinf/Desktop/PROJECTS/machine_learning/fib_postgraduate/GameMindsDT/experiments/minecraft/data/embeddings/foundation-model-1x.weights/MineRLBasaltFindCave-v0 --output_dir /home/drinf/Desktop/PROJECTS/machine_learning/fib_postgraduate/GameMindsDT/experiments/minecraft/data/dt_models//MineRLBasaltFindCave-v0 --batch_size 4 --n_epochs 10 --embedding_dim 1024 --downsampling 2 --learning_rate 1e-5 --l2_weight 0 --entropy_weight 1e-5 --n_layers 3 --save_every_epochs 10 --skip_noops --skip_if_exists",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        }
+    ]
+}

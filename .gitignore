@@ -9,3 +9,7 @@ GameMindsDT.code-workspace
 .old
 __pycache__
 
+logs/**
+dt-mine-rl-project/DT_Mine_RL_Project.egg-info
+dt-mine-rl-project/settings.yaml
+dt-mine-rl-project/dt_mine_rl/logs/**
