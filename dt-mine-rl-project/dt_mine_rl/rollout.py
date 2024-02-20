@@ -67,7 +67,7 @@ def main(args):
     idx = 0
 
     for seed in tqdm.tqdm(environment_seeds, desc="Seeds", leave=False):
-        TARGET_RETURN = app_config["env_targets"][env_key][idx]
+        TARGET_RETURN = app_config["env_targets"][idx]
 
         env.seed(seed)
         obs = env.reset()
