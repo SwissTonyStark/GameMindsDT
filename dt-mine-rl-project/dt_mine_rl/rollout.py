@@ -16,6 +16,22 @@ from lib.common import ENV_NAME_TO_SPEC, ENV_TO_BASALT_2022_SEEDS, create_json_e
 from dt_models.dt_model_common import ActEncoderDecoder
 from dt_models.dt_model_hf import TrainableDT
 
+def get_current_state(obs, hidden_state, dummy_first, vpt_agent, agent, device):
+
+    agent_obs = vpt_agent._env_obs_to_agent(obs)
+
+    with torch.no_grad():
+        vpt_embedding, hidden_state = vpt_agent.policy.get_output_for_observation(
+            agent_obs,
+            hidden_state,
+            dummy_first,
+            return_embedding=True,
+        )
+
+    cur_state = vpt_embedding.to(device=device).reshape(1, agent.config.state_dim)
+
+    return cur_state, hidden_state
+
 def main(args):
 
     env_key = args.env
@@ -74,13 +90,7 @@ def main(args):
         hidden_state = vpt_agent.policy.initial_state(1)
         recorder = videoio.VideoWriter(os.path.join(app_config["rollout_output_dir"], f"seed_{seed}_{idx}.mp4"), resolution=(640, 360), fps=20)
 
-        target_return = torch.tensor(TARGET_RETURN, device=device, dtype=torch.float32).reshape(1, 1)
-        
         states = None
-        actions = torch.zeros((0, agent.config.act_dim), device=device, dtype=torch.float32)
-        rewards = torch.zeros(0, device=device, dtype=torch.float32)
-
-        timesteps = torch.tensor(0, device=device, dtype=torch.long).reshape(1, 1)
 
         recorder.write(obs["pov"])
 
@@ -88,38 +98,27 @@ def main(args):
         progress_bar = tqdm.tqdm(desc=f"Steps", leave=False)
         step_counter = 0
 
+        step_cicle = app_config["end_cut_episode_length"] 
+
+        states, hidden_state = get_current_state(obs, hidden_state, dummy_first, vpt_agent, agent, device)
+        
+        actions = torch.zeros((1, agent.config.act_dim), device=device, dtype=torch.float32)
+        rewards = torch.zeros(1, device=device, dtype=torch.float32)
+        target_return = torch.tensor(TARGET_RETURN, device=device, dtype=torch.float32).reshape(1, 1)
+        timesteps = torch.zeros(1, device=device, dtype=torch.long).reshape(1, 1)    
+
         while not done:
 
             if (step_counter % downsample == 0):
 
-                agent_obs = vpt_agent._env_obs_to_agent(obs)
-
-                with torch.no_grad():
-
-                    vpt_embedding, hidden_state = vpt_agent.policy.get_output_for_observation(
-                        agent_obs,
-                        hidden_state,
-                        dummy_first,
-                        return_embedding=True,
-                    )
-
-                    cur_state = vpt_embedding.to(device=device).reshape(1, agent.config.state_dim)
-                    if (states is None):
-                        states = cur_state
-                    else:
-                        states = torch.cat([states, cur_state], dim=0)
-
-                    agent_action = agent.get_dt_action(
-                        states,
-                        actions,
-                        rewards,
-                        target_return,
-                        timesteps,
-                        device
-                    )
-                    actions = torch.cat([actions, torch.zeros((1, agent.config.act_dim), device=device)], dim=0)
-                    rewards = torch.cat([rewards, torch.zeros(1, device=device)])
-                    actions[-1] = agent_action[-1]
+                agent_action = agent.get_dt_action(
+                    states,
+                    actions,
+                    rewards,
+                    target_return,
+                    timesteps,
+                    device
+                )
 
                 button_index = agent_action[:, 0].cpu().numpy()[0]
                 
@@ -140,16 +139,21 @@ def main(args):
                 else:
                     pred_return = target_return[0, -1]
 
-                target_return = torch.cat([target_return, pred_return.reshape(1, 1)], dim=1)
-
-                timesteps = torch.cat([timesteps, torch.ones((1, 1), device=device, dtype=torch.long) * (step_counter + 1) % app_config["end_cut_episode_length"]], dim=1)
-                
-
             obs, _, done, _ = env.step(minerl_action)
+            
+            step_counter += 1
+
+            cur_state, hidden_state = get_current_state(obs, hidden_state, dummy_first, vpt_agent, agent, device)
+            states = torch.cat([states, cur_state], dim=0)
+            actions = torch.cat([actions, torch.zeros((1, agent.config.act_dim), device=device)], dim=0)
+            actions[-1] = agent_action[-1]
+            rewards = torch.cat([rewards, torch.zeros(1, device=device)])
+            target_return = torch.cat([target_return, pred_return.reshape(1, 1)], dim=1)
+            timesteps = torch.cat([timesteps, torch.ones((1, 1), device=device, dtype=torch.long) * step_counter % step_cicle], dim=1)
 
             recorder.write(obs["pov"])
             progress_bar.update(1)
-            step_counter += 1
+
             if app_config["rollout_max_steeps_per_seed"] is not None and step_counter >= app_config["rollout_max_steeps_per_seed"]:
                 break
         recorder.close()

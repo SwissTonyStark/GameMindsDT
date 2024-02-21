@@ -260,6 +260,7 @@ class TrainableDT(DecisionTransformerModel):
 
         return {"loss": loss}
 
+    @torch.no_grad()
     def original_forward(self, **kwargs):
 
         output = super().forward(**kwargs)

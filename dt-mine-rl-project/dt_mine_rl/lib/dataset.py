@@ -8,7 +8,7 @@ import os
 
 
 class EpisodeDataset(Dataset):
-    def __init__(self, data_path, expected_embedding_dim=None, max_files_to_load=None, downsampling=1, skip_noops=False, act_button_encoder=None , end_cut_episode_length=None):
+    def __init__(self, data_path, expected_embedding_dim=None, max_files_to_load=None, downsampling=1, skip_noops=False, act_button_encoder=None , end_cut_episode_length=None, end_episode_margin=0):
 
         self.expected_embedding_dim = expected_embedding_dim
         self.downsampling = downsampling
@@ -21,6 +21,7 @@ class EpisodeDataset(Dataset):
             self.episodes = self.episodes[:max_files_to_load]
 
         self.end_cut_episode_length = end_cut_episode_length
+        self.end_episode_margin = end_episode_margin
 
     def __len__(self):
         return len(self.episodes)
@@ -36,7 +37,9 @@ class EpisodeDataset(Dataset):
     def __getitem__(self, idx):
 
         episode = self.episodes[idx]
-        transitions = load_embedded_trajectories_as_transitions([episode], self.act_button_encoder, progress_bar=False, expected_embedding_dim=self.expected_embedding_dim, downsampling=self.downsampling, skip_noops=self.skip_noops, end_cut_episode_length=self.end_cut_episode_length)
+        transitions = load_embedded_trajectories_as_transitions(
+            [episode], self.act_button_encoder, progress_bar=False, expected_embedding_dim=self.expected_embedding_dim, 
+            downsampling=self.downsampling, skip_noops=self.skip_noops, end_cut_episode_length=self.end_cut_episode_length, end_episode_margin=self.end_episode_margin)
         return transitions[0]
 
 
@@ -47,7 +50,9 @@ def hotfix_flattened_embeddings(embeddings, embedding_dim):
     """Reshape accidentally flattened embeddings back into correct shape"""
     return embeddings.reshape(-1, embedding_dim)
 
-def load_embedded_trajectories_as_transitions(npz_file_paths, act_button_encoder=None, max_episode_length=None, progress_bar=False, expected_embedding_dim=None, downsampling=1, skip_noops=False, end_cut_episode_length=None):
+def load_embedded_trajectories_as_transitions(npz_file_paths, act_button_encoder=None, 
+                                              max_episode_length=None, progress_bar=False, expected_embedding_dim=None, downsampling=1, 
+                                              skip_noops=False, end_cut_episode_length=None, end_episode_margin=0):
 
     episodes = []
 
@@ -113,8 +118,8 @@ def load_embedded_trajectories_as_transitions(npz_file_paths, act_button_encoder
         #for i in range(max(current_index + n - 100, current_index), max(current_index + n - 10, current_index)):
         #    rewards[i] = 1.0
         #rewards[max(current_index, current_index + n - 100): current_index + n] = 10.0  
-        rewards[current_index + n] = 100.0
-        dones[current_index + n] = True
+        rewards[current_index + n - end_episode_margin] = 100.0
+        dones[current_index + n - end_episode_margin] = True
         current_index += n + 1
 
         if current_index >= MAX_DATA_SIZE:
@@ -130,13 +135,15 @@ def load_embedded_trajectories_as_transitions(npz_file_paths, act_button_encoder
 
         #Cut to last 64 transitions
         if end_cut_episode_length is not None:
-            if (len(obs)>end_cut_episode_length):
-                obs = obs[-end_cut_episode_length:]
-                next_obs = next_obs[-end_cut_episode_length:]
-                acts = acts[-end_cut_episode_length:]
-                rewards = rewards[-end_cut_episode_length:]
-                dones = dones[-end_cut_episode_length:]
-                infos = infos[-end_cut_episode_length:]
+            if (end_episode_margin is None):
+                end_episode_margin = 0
+            if (len(obs)>(end_cut_episode_length + end_episode_margin)):
+                obs = obs[-(end_cut_episode_length + end_episode_margin): -end_episode_margin]
+                next_obs = next_obs[-(end_cut_episode_length + end_episode_margin):-end_episode_margin]
+                acts = acts[-(end_cut_episode_length + end_episode_margin):-end_episode_margin]
+                rewards = rewards[-(end_cut_episode_length + end_episode_margin):-end_episode_margin]
+                dones = dones[-(end_cut_episode_length + end_episode_margin):-end_episode_margin]
+                infos = infos[-(end_cut_episode_length + end_episode_margin):-end_episode_margin]
             
 
         # EPV: Cut off arrays from the front

@@ -48,7 +48,9 @@ config_common_envs = {
     "button_encoder_num_actions": 256,
     "rollout_device": cuda_device, # "cpu", # alternative: cuda_device variable
     "vpt_model": os.path.join(common_vpt_dir,  config["common"]["vpt_model"]),
-    "vpt_weights": os.path.join(common_vpt_dir, config["common"]["vpt_weights"])
+    "vpt_weights": os.path.join(common_vpt_dir, config["common"]["vpt_weights"]),
+    "end_cut_episode_length": None,
+    "end_episode_margin": 0,
 
 }
 
@@ -63,8 +65,9 @@ config["envs"] = {
         "embeddings_dir": os.path.join(common_embeddings_dir, "MineRLBasaltFindCave-v0"),
         "batch_size":1, 
         "downsampling": 1,
-        "num_train_epochs": 3,
-        "sequence_length": 96,
+        "num_train_epochs": 5,
+        "n_layers": 6,
+        "sequence_length": 64,
         "hidden_size": 256,
         "max_ep_len": 5000,
         "minibatch_samples": 4, 
@@ -74,10 +77,11 @@ config["envs"] = {
         "temperature_buttons": 1,
         "temperature_camera": 1,
         "temperature_esc": 1,
-        "end_cut_episode_length": 96,
+        "end_cut_episode_length": 64,
+        "end_episode_margin": 30,
         "environment_seeds": ENV_TO_BASALT_2022_SEEDS["MineRLBasaltFindCave-v0"], 
-        "rollout_max_steeps_per_seed": 5000,
-        "env_targets": [150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150],
+        "rollout_max_steeps_per_seed": 3600,
+        "env_targets": [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
     }},
     "MineRLBasaltMakeWaterfall-v0": {**config_common_envs, **{
         "models_dir": os.path.join(common_models_path, "MineRLBasaltMakeWaterfall-v0"),

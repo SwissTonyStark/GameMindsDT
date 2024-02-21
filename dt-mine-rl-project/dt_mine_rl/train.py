@@ -46,7 +46,8 @@ def main(args):
         downsampling=app_config["downsampling"],
         skip_noops=app_config["skip_noops"],
         act_button_encoder=act_button_encoder,
-        end_cut_episode_length=app_config["end_cut_episode_length"])
+        end_cut_episode_length=app_config["end_cut_episode_length"],
+        end_episode_margin=app_config["end_episode_margin"])
     
     state_dim, action_dim = episode_dataset.get_state_and_act_dim()
 

@@ -53,8 +53,9 @@ python rollot.py --env=[env] # Where env is the name of the environment, Example
         - We have used the VPT library to extract the features from the videos and use them as input to the model. 
         - We slightly modified the code to fit our needs. Concretly, we have separated the button actions from the camera actions.
 
-    basalt:
+    basalt and basalt-benchmark:
         - Basalt: NeurIPS 2022: MineRL BASALT Behavioural Cloning Baseline: https://github.com/minerllabs/basalt-2022-behavioural-cloning-baseline
+        - Basalt-benchmark: https://github.com/minerllabs/basalt-benchmark
         - We have adapted and reorganized the code from the basalt library to fit our Decision Transformer agent.
 
     d3rlpy:
