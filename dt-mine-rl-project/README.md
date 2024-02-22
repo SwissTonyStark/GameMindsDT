@@ -32,7 +32,6 @@ cd to dt_mine_rl
 
 ### Train the model
 ```bash
-```bash
 python train.py --env=[env] # Where env is the name of the environment, Example: MineRLBasaltFindCave-v0
 
 ```

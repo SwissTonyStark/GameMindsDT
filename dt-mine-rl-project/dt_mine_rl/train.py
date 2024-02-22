@@ -36,9 +36,8 @@ def main(args):
     act_button_encoder = None
 
     if (app_config["button_act_csv_path"] is not None):
-        act_button_encoder = ActEncoderDecoder(app_config["button_act_csv_path"], app_config["button_encoder_num_actions"])
+        act_button_encoder = ActEncoderDecoder(app_config["button_act_csv_path"], app_config["button_encoder_num_actions"], app_config["embeddings_dir"])
     
-
     episode_dataset = EpisodeDataset(
         app_config["embeddings_dir"],
         app_config["embedding_dim"],

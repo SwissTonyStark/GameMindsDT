@@ -149,7 +149,13 @@ def main(args):
             actions[-1] = agent_action[-1]
             rewards = torch.cat([rewards, torch.zeros(1, device=device)])
             target_return = torch.cat([target_return, pred_return.reshape(1, 1)], dim=1)
-            timesteps = torch.cat([timesteps, torch.ones((1, 1), device=device, dtype=torch.long) * step_counter % step_cicle], dim=1)
+
+            step_num = step_counter
+
+            if step_cicle is not None:
+                step_num = step_num % step_cicle
+
+            timesteps = torch.cat([timesteps, torch.ones((1, 1), device=device, dtype=torch.long) * step_num], dim=1)
 
             recorder.write(obs["pov"])
             progress_bar.update(1)

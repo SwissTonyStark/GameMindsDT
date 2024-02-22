@@ -1,3 +1,5 @@
+from collections import defaultdict
+import glob
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -5,6 +7,7 @@ from torch.distributions.categorical import Categorical
 import numpy as np
 import os
 import csv
+from tqdm import tqdm
 
 class MultiCategorical:
     def __init__(self, *logits):
@@ -13,7 +16,7 @@ class MultiCategorical:
         self.logits = logits
         self.dists = [Categorical(logits=logit) for logit in logits]
 
-    def sample(self):
+    def sample(self): 
         return [dist.sample() for dist in self.dists]
 
     def log_prob(self, *acts):
@@ -46,15 +49,19 @@ class MultiCategorical:
         return samples
 
 class ActEncoderDecoder:
-    def __init__(self, button_act_csv_path, number_of_acts=256):
+    def __init__(self, button_act_csv_path, number_of_acts=256, embeddings_dir=None):
         self.number_of_acts = number_of_acts
         self.act_to_index = {}
         self.index_to_act = {}
+        self.button_act_csv_path = button_act_csv_path
 
-        self.load_and_prepare(button_act_csv_path)
+        if embeddings_dir and not os.path.exists(button_act_csv_path):
+            self.generate_action_frequencies_csv(embeddings_dir)
+
+        self.load_and_prepare()
     
-    def load_and_prepare(self, csv_file_path):
-        with open(csv_file_path, mode='r') as csvfile:
+    def load_and_prepare(self):
+        with open(self.button_act_csv_path, mode='r') as csvfile:
             reader = csv.DictReader(csvfile)
             for i, row in enumerate(reader):
                 if i >= self.number_of_acts:  
@@ -70,3 +77,33 @@ class ActEncoderDecoder:
     def decode(self, index):
         return int(self.index_to_act.get(index, None))
     
+    def generate_action_frequencies_csv(self, data_path):
+
+        act_frequencies = defaultdict(int)
+
+        episode_paths = self.get_all_npz_files_in_dir(data_path)
+
+        for episode_path in tqdm(episode_paths, desc="Generating action frequencies csv"): 
+                 
+            data = np.load(episode_path)
+            button_actions = data["button_actions"]
+            
+            for act in button_actions:
+                act_frequencies[act] += 1
+
+        sorted_acts = sorted(act_frequencies.items(), key=lambda item: item[1], reverse=True)
+        
+        unique_acts_count = len(sorted_acts)
+        
+        with open(self.button_act_csv_path, 'w', newline='') as csvfile:
+            fieldnames = ['Act', 'Frequency']
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+            writer.writeheader()
+            for act, frequency in sorted_acts:
+                writer.writerow({'Act': act, 'Frequency': frequency})
+                
+        return unique_acts_count, 'button_act_frequencies.csv'
+            
+    def get_all_npz_files_in_dir(self, dir_path):
+        return glob.glob(os.path.join(dir_path, "*.npz"))
