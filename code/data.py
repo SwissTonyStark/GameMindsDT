@@ -23,6 +23,13 @@ class MyDataset(Dataset):
         self.rtgs = rtgs
         self.terminals = terminals
         self.blocks = blocks
+        self.episodes = self._determine_episodes(terminals)
+
+    def _determine_episodes(self, terminals):
+        episode_ends = np.array(terminals)
+        episode_starts=np.roll(episode_ends, shift=1) + 1
+        episode_starts[0] = 0
+        return list(zip(episode_starts, episode_ends +1))
 
     def __len__(self):
         return len(self.terminals)
@@ -30,41 +37,38 @@ class MyDataset(Dataset):
     def __getitem__(self, idx):
         # to avoid blocks in between of 2 trajectories, if the idx is too close to the end of a trajectory, re-position
         # the idx to a block_size away to the end of the trajectory []
-        episode_ends = np.array(self.terminals)
-        episode_starts=np.roll(episode_ends, shift=1) + 1
-        episode_starts[0] = 0
-        
-        start, end = list(zip(episode_starts, episode_ends +1))[idx]
+        start, end = self.episodes[idx]
 
         episode_length = end - start 
 
         # Sample a start point for the sequence within the episode
-        if episode_length >= self.blocks:
+        if self.blocks <= episode_length:
             seq_start = np.random.randint(start, end - self.blocks + 1)
-            seq_end = seq_start + self.blocks
-            n_padding = 0
         else:
             seq_start = start
-            seq_end = start + episode_length - 1
-            n_padding = self.blocks - episode_length + 1
-        
 
-        states = (self.observations[seq_start : seq_end])
-        actions = (self.actions[seq_start : seq_end])
-        rtgs = (self.rtgs[seq_start : seq_end])
-        steps = (self.steps[seq_start : seq_end])
-        
-        if n_padding > 0:
-            padding = np.zeros(n_padding)
+        states = np.zeros((self.blocks, self.observations.shape[1]))
+        actions = np.zeros((self.blocks, self.actions.shape[1]))
+        rtgs = np.zeros((self.blocks,))
+        steps = np.zeros((self.blocks,))
+        padding_mask = np.zeros((self.blocks,))
 
-            states = np.concatenate(states, padding)
-            actions = np.concatenate(actions, padding)
-            rtgs = np.concatenate(rtgs, padding)
-            steps = np.concatenate(steps, padding)
-        
+        # if we actually can get a subsequence of the episode then the end of the sequence is
+        # start + sequence lenght, otherwise, the end of the sequence is the end of the episode
+        # this is done to avoid using conditional ifs.
+        act_seq_len = min(self.blocks, end - seq_start)
+        seq_end = seq_start + act_seq_len
+
+        states[:act_seq_len]    = (self.observations[seq_start:seq_end])
+        actions[:act_seq_len]   = (self.actions[seq_start:seq_end])
+        rtgs[:act_seq_len]      = (self.rtgs[seq_start:seq_end])
+        steps[:act_seq_len]     = (self.steps[seq_start:seq_end])
+        padding_mask[:act_seq_len]=1
+
         states = torch.FloatTensor(states)
         actions = torch.FloatTensor(actions)
         rtgs = torch.FloatTensor(rtgs).unsqueeze(dim=-1) #T x 1 
         steps = torch.tensor(steps, dtype=torch.int)
+        padding_mask = torch.tensor(padding_mask, dtype=torch.bool)
 
-        return states, actions, rtgs, steps
+        return states, actions, rtgs, steps, padding_mask

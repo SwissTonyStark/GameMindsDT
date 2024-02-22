@@ -13,7 +13,7 @@ import matplotlib.pylab as plt
 import gym
 import d4rl_pybullet
 
-
+device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 class MaskedSelfAttention(nn.Module):
 
     def __init__(self, h_dim, num_heads, seq_len, dropout):
@@ -52,9 +52,9 @@ class MaskedSelfAttention(nn.Module):
         attn_logits = attn_logits / torch.sqrt(torch.tensor(k.size(-1)))
         # (B, N, T, T)
         # apply mask
-        #mask = torch.zeros(T, x.shape[0]).bool() 
+        #mask = torch.zeros(T, x.shape[0]).bool()
         subsequent_mask = torch.triu(input=torch.ones(T, T), diagonal=1).bool() 
-        selfattn_mask = subsequent_mask # + padding mask
+        selfattn_mask = subsequent_mask.to(device) # + padding mask
         attn_logits = attn_logits.masked_fill(selfattn_mask, float('-inf'))
 
         softmax = nn.Softmax(dim=-1)
@@ -123,7 +123,8 @@ class DecisionTransformer(nn.Module):
 
         self.norm = nn.LayerNorm(h_dim)
 
-        self.transformerGPT = nn.Sequential(*([DecoderBlock(h_dim, num_heads, self.seq_len, mlp_ratio, dropout) for _ in range(num_blocks)]))
+        # self.transformerGPT = nn.Sequential(*([DecoderBlock(h_dim, num_heads, self.seq_len, mlp_ratio, dropout) for _ in range(num_blocks)]))
+        self.decoder_transformer = nn.ModuleList([DecoderBlock(h_dim, num_heads, self.seq_len, mlp_ratio, dropout) for _ in range(num_blocks)])
 
         self.rtg_pred = nn.Linear(in_features=h_dim, out_features=1)
         self.state_pred = nn.Linear(in_features=h_dim, out_features=state_dim)
@@ -152,11 +153,14 @@ class DecisionTransformer(nn.Module):
 
         x = self.norm(stacked_inputs)
 
-        out = self.transformerGPT(x)
-        out = out.reshape(B, T, 3, self.h_dim).permute(0, 2, 1, 3)  #[B, T, 3, hidden_size] --> [B, 3, T, hidden_size]     Nota: h_dim a.k.a "hidden_size"
+        #out = self.transformerGPT(x, padd_mask)
+        for decoder in self.decoder_transformer:
+            x = decoder(x)
 
-        returns_to_go_preds = self.rtg_pred(out[:,2])     # predict next return (t) given state (t-1) and action (t)    [0 state, 1 action, 2 rtg]
-        state_preds = self.state_pred(out[:,2])           # predict next state  (t) given state (t-1) and action (t)    [0, 1, 2 rtg]
-        act_preds = self.act_pred(out[:,1])               # predict next action (t) given state (t-1)                   [0, 1, 2]
+        x = x.reshape(B, T, 3, self.h_dim).permute(0, 2, 1, 3)  #[B, T, 3, hidden_size] --> [B, 3, T, hidden_size]     Nota: h_dim a.k.a "hidden_size"
+
+        returns_to_go_preds = self.rtg_pred(x[:,2])   # predict next return (t) given state (t-1) and action (t)    [0 state, 1 action, 2 rtg]
+        state_preds = self.state_pred(x[:,2])      # predict next state  (t) given state (t-1) and action (t)    [0, 1, 2 rtg]
+        act_preds = self.act_pred(x[:,1])             # predict next action (t) given state (t-1)                   [0, 1, 2]
 
         return returns_to_go, state_preds, act_preds

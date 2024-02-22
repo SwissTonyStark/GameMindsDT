@@ -13,10 +13,13 @@ import matplotlib.pylab as plt
 import gym
 import d4rl_pybullet
 
+import logging
+
 from model import DecisionTransformer
 from data import MyDataset
 
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+logging.basicConfig(level=logging.INFO)
 
 def get_episodes():
     terminals = dataset['terminals'].astype('int32')
@@ -70,9 +73,24 @@ def get_timestep(terminal_pos):
         start_index = i
     return arrayTimesteps
 
+def list_episodes(self, terminals):
+    episode_ends = np.array(terminals)
+    episode_starts=np.roll(episode_ends, shift=1) + 1
+    episode_starts[0] = 0
+    return list(zip(episode_starts, episode_ends +1))
 
 
 
+hparams = {
+    "h_dim": 128,  #embed_dim
+    "num_heads": 2,
+    "num_blocks": 4,
+    "context_len": 30,
+    "lr": 0.001,
+    "mlp_ratio": 4,
+    "dropout": 0.1,
+    "epochs": 50
+}
 env = gym.make('hopper-bullet-mixed-v0')
 dataset = env.get_dataset()
 
@@ -82,11 +100,15 @@ arrayRewards = dataset['rewards'] # Reward data in a [N x 1] numpy array ==> Par
 arrayTerminals = dataset['terminals'] # Terminal flags in a [N x 1] numpy array ==> Para 'hopper-bullet-mixed-v0" = [59345 x 1]
 
 terminals_pos, num_episodes = get_episodes()
+logging.info(f'TOTAL EPISODES: {num_episodes}')
+
 rtgs = optimized_get_rtgs(terminals_pos, dataset['rewards'])
 timesteps = get_timestep(terminals_pos)
 max_timesteps = max(timesteps) + 1
+logging.info(f'MAX TIMESTEP OF A EPISODE: {max_timesteps}')
 
-blocks = 6
+
+blocks = hparams['context_len']
 dataset = MyDataset(arrayObservations, arrayActions, timesteps, rtgs, terminals_pos, blocks)
 DTDataLoader = DataLoader(dataset, batch_size=1, shuffle=False)
 
@@ -96,31 +118,37 @@ act_dim = env.action_space.shape[0]
 model_cfg = {
     "state_dim": state_dim,
     "act_dim": act_dim, # act_dim=Contextlength?
-    "h_dim": 6,  #embed_dim
-    "num_heads": 2,
-    "num_blocks": 1,
-    "context_len": blocks,
+    "h_dim": hparams['h_dim'],  #embed_dim
+    "num_heads": hparams['num_heads'],
+    "num_blocks": hparams['num_blocks'],
+    "context_len": hparams['context_len'],
     "max_timesteps": max_timesteps,
-    "mlp_ratio": 4,
-    "dropout": 0.1,
+    "mlp_ratio": hparams['mlp_ratio'],
+    "dropout": hparams['dropout']
 }
 
-model_dt = DecisionTransformer(**model_cfg)
-model_dt
+model_dt = DecisionTransformer(**model_cfg).to(device)
+
 
 criterion = nn.MSELoss()
-# Definir el optimizador
-optimizer = optim.Adam(model_dt.parameters(), lr=0.001)
+optimizer = optim.Adam(model_dt.parameters(), lr=hparams['lr'])
 
-num_epochs = 5
+num_epochs = hparams['epochs']
 timestep = 0
 max_timesteps = max_timesteps #Calculated according to the longest episode in the dataset/env loaded.
 for epoch in range(num_epochs):
     total_loss = 0.0  # Inicializar la pérdida total para el epoch
-
+    model_dt.train()    # set model to trining mode
     # Iteración sobre los lotes de datos
 
-    for states, actions, rtgs, steps in DTDataLoader:
+    for states, actions, rtgs, steps, padd_mask in DTDataLoader:
+
+        states = states.to(device)
+        actions = actions.to(device)
+        steps = steps.to(device)
+        rtgs = rtgs.to(device)
+        padd_mask = padd_mask.to(device)
+        action_target = torch.clone(actions).detach().to(device)
         # Paso 1: Reiniciar los gradientes
         #timestep += 1 ==> No es necesario para el training, solo para evaluation
         optimizer.zero_grad()
@@ -130,6 +158,8 @@ for epoch in range(num_epochs):
         #outputs = model(batch_obs)
 
         # Paso 3: Calcular la pérdida
+        act_preds = act_preds[padd_mask]
+        actions = actions[padd_mask]
         loss = criterion(act_preds, actions)
 
         # Paso 4: Propagación hacia atrás (Backward pass)
