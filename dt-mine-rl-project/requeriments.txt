@@ -10,3 +10,4 @@ attrs
 opencv-python
 videoio
 transformers[torch]
+google-cloud-storage
