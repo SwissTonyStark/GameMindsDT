@@ -195,3 +195,14 @@ for epoch in range(num_epochs):
 
 # Paso 7 (Opcional): Visualización de resultados o métricas de rendimiento
 # Aquí puedes agregar código para mostrar otras métricas de rendimiento que desees analizar
+
+# Now save the artifacts of the training
+savedir = f'checkpoints/state-{env.unwrapped.spec.id}.pt'
+logging.info(f"Saving checkpoint to {savedir}...")
+# We can save everything we will need later in the checkpoint.
+checkpoint = {
+    "model_state_dict": model_dt.cpu().state_dict(),
+    "optimizer_state_dict": optimizer.state_dict(),
+    "env_name": env.unwrapped.spec.id
+}
+torch.save(checkpoint, savedir)
