@@ -15,7 +15,7 @@ import d4rl_pybullet
 
 from torch.utils.data import Dataset
 
-class MyDataset(Dataset):
+class DecisionTransformerDataset(Dataset):
     def __init__(self, observations, actions, steps, rtgs, terminals, blocks):
         self.observations = observations
         self.actions = actions

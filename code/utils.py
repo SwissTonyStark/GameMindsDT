@@ -13,8 +13,8 @@ import matplotlib.pylab as plt
 import gym
 import d4rl_pybullet
 
-def get_episodes():
-    terminals = dataset['terminals'].astype('int32')
+def get_episodes(terminals):
+    terminals = terminals.astype('int32')
     #Las posiciones donde estan los Terminal=1
     if terminals[-1] == 0 : 
         terminals[-1] = 1  
@@ -57,10 +57,41 @@ def optimized_get_rtgs(t_positions, rewards):
         start_idx = end_idx+1
     return rtgs.tolist()
 
-def get_timestep(terminal_pos):
-    start_index = 0
-    arrayTimesteps = np.zeros(len(dataset['rewards']), dtype=int)
-    for i in terminal_pos:
-        arrayTimesteps[start_index:(i+1)] = np.arange((i+1) - start_index)
-        start_index = i
-    return arrayTimesteps
+def list_episodes(terminals_idxs):
+    episode_ends = np.array(terminals_idxs)
+    episode_starts=np.roll(episode_ends, shift=1) + 1
+    episode_starts[0] = 0
+    return list(zip(episode_starts, episode_ends +1))
+
+def get_timesteps(episodes, size):
+    # Initialize the array of timesteps
+    arrayTimesteps = np.zeros(size, dtype=int)
+
+    # List to hold the total steps per episode
+    steps_per_episode = []
+
+    # Generate timesteps for each episode
+    for start, end in episodes:
+        episode_length = end - start
+        steps_per_episode.append(episode_length)
+        arrayTimesteps[start:end] = np.arange(episode_length)
+    return arrayTimesteps, steps_per_episode
+
+def normalize_array(array):
+    mean = np.mean(array, axis=0)
+    std = np.std(array, axis=0)
+    norm_array = (array - mean) / (std+1e-6)
+    return norm_array, mean, std
+
+def get_data_set(obs, actions, rewards, terminals, episodes):
+    d_obs = [obs[start:end] for start, end in episodes]
+    d_act = [actions[start:end] for start, end in episodes]
+    d_rew = [rewards[start:end] for start, end in episodes]
+    d_ter = [terminals[start:end] for start, end in episodes]
+
+    r_obs = np.concatenate(d_obs, axis=0)
+    r_act = np.concatenate(d_act, axis=0)
+    r_rew = np.concatenate(d_rew, axis=0)
+    r_ter = np.concatenate(d_ter, axis=0)
+
+    return r_obs, r_act, r_rew, r_ter

@@ -8,6 +8,8 @@ import math
 import numpy as np
 #import seaborn as sns
 import matplotlib.pylab as plt
+import pandas as pd
+from tabulate import tabulate
 
 #Especifico para el gym+dataset "D4RL_Pybullet"
 import gym
@@ -16,113 +18,105 @@ import d4rl_pybullet
 import logging
 
 from model import DecisionTransformer
-from data import MyDataset
+from data import DecisionTransformerDataset
+from utils import *
 
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
 
-def get_episodes():
-    terminals = dataset['terminals'].astype('int32')
-    #Las posiciones donde estan los Terminal=1
-    if terminals[-1] == 0 : 
-        terminals[-1] = 1  
-    terminal_pos = np.where(terminals==1)[0]
-    return terminal_pos.tolist(), len(terminal_pos)
+env = gym.make('hopper-bullet-mixed-v0')
+dataset = env.get_dataset()
 
-def get_rtgs(t_positions, rewards):
-    # Initialize the starting index of the sub-list in B
-    start_idx = 0
-    rtgs = []
+raw_obs = dataset['observations'] # Observation data in a [N x dim_observation] numpy array  ==> Para 'hopper-bullet-mixed-v0" = [59345 x 15]
+raw_actions = dataset['actions'] # Action data in [N x dim_action] numpy array ==> Para 'hopper-bullet-mixed-v0" = [59345 x 3]
+raw_rewards = dataset['rewards'] # Reward data in a [N x 1] numpy array ==> Para 'hopper-bullet-mixed-v0" = [59345 x 1]
+raw_terminals = dataset['terminals'] # Terminal flags in a [N x 1] numpy array ==> Para 'hopper-bullet-mixed-v0" = [59345 x 1]
 
-    
-    for t in t_positions:
-        end_idx = t + 1
-        sub_list = rewards[start_idx:end_idx]
-        #print(sub_list)
-        for i in range(0, len(sub_list)):
-            rtgs.append(sum(sub_list[i+1:]))
-        start_idx = end_idx
-    return rtgs
+terminals_pos, num_episodes = get_episodes(raw_terminals)
+logging.info(f'Showing episodes information...')
 
-def optimized_get_rtgs(t_positions, rewards):
+episodes = list_episodes(terminals_pos)
+timesteps, steps_per_episode = get_timesteps(episodes, len(raw_obs))
+max_timestep = np.max(steps_per_episode)
+min_timestep = np.min(steps_per_episode)
+mean_timestep= np.mean(steps_per_episode)
 
-    rewards = np.array(rewards, dtype=np.float64)
-    t_positions = np.array(t_positions)
+ep_data =  [["Total episodes", num_episodes],
+            ["Max duration", max_timestep],
+            ["Min duration", min_timestep],
+            ["Mean duration",mean_timestep]]
+col_head = ["", "Value"]
 
-    cumsum_rewards = np.cumsum(rewards)
-    
-    # Initialize an array to hold the RTGs
-    rtgs = np.array([], dtype=int)
-    
-    # Keep track of the start index of the sub-list in rewards
-    start_idx = 0
-    for end_idx in t_positions:
-        
-        segment_rtgs = cumsum_rewards[end_idx] - cumsum_rewards[start_idx:end_idx]
-        segment_rtgs = np.append(segment_rtgs, 0)
-        rtgs = np.concatenate((rtgs, segment_rtgs))
-    
-        start_idx = end_idx+1
-    return rtgs.tolist()
+tb = tabulate(ep_data, headers=col_head,tablefmt="grid")
+logging.info(f'\n{tb}')
 
-def get_timestep(terminal_pos):
-    start_index = 0
-    arrayTimesteps = np.zeros(len(dataset['rewards']), dtype=int)
-    for i in terminal_pos:
-        arrayTimesteps[start_index:(i+1)] = np.arange((i+1) - start_index)
-        start_index = i
-    return arrayTimesteps
+### Remove episodes wiht lees than mean_timestep
 
-def list_episodes(self, terminals):
-    episode_ends = np.array(terminals)
-    episode_starts=np.roll(episode_ends, shift=1) + 1
-    episode_starts[0] = 0
-    return list(zip(episode_starts, episode_ends +1))
+rm_episode_idx = [idx for idx, mean in enumerate(steps_per_episode) if mean < mean_timestep]
+logging.info(f'Removing {len(rm_episode_idx)} eps out of {len(episodes)} eps...')
+logging.info(f'Remaining episoded should be {len(episodes) - len(rm_episode_idx)} eps.')
+final_episodes = [(start,end) for start, end in episodes if (end-start) >= mean_timestep]
 
+assert len(episodes) - len(rm_episode_idx) == len(final_episodes), "Error: Episodes size"
 
+observations, actions, rewards, terminals = get_data_set(raw_obs, raw_actions, raw_rewards, raw_terminals, final_episodes)
+logging.info(f'Final total samples: {observations.shape[0]} out of {raw_obs.shape[0]} original samples.')
+
+### Normalization
+
+observations,_,_ = normalize_array(observations)
+
+### Data split
+f_ter_idx, n_eps = get_episodes(terminals)
+f_episodes = list_episodes(f_ter_idx)
+
+np.random.shuffle(f_episodes)
+
+train_size = int(n_eps * 0.8) # remaining 0.2 for validation
+
+train_episodes = f_episodes[:train_size]
+val_episodes = f_episodes[train_size:]
+
+train_obs, train_act, train_rew, train_ter = get_data_set(observations, actions, rewards, terminals, train_episodes)
+val_obs, val_act, val_rew, val_ter = get_data_set(observations, actions, rewards, terminals, val_episodes)
+
+train_terminals_idx, _ = get_episodes(train_ter)
+train_rtgs = optimized_get_rtgs(train_terminals_idx, train_rew)
+t_episodes = list_episodes(train_terminals_idx)
+train_timesteps, _ = get_timesteps(t_episodes, len(train_obs))
+
+val_terminals_idx, _ = get_episodes(val_ter)
+val_rtgs = optimized_get_rtgs(val_terminals_idx, val_rew)
+v_episodes = list_episodes(val_terminals_idx)
+val_timesteps, _ = get_timesteps(v_episodes, len(val_obs))
 
 hparams = {
     "h_dim": 128,  #embed_dim
     "num_heads": 2,
     "num_blocks": 4,
     "context_len": 30,
+    "batch_size": 32,
     "lr": 0.001,
     "mlp_ratio": 4,
     "dropout": 0.1,
     "epochs": 50
 }
-env = gym.make('hopper-bullet-mixed-v0')
-dataset = env.get_dataset()
 
-arrayObservations = dataset['observations'] # Observation data in a [N x dim_observation] numpy array  ==> Para 'hopper-bullet-mixed-v0" = [59345 x 15]
-arrayActions = dataset['actions'] # Action data in [N x dim_action] numpy array ==> Para 'hopper-bullet-mixed-v0" = [59345 x 3]
-arrayRewards = dataset['rewards'] # Reward data in a [N x 1] numpy array ==> Para 'hopper-bullet-mixed-v0" = [59345 x 1]
-arrayTerminals = dataset['terminals'] # Terminal flags in a [N x 1] numpy array ==> Para 'hopper-bullet-mixed-v0" = [59345 x 1]
+context_len = hparams['context_len']
+train_dataset = DecisionTransformerDataset(train_obs, train_act, train_timesteps, train_rtgs, train_terminals_idx, context_len)
+train_loader = DataLoader(train_dataset, batch_size=hparams['batch_size'], shuffle=False)
 
-terminals_pos, num_episodes = get_episodes()
-logging.info(f'TOTAL EPISODES: {num_episodes}')
-
-rtgs = optimized_get_rtgs(terminals_pos, dataset['rewards'])
-timesteps = get_timestep(terminals_pos)
-max_timesteps = max(timesteps) + 1
-logging.info(f'MAX TIMESTEP OF A EPISODE: {max_timesteps}')
-
-
-blocks = hparams['context_len']
-dataset = MyDataset(arrayObservations, arrayActions, timesteps, rtgs, terminals_pos, blocks)
-DTDataLoader = DataLoader(dataset, batch_size=1, shuffle=False)
-
-state_dim = env.observation_space.shape[0]
-act_dim = env.action_space.shape[0]
+val_dataset = DecisionTransformerDataset(val_obs, val_act, val_timesteps, val_rtgs, val_terminals_idx, context_len)
+val_loader = DataLoader(val_dataset, batch_size=hparams['batch_size'], shuffle=False)
 
 model_cfg = {
-    "state_dim": state_dim,
-    "act_dim": act_dim, # act_dim=Contextlength?
+    "state_dim": env.observation_space.shape[0],
+    "act_dim": env.action_space.shape[0], # act_dim=Contextlength?
     "h_dim": hparams['h_dim'],  #embed_dim
     "num_heads": hparams['num_heads'],
     "num_blocks": hparams['num_blocks'],
     "context_len": hparams['context_len'],
-    "max_timesteps": max_timesteps,
+    "max_timesteps": max_timestep,
     "mlp_ratio": hparams['mlp_ratio'],
     "dropout": hparams['dropout']
 }
@@ -135,13 +129,13 @@ optimizer = optim.Adam(model_dt.parameters(), lr=hparams['lr'])
 
 num_epochs = hparams['epochs']
 timestep = 0
-max_timesteps = max_timesteps #Calculated according to the longest episode in the dataset/env loaded.
+ #Calculated according to the longest episode in the dataset/env loaded.
 for epoch in range(num_epochs):
-    total_loss = 0.0  # Inicializar la pérdida total para el epoch
+    train_loss = 0.0  # Inicializar la pérdida total para el epoch
     model_dt.train()    # set model to trining mode
     # Iteración sobre los lotes de datos
 
-    for states, actions, rtgs, steps, padd_mask in DTDataLoader:
+    for states, actions, rtgs, steps, padd_mask in train_loader:
 
         states = states.to(device)
         actions = actions.to(device)
@@ -169,13 +163,32 @@ for epoch in range(num_epochs):
         optimizer.step()
 
         # Sumar la pérdida del batch a la pérdida total del epoch
-        total_loss += loss.item()
+        train_loss += loss.item()
 
+
+    # Validation loop
+    model_dt.eval()  # Set the model to evaluation mode
+    val_loss = 0.0
+    with torch.no_grad():  # No gradgients tracking
+        for states, actions, rtgs, steps, padd_mask in val_loader:
+            states = states.to(device)
+            actions = actions.to(device)
+            steps = steps.to(device)
+            rtgs = rtgs.to(device)
+            padd_mask = padd_mask.to(device)
+            action_target = torch.clone(actions).detach().to(device)
+
+            _, _, act_preds = model_dt(steps, states, actions, rtgs) 
+            loss = criterion(act_preds, action_target)  
+            val_loss += loss.item()  
+            
+    epoc_val_loss = val_loss / len(val_loader.dataset)
+    
     # Calcular la pérdida media del epoch
-    epoch_loss = total_loss / len(DTDataLoader)
+    epoch_train_loss = train_loss / len(val_loader)
 
     # Imprimir la pérdida media del epoch
-    print(f'Epoch [{epoch+1}/{num_epochs}], Loss: {epoch_loss:.4f}')
+    print(f'Epoch [{epoch+1}/{num_epochs}], Training Loss: {epoch_train_loss:.4f}, Validation Loss: {epoc_val_loss:.4f}')
 
     # Paso 6 (Opcional): Evaluación del modelo en un conjunto de datos de evaluación
     # Aquí puedes agregar código para evaluar el modelo en un conjunto de datos de evaluación si lo tienes disponible
