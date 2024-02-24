@@ -6,4 +6,5 @@ datasets
 GameMindsDT.code-workspace
 .old
 __pycache__
+*.pt
 
