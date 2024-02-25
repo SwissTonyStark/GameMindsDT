@@ -73,36 +73,18 @@ class DecisionTransformerGymEpisodeCollator:
 
     def __call__(self, features):
 
-        #if (False):
-        batch_size = len(features)
-
-        traj_lens = []
-        for feature in features:
-            obs = feature["obs"]
-            traj_lens.append(len(obs))
             
-
-        traj_lens = np.array(traj_lens)
-        p_sample = traj_lens / sum(traj_lens)
-
-        batch_inds = np.random.choice(
-            np.arange(batch_size),
-            size=self.minibatch_samples,
-            replace=True,
-            p=p_sample,  
-        )
-
         s, a, r, d, rtg, timesteps, mask = [], [], [], [], [], [], []
 
         for feature in features:
             
-            length = max(1,len(feature["rewards"]) - self.subset_training_len - 1)
-            #population = list(range(length))
-            #weights = [math.sqrt(i) for i in range(1, length + 1)]
+            length = max(1,len(feature["rewards"]) - self.subset_training_len)
+            population = list(range(length))
+            weights = [math.sqrt(i) for i in range(1, length + 1)]
 
             for n in range(0, self.minibatch_samples):
-                si = random.randint(0, length)
-                #si = random.choices(population, weights=weights, k=1)[0]
+                #si = random.randint(1, length)
+                si = random.choices(population, weights=weights, k=1)[0]
                 self.sample(feature, si, s, a, r, d, rtg, timesteps, mask)
 
 
