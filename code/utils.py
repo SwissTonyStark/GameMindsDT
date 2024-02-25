@@ -6,7 +6,7 @@ from torch.utils.data import DataLoader,TensorDataset
 
 import math
 import numpy as np
-#import seaborn as sns
+import seaborn as sns
 import matplotlib.pylab as plt
 
 #Especifico para el gym+dataset "D4RL_Pybullet"

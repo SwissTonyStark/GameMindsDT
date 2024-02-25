@@ -20,6 +20,8 @@ import logging
 from model import DecisionTransformer
 from data import DecisionTransformerDataset
 from utils import *
+from wandb_logger import WandbLogger
+from train import Trainer
 
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
@@ -31,6 +33,12 @@ raw_obs = dataset['observations'] # Observation data in a [N x dim_observation] 
 raw_actions = dataset['actions'] # Action data in [N x dim_action] numpy array ==> Para 'hopper-bullet-mixed-v0" = [59345 x 3]
 raw_rewards = dataset['rewards'] # Reward data in a [N x 1] numpy array ==> Para 'hopper-bullet-mixed-v0" = [59345 x 1]
 raw_terminals = dataset['terminals'] # Terminal flags in a [N x 1] numpy array ==> Para 'hopper-bullet-mixed-v0" = [59345 x 1]
+
+"""
+============================================
+                EPISODES INFO                          
+============================================
+"""
 
 terminals_pos, num_episodes = get_episodes(raw_terminals)
 logging.info(f'Showing episodes information...')
@@ -50,6 +58,11 @@ col_head = ["", "Value"]
 tb = tabulate(ep_data, headers=col_head,tablefmt="grid")
 logging.info(f'\n{tb}')
 
+"""
+============================================
+               PREPROCESS DATA                         
+============================================
+"""
 ### Remove episodes wiht lees than mean_timestep
 
 rm_episode_idx = [idx for idx, mean in enumerate(steps_per_episode) if mean < mean_timestep]
@@ -66,7 +79,12 @@ logging.info(f'Final total samples: {observations.shape[0]} out of {raw_obs.shap
 
 observations,_,_ = normalize_array(observations)
 
-### Data split
+"""
+============================================
+                 DATA SPLIT                         
+============================================
+"""
+
 f_ter_idx, n_eps = get_episodes(terminals)
 f_episodes = list_episodes(f_ter_idx)
 
@@ -123,81 +141,15 @@ model_cfg = {
 
 model_dt = DecisionTransformer(**model_cfg).to(device)
 
-
+wandb_log = WandbLogger(model=model_dt)
 criterion = nn.MSELoss()
 optimizer = optim.Adam(model_dt.parameters(), lr=hparams['lr'])
 
-num_epochs = hparams['epochs']
-timestep = 0
- #Calculated according to the longest episode in the dataset/env loaded.
-for epoch in range(num_epochs):
-    train_loss = 0.0  # Inicializar la pérdida total para el epoch
-    model_dt.train()    # set model to trining mode
-    # Iteración sobre los lotes de datos
-
-    for states, actions, rtgs, steps, padd_mask in train_loader:
-
-        states = states.to(device)
-        actions = actions.to(device)
-        steps = steps.to(device)
-        rtgs = rtgs.to(device)
-        padd_mask = padd_mask.to(device)
-        action_target = torch.clone(actions).detach().to(device)
-        # Paso 1: Reiniciar los gradientes
-        #timestep += 1 ==> No es necesario para el training, solo para evaluation
-        optimizer.zero_grad()
-
-        # Paso 2: Propagación hacia adelante (Forward pass)
-        _, _, act_preds = model_dt(steps, states, actions, rtgs) # timestep, max_timesteps, states, actions, returns_to_go
-        #outputs = model(batch_obs)
-
-        # Paso 3: Calcular la pérdida
-        act_preds = act_preds[padd_mask]
-        actions = actions[padd_mask]
-        loss = criterion(act_preds, actions)
-
-        # Paso 4: Propagación hacia atrás (Backward pass)
-        loss.backward()
-
-        # Paso 5: Actualización de los parámetros del modelo
-        optimizer.step()
-
-        # Sumar la pérdida del batch a la pérdida total del epoch
-        train_loss += loss.item()
-
-
-    # Validation loop
-    model_dt.eval()  # Set the model to evaluation mode
-    val_loss = 0.0
-    with torch.no_grad():  # No gradgients tracking
-        for states, actions, rtgs, steps, padd_mask in val_loader:
-            states = states.to(device)
-            actions = actions.to(device)
-            steps = steps.to(device)
-            rtgs = rtgs.to(device)
-            padd_mask = padd_mask.to(device)
-            action_target = torch.clone(actions).detach().to(device)
-
-            _, _, act_preds = model_dt(steps, states, actions, rtgs) 
-            loss = criterion(act_preds, action_target)  
-            val_loss += loss.item()  
-            
-    epoc_val_loss = val_loss / len(val_loader.dataset)
-    
-    # Calcular la pérdida media del epoch
-    epoch_train_loss = train_loss / len(val_loader)
-
-    # Imprimir la pérdida media del epoch
-    print(f'Epoch [{epoch+1}/{num_epochs}], Training Loss: {epoch_train_loss:.4f}, Validation Loss: {epoc_val_loss:.4f}')
-
-    # Paso 6 (Opcional): Evaluación del modelo en un conjunto de datos de evaluación
-    # Aquí puedes agregar código para evaluar el modelo en un conjunto de datos de evaluación si lo tienes disponible
-
-# Paso 7 (Opcional): Visualización de resultados o métricas de rendimiento
-# Aquí puedes agregar código para mostrar otras métricas de rendimiento que desees analizar
+train_model = Trainer(model=model_dt, optimizer=optimizer, criterion= criterion, device=device, wandb_log=wandb_log)
+train_model.train(hparams['epochs'], train_loader=train_loader, val_loader=val_loader)
 
 # Now save the artifacts of the training
-savedir = f'checkpoints/state-{env.unwrapped.spec.id}.pt'
+savedir = f'./checkpoints/state-{env.unwrapped.spec.id}.pt'
 logging.info(f"Saving checkpoint to {savedir}...")
 # We can save everything we will need later in the checkpoint.
 checkpoint = {
