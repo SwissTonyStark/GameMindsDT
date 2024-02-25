@@ -110,9 +110,9 @@ val_timesteps, _ = get_timesteps(v_episodes, len(val_obs))
 
 hparams = {
     "h_dim": 128,  #embed_dim
-    "num_heads": 2,
-    "num_blocks": 4,
-    "context_len": 30,
+    "num_heads": 8,
+    "num_blocks": 20,
+    "context_len": 60,
     "batch_size": 32,
     "lr": 0.001,
     "mlp_ratio": 4,
