@@ -14,18 +14,18 @@ from .dt_model_common import MultiCategorical
 class DecisionTransformerGymEpisodeCollator:
     state_dim: int  # size of state space
     act_dim: int  # size of action space
-    sequence_length: int #subsets of the episode we use for training
+    subset_training_max_len: int #subsets of the episode we use for training
     max_ep_len: int # max episode length in the dataset
     minibatch_samples: int # to store the number of trajectories in the dataset
     scale: float  # normalization of rewards/returns
     gamma: float # discount factor
     return_tensors: str = "pt"
 
-    def __init__(self, state_dim: int, act_dim: int, sequence_length: int, max_ep_len: int, minibatch_samples: int, gamma:float = 1.0, scale: float = 1 ) -> None:
+    def __init__(self, state_dim: int, act_dim: int, subset_training_max_len: int, max_ep_len: int, minibatch_samples: int, gamma:float = 1.0, scale: float = 1 ) -> None:
 
         self.state_dim = state_dim
         self.act_dim = act_dim
-        self.sequence_length = sequence_length
+        self.subset_training_max_len = subset_training_max_len
         self.max_ep_len = max_ep_len
         self.minibatch_samples = minibatch_samples
         self.gamma = gamma
@@ -41,17 +41,17 @@ class DecisionTransformerGymEpisodeCollator:
 
     def sample(self, feature, si, s, a, r, d, rtg, timesteps, mask):
 
-        s.append(np.array(feature["obs"][si : si + self.sequence_length]).reshape(1, -1, self.state_dim))
-        a.append(np.array(feature["acts"][si : si + self.sequence_length]).reshape(1, -1, self.act_dim))
-        r.append(np.array(feature["rewards"][si : si + self.sequence_length]).reshape(1, -1, 1))
+        s.append(np.array(feature["obs"][si : si + self.subset_training_max_len]).reshape(1, -1, self.state_dim))
+        a.append(np.array(feature["acts"][si : si + self.subset_training_max_len]).reshape(1, -1, self.act_dim))
+        r.append(np.array(feature["rewards"][si : si + self.subset_training_max_len]).reshape(1, -1, 1))
 
-        d.append(np.array(feature["dones"][si : si + self.sequence_length]).reshape(1, -1))
+        d.append(np.array(feature["dones"][si : si + self.subset_training_max_len]).reshape(1, -1))
 
-        timesteps.append(np.arange(si, si + self.sequence_length).reshape(1, -1))
+        timesteps.append(np.arange(si, si + self.subset_training_max_len).reshape(1, -1))
 
         timesteps[-1][timesteps[-1] >= self.max_ep_len] = self.max_ep_len - 1 
  
-        rtg_sum = self._discount_cumsum(np.array(feature["rewards"]), gamma=self.gamma)[si: si + self.sequence_length].reshape(1,-1,1)
+        rtg_sum = self._discount_cumsum(np.array(feature["rewards"]), gamma=self.gamma)[si: si + self.subset_training_max_len].reshape(1,-1,1)
 
         rtg.append(rtg_sum)
 
@@ -60,16 +60,16 @@ class DecisionTransformerGymEpisodeCollator:
             rtg[-1] = np.concatenate([rtg[-1], np.zeros((1, 1, 1))], axis=1)
 
         tlen = s[-1].shape[1]
-        s[-1] = np.concatenate([s[-1], np.zeros((1, self.sequence_length - tlen, self.state_dim))], axis=1)
+        s[-1] = np.concatenate([s[-1], np.zeros((1, self.subset_training_max_len - tlen, self.state_dim))], axis=1)
         a[-1] = np.concatenate(
-            [a[-1], np.zeros((1, self.sequence_length - tlen, self.act_dim))],
+            [a[-1], np.zeros((1, self.subset_training_max_len - tlen, self.act_dim))],
             axis=1,
         )
-        r[-1] = np.concatenate([r[-1], np.zeros((1, self.sequence_length - tlen, 1))], axis=1)
-        d[-1] = np.concatenate([d[-1], np.ones((1, self.sequence_length - tlen)) * 2], axis=1)
-        rtg[-1] = np.concatenate([rtg[-1], np.zeros((1, self.sequence_length - tlen, 1))], axis=1) / self.scale
+        r[-1] = np.concatenate([r[-1], np.zeros((1, self.subset_training_max_len - tlen, 1))], axis=1)
+        d[-1] = np.concatenate([d[-1], np.ones((1, self.subset_training_max_len - tlen)) * 2], axis=1)
+        rtg[-1] = np.concatenate([rtg[-1], np.zeros((1, self.subset_training_max_len - tlen, 1))], axis=1) / self.scale
 
-        mask.append(np.concatenate([np.ones((1, tlen)), np.zeros((1, self.sequence_length - tlen))], axis=1))
+        mask.append(np.concatenate([np.ones((1, tlen)), np.zeros((1, self.subset_training_max_len - tlen))], axis=1))
 
     def __call__(self, features):
 
@@ -96,14 +96,13 @@ class DecisionTransformerGymEpisodeCollator:
 
         for feature in features:
             
-            length = max(1,len(feature["rewards"]))
-            population = list(range(length))
-
-            weights = [math.sqrt(i) for i in range(1, length + 1)]
+            length = max(1,len(feature["rewards"] - self.subset_training_max_len - 1))
+            #population = list(range(length))
+            #weights = [math.sqrt(i) for i in range(1, length + 1)]
 
             for n in range(0, self.minibatch_samples):
-                #si = random.randint(0, len(feature["rewards"]) - 1)
-                si = random.choices(population, weights=weights, k=1)[0]
+                si = random.randint(0, length)
+                #si = random.choices(population, weights=weights, k=1)[0]
                 self.sample(feature, si, s, a, r, d, rtg, timesteps, mask)
 
 

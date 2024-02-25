@@ -72,3 +72,18 @@ python rollot.py --env=[env] # Where env is the name of the environment, Example
     
     other libraries:
         -   We have used other libraries such as numpy, pandas, torch, torchvision, etc.
+
+
+## Results
+
+Rollout 1:
+7/12
+
+Rollout 2:
+5/12
+
+Rollout 3:
+6/12
+
+Rollout 4:
+

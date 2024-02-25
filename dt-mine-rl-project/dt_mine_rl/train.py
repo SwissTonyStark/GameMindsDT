@@ -57,7 +57,7 @@ def main(args):
     train_dataset, eval_dataset = random_split(episode_dataset, [train_size, test_size])
 
     collator = DecisionTransformerGymEpisodeCollator( 
-        state_dim, action_dim, app_config["sequence_length"], app_config["max_ep_len"], app_config["minibatch_samples"], app_config["gamma"], app_config["scale_rewards"])
+        state_dim, action_dim, app_config["subset_training_len"], app_config["max_ep_len"], app_config["minibatch_samples"], app_config["gamma"], app_config["scale_rewards"])
 
     # Initializing a DecisionTransformer configuration
     decision_transformer_config = DecisionTransformerConfig(
