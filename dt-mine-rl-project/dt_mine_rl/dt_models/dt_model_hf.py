@@ -60,16 +60,13 @@ class DecisionTransformerGymEpisodeCollator:
             rtg[-1] = np.concatenate([rtg[-1], np.zeros((1, 1, 1))], axis=1)
 
         tlen = s[-1].shape[1]
-        s[-1] = np.concatenate([s[-1], np.zeros((1, self.subset_training_len - tlen, self.state_dim))], axis=1)
-        a[-1] = np.concatenate(
-            [a[-1], np.zeros((1, self.subset_training_len - tlen, self.act_dim))],
-            axis=1,
-        )
-        r[-1] = np.concatenate([r[-1], np.zeros((1, self.subset_training_len - tlen, 1))], axis=1)
-        d[-1] = np.concatenate([d[-1], np.ones((1, self.subset_training_len - tlen)) * 2], axis=1)
-        rtg[-1] = np.concatenate([rtg[-1], np.zeros((1, self.subset_training_len - tlen, 1))], axis=1) / self.scale
+        s[-1] = np.concatenate([np.zeros((1, self.subset_training_len - tlen, self.state_dim)), s[-1]], axis=1)
+        a[-1] = np.concatenate([np.zeros((1, self.subset_training_len - tlen, self.act_dim)),a[-1]], axis=1)
+        r[-1] = np.concatenate([np.zeros((1, self.subset_training_len - tlen, 1)), r[-1]], axis=1)
+        d[-1] = np.concatenate([np.ones((1, self.subset_training_len - tlen)) * 2, d[-1]], axis=1)
+        rtg[-1] = np.concatenate([np.zeros((1, self.subset_training_len - tlen, 1)), rtg[-1]], axis=1) / self.scale
 
-        mask.append(np.concatenate([np.ones((1, tlen)), np.zeros((1, self.subset_training_len - tlen))], axis=1))
+        mask.append(np.concatenate([np.zeros((1, self.subset_training_len - tlen)), np.ones((1, tlen))], axis=1))
 
     def __call__(self, features):
 
