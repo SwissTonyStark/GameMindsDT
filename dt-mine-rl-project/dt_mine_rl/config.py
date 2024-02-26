@@ -44,7 +44,7 @@ config_common_envs = {
     "save_every_n_epochs": 10,
     "skip_noops": True,
     "max_files_to_load": None,
-    "button_encoder_num_actions": 256,
+    "button_encoder_num_actions": 125,
     "rollout_device": cuda_device, # "cpu", # alternative: cuda_device variable
     "vpt_model": os.path.join(common_vpt_dir,  config["common"]["vpt_model"]),
     "vpt_weights": os.path.join(common_vpt_dir, config["common"]["vpt_weights"]),
@@ -79,7 +79,7 @@ config["envs"] = {
         "temperature_camera": 1,
         "temperature_esc": 1,
         "end_cut_episode_length": 64,
-        "end_episode_margin": 30,
+        "end_episode_margin": 5,
         "environment_seeds": ENV_TO_BASALT_2022_SEEDS["MineRLBasaltFindCave-v0"], 
         "rollout_max_steeps_per_seed": 3600,
         "env_targets": [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
