@@ -1,185 +1,12 @@
-import math
 from transformers import DecisionTransformerModel
 import torch
 
-
-import numpy as np
-import random
 from dataclasses import dataclass
-from torch import nn
 
-from .dt_model_common import MultiCategorical
-
-@dataclass
-class DecisionTransformerGymEpisodeCollator:
-    state_dim: int  # size of state space
-    act_dim: int  # size of action space
-    subset_training_len: int #subsets of the episode we use for training
-    max_ep_len: int # max episode length in the dataset
-    minibatch_samples: int # to store the number of trajectories in the dataset
-    scale: float  # normalization of rewards/returns
-    gamma: float # discount factor
-    return_tensors: str = "pt"
-
-    def __init__(self, state_dim: int, act_dim: int, subset_training_len: int, max_ep_len: int, minibatch_samples: int, gamma:float = 1.0, scale: float = 1 ) -> None:
-
-        self.state_dim = state_dim
-        self.act_dim = act_dim
-        self.subset_training_len = subset_training_len
-        self.max_ep_len = max_ep_len
-        self.minibatch_samples = minibatch_samples
-        self.gamma = gamma
-        self.scale = scale
-
-
-    def _discount_cumsum(self, x, gamma):
-        discount_cumsum = np.zeros_like(x)
-        discount_cumsum[-1] = x[-1]
-        for t in reversed(range(x.shape[0] - 1)):
-            discount_cumsum[t] = x[t] + gamma * discount_cumsum[t + 1]
-        return np.array(list(reversed(discount_cumsum)))
-
-    def sample(self, feature, si, s, a, r, d, rtg, timesteps, mask):
-
-        s.append(np.array(feature["obs"][si : si + self.subset_training_len]).reshape(1, -1, self.state_dim))
-        a.append(np.array(feature["acts"][si : si + self.subset_training_len]).reshape(1, -1, self.act_dim))
-        r.append(np.array(feature["rewards"][si : si + self.subset_training_len]).reshape(1, -1, 1))
-
-        d.append(np.array(feature["dones"][si : si + self.subset_training_len]).reshape(1, -1))
-
-        timesteps.append(np.arange(si, si + self.subset_training_len).reshape(1, -1))
-
-        timesteps[-1][timesteps[-1] >= self.max_ep_len] = self.max_ep_len - 1 
- 
-        rtg_sum = self._discount_cumsum(np.array(feature["rewards"]), gamma=self.gamma)[si: si + self.subset_training_len].reshape(1,-1,1)
-
-        rtg.append(rtg_sum)
-
-        if rtg[-1].shape[1] < s[-1].shape[1]:
-            print("if true")
-            rtg[-1] = np.concatenate([rtg[-1], np.zeros((1, 1, 1))], axis=1)
-
-        tlen = s[-1].shape[1]
-        s[-1] = np.concatenate([np.zeros((1, self.subset_training_len - tlen, self.state_dim)), s[-1]], axis=1)
-        a[-1] = np.concatenate([np.zeros((1, self.subset_training_len - tlen, self.act_dim)),a[-1]], axis=1)
-        r[-1] = np.concatenate([np.zeros((1, self.subset_training_len - tlen, 1)), r[-1]], axis=1)
-        d[-1] = np.concatenate([np.ones((1, self.subset_training_len - tlen)) * 2, d[-1]], axis=1)
-        rtg[-1] = np.concatenate([np.zeros((1, self.subset_training_len - tlen, 1)), rtg[-1]], axis=1) / self.scale
-
-        mask.append(np.concatenate([np.zeros((1, self.subset_training_len - tlen)), np.ones((1, tlen))], axis=1))
-
-    def __call__(self, features):
-
-            
-        s, a, r, d, rtg, timesteps, mask = [], [], [], [], [], [], []
-
-        for feature in features:
-            
-            length = max(1,len(feature["rewards"]) - self.subset_training_len)
-            population = list(range(length))
-            weights = [math.sqrt(i) for i in range(1, length + 1)]
-
-            for n in range(0, self.minibatch_samples):
-                #si = random.randint(1, length)
-                si = random.choices(population, weights=weights, k=1)[0]
-                self.sample(feature, si, s, a, r, d, rtg, timesteps, mask)
-
-
-        s = torch.from_numpy(np.concatenate(s, axis=0)).float()
-        a = torch.from_numpy(np.concatenate(a, axis=0)).float()
-        r = torch.from_numpy(np.concatenate(r, axis=0)).float()
-        d = torch.from_numpy(np.concatenate(d, axis=0))
-        rtg = torch.from_numpy(np.concatenate(rtg, axis=0)).float()
-        timesteps = torch.from_numpy(np.concatenate(timesteps, axis=0)).long()
-        mask = torch.from_numpy(np.concatenate(mask, axis=0)).float()
-
-        return {
-            "states": s,
-            "actions": a,
-            "rewards": r,
-            "returns_to_go": rtg,
-            "timesteps": timesteps,
-            "attention_mask": mask,
-            "return_loss": True,
-        }
-
-
-class ActionPolicy(nn.Module):
-    def __init__(self, config):
-        super(ActionPolicy, self).__init__()
-        self.agent_num_button_actions = config.agent_num_button_actions
-        self.agent_num_camera_actions = config.agent_num_camera_actions
-        self.agent_esc_button = config.agent_esc_button
-
-        self.predict_action = nn.ModuleDict({
-            'buttons': nn.Sequential(
-                nn.Linear(config.hidden_size, self.agent_num_button_actions),
-            ),
-            'camera': nn.Sequential(
-                nn.Linear(config.hidden_size, self.agent_num_camera_actions),
-            ),
-            'esc': nn.Sequential(
-                nn.Linear(config.hidden_size, self.agent_esc_button),
-            )
-        })
-
-    def forward(self, x):
-        actions = {action_type: module(x) for action_type, module in self.predict_action.items()}
-        return actions
-    
-# Thanks to d3lply library for the following code Parameter and GlobalPositionEncoding
-class Parameter(nn.Module):  # type: ignore
-    _parameter: nn.Parameter
-
-    def __init__(self, data: torch.Tensor):
-        super().__init__()
-        self._parameter = nn.Parameter(data)
-
-    def forward(self) -> torch.Tensor:
-        return self._parameter
-
-    def __call__(self) -> torch.Tensor:
-        return super().__call__()
-
-    @property
-    def data(self) -> torch.Tensor:
-        return self._parameter.data
-
-class GlobalPositionEncoding(nn.Module):
-    def __init__(self, embed_dim: int, max_timestep: int, context_size: int):
-        super().__init__()
-        self._embed_dim = embed_dim
-        self._global_position_embedding = Parameter(
-            torch.zeros(1, max_timestep, embed_dim, dtype=torch.float32)
-        )
-        self._block_position_embedding = Parameter(
-            torch.zeros(1, 3 * context_size, embed_dim, dtype=torch.float32)
-        )
-
-    def forward(self, t: torch.Tensor) -> torch.Tensor:
-        assert t.dim() == 2, "Expects (B, T)"
-        batch_size, context_size = t.shape
-
-        # (B, 1, 1) -> (B, 1, N)
-        last_t = torch.repeat_interleave(
-            t[:, -1].view(-1, 1, 1), self._embed_dim, dim=-1
-        )
-        # (1, Tmax, N) -> (B, Tmax, N)
-        batched_global_embedding = torch.repeat_interleave(
-            self._global_position_embedding(),
-            batch_size,
-            dim=0,
-        )
-        # (B, Tmax, N) -> (B, 1, N)
-        global_embedding = torch.gather(batched_global_embedding, 1, last_t)
-
-        # (1, 3 * Cmax, N) -> (1, T, N)
-        block_embedding = self._block_position_embedding()[:, :context_size, :]
-
-        # (B, 1, N) + (1, T, N) -> (B, T, N)
-        return global_embedding + block_embedding
-
-class TrainableDT(DecisionTransformerModel):
+from dt_models.dt_model_common import ActionPolicy, AgentDT, GlobalPositionEncoding, MultiCategorical
+from lib.common import AGENT_DT_ACTION_DIM, AGENT_DT_NUM_CAMERA_ACTIONS, AGENT_DT_NUN_ESC_BUTTON
+from transformers import DecisionTransformerConfig
+class TrainableDTHF(AgentDT,DecisionTransformerModel):
     def __init__(self, config):
         super().__init__(config)
 
@@ -201,14 +28,6 @@ class TrainableDT(DecisionTransformerModel):
         self.disable_esc_button = False
 
         self.predict_action = ActionPolicy(config)
-
-    def set_default_temperatures(self, temperature_buttons, temperature_camera, temperature_esc):
-        self.temperature_buttons = temperature_buttons
-        self.temperature_camera = temperature_camera
-        self.temperature_esc = temperature_esc
-
-    def set_disable_esc_button(self, disable_esc_button=True):
-        self.disable_esc_button = disable_esc_button
 
     def forward(self, **kwargs):
         del kwargs["return_loss"]
@@ -302,3 +121,28 @@ class TrainableDT(DecisionTransformerModel):
         action_preds = torch.stack([action_preds_button, action_preds_camera, action_preds_esc], dim=-1)
 
         return action_preds
+
+    @staticmethod
+    def from_config(**config) -> AgentDT:
+        config = DecisionTransformerConfig(
+            n_head=config["n_heads"],
+            n_layer=config["n_layers"],
+            hidden_size=config["hidden_size"],
+            n_positions=config["sequence_length"] * 3,
+            max_ep_len=config["max_ep_len"],
+            state_dim=config["embedding_dim"], 
+            act_dim=AGENT_DT_ACTION_DIM,
+            agent_num_button_actions = config["button_encoder_num_actions"],
+            agent_num_camera_actions = AGENT_DT_NUM_CAMERA_ACTIONS,
+            agent_esc_button = AGENT_DT_NUN_ESC_BUTTON,
+            temperature_button = config["temperature_buttons"],
+            temperature_camera = config["temperature_camera"],
+            temperature_esc = config["temperature_esc"]
+        )
+        agent = TrainableDTHF(config)
+
+        return agent
+
+    @staticmethod
+    def from_saved(**config)->'TrainableDTHF':
+        return TrainableDTHF.from_pretrained(config["models_dir"])

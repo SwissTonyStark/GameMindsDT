@@ -11,12 +11,12 @@ import videoio
 from vpt_lib.agent import MineRLAgent
 
 from config import config
-from lib.common import ENV_NAME_TO_SPEC, ENV_TO_BASALT_2022_SEEDS, create_json_entry_dict, new_create_observables, load_model_parameters
+from lib.common import AGENT_DT_ACTION_DIM, ENV_NAME_TO_SPEC, ENV_TO_BASALT_2022_SEEDS, create_json_entry_dict, new_create_observables, load_model_parameters
 
 from dt_models.dt_model_common import ActEncoderDecoder
-from dt_models.dt_model_hf import TrainableDT
+from dt_models.dt_model_gm import TrainableDTGM
 
-def get_current_state(obs, hidden_state, dummy_first, vpt_agent, agent, device):
+def get_current_state(obs, state_dim, hidden_state, dummy_first, vpt_agent, agent, device):
 
     agent_obs = vpt_agent._env_obs_to_agent(obs)
 
@@ -28,7 +28,7 @@ def get_current_state(obs, hidden_state, dummy_first, vpt_agent, agent, device):
             return_embedding=True,
         )
 
-    cur_state = vpt_embedding.to(device=device).reshape(1, agent.config.state_dim)
+    cur_state = vpt_embedding.to(device=device).reshape(1, state_dim)
 
     return cur_state, hidden_state
 
@@ -59,7 +59,12 @@ def main(args):
 
     dummy_first = torch.from_numpy(np.array((False,))).cuda().to(device)
 
-    agent = TrainableDT.from_pretrained(app_config["models_dir"])
+    state_dim = app_config["embedding_dim"]
+    act_dim = AGENT_DT_ACTION_DIM
+
+    AgentClass = app_config["agent_implementation"] 
+    agent = AgentClass.from_saved(**app_config)
+
     agent.set_default_temperatures(app_config["temperature_buttons"], app_config["temperature_camera"], app_config["temperature_esc"])
     agent.set_disable_esc_button()
 
@@ -100,9 +105,9 @@ def main(args):
 
         step_cicle = app_config["end_cut_episode_length"] 
 
-        states, hidden_state = get_current_state(obs, hidden_state, dummy_first, vpt_agent, agent, device)
+        states, hidden_state = get_current_state(obs, state_dim, hidden_state, dummy_first, vpt_agent, agent, device)
         
-        actions = torch.zeros((1, agent.config.act_dim), device=device, dtype=torch.float32)
+        actions = torch.zeros((1, act_dim), device=device, dtype=torch.float32)
         rewards = torch.zeros(1, device=device, dtype=torch.float32)
         target_return = torch.tensor(TARGET_RETURN, device=device, dtype=torch.float32).reshape(1, 1)
         timesteps = torch.zeros(1, device=device, dtype=torch.long).reshape(1, 1)    
@@ -143,9 +148,9 @@ def main(args):
             
             step_counter += 1
 
-            cur_state, hidden_state = get_current_state(obs, hidden_state, dummy_first, vpt_agent, agent, device)
+            cur_state, hidden_state = get_current_state(obs, state_dim, hidden_state, dummy_first, vpt_agent, agent, device)
             states = torch.cat([states, cur_state], dim=0)
-            actions = torch.cat([actions, torch.zeros((1, agent.config.act_dim), device=device)], dim=0)
+            actions = torch.cat([actions, torch.zeros((1, act_dim), device=device)], dim=0)
             actions[-1] = agent_action[-1]
             rewards = torch.cat([rewards, torch.zeros(1, device=device)])
             target_return = torch.cat([target_return, pred_return.reshape(1, 1)], dim=1)

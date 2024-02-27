@@ -3,6 +3,9 @@ from dt_mine_rl.lib.common import ENV_TO_BASALT_2022_SEEDS
 import yaml
 import torch
 
+from dt_models.dt_model_gm import TrainableDTGM
+from dt_models.dt_model_hf import TrainableDTHF
+
 # Load settings.yaml
 yaml_path = os.path.join(os.path.dirname(__file__), "..", "settings.yaml")
 
@@ -16,6 +19,11 @@ path_data = settings["path_data"]
 cuda_device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 print("Settings", settings)
+
+AGENT_IMPLEMENTATIONS = {
+    "HugginFaceDT": TrainableDTHF,
+    "GameMindsDT": TrainableDTGM,
+}
 
 config = {
     "common": {
@@ -59,6 +67,7 @@ common_rollout_output_path = os.path.join(config["common"]["path_data"], "dt_rol
 
 config["envs"] = {
     "MineRLBasaltFindCave-v0": {**config_common_envs, **{
+        "agent_implementation": AGENT_IMPLEMENTATIONS["GameMindsDT"],
         "models_dir": os.path.join(common_models_path, "MineRLBasaltFindCave-v0"),
         "rollout_output_dir": os.path.join(common_rollout_output_path, "MineRLBasaltFindCave-v0"),
         "embeddings_dir": os.path.join(common_embeddings_dir, "MineRLBasaltFindCave-v0"),
@@ -85,6 +94,7 @@ config["envs"] = {
         "env_targets": [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
     }},
     "MineRLBasaltMakeWaterfall-v0": {**config_common_envs, **{
+        "agent_implementation": AGENT_IMPLEMENTATIONS["HugginFaceDT"],
         "models_dir": os.path.join(common_models_path, "MineRLBasaltMakeWaterfall-v0"),
         "rollout_output_dir": os.path.join(common_rollout_output_path, "MineRLBasaltMakeWaterfall-v0"),
         "embeddings_dir": os.path.join(common_embeddings_dir, "MineRLBasaltMakeWaterfall-v0"),
@@ -107,6 +117,7 @@ config["envs"] = {
         "env_targets": [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
     }},
     "MineRLBasaltBuildVillageHouse-v0": {**config_common_envs, **{
+        "agent_implementation": AGENT_IMPLEMENTATIONS["HugginFaceDT"],
         "models_dir": os.path.join(common_models_path, "MineRLBasaltBuildVillageHouse-v0"),
         "rollout_output_dir": os.path.join(common_rollout_output_path, "MineRLBasaltBuildVillageHouse-v0"),
         "embeddings_dir": os.path.join(common_embeddings_dir, "MineRLBasaltBuildVillageHouse-v0"),

@@ -2,19 +2,17 @@ import argparse
 import os
 import pprint
 
-from dt_mine_rl.lib.common import AGENT_DT_NUN_ESC_BUTTON
-from dt_mine_rl.lib.common import AGENT_DT_NUM_CAMERA_ACTIONS
+from dt_models.dt_model_gm import TrainableDTGM
 
 from dt_models.dt_model_common import ActEncoderDecoder
 
 from lib.dataset import EpisodeDataset
 
-from transformers import DecisionTransformerConfig, TrainingArguments, Trainer
+from transformers import TrainingArguments, Trainer
 
 from torch.utils.data import random_split
 
-from dt_models.dt_model_hf import TrainableDT
-from dt_models.dt_model_hf import DecisionTransformerGymEpisodeCollator
+from dt_models.dt_model_common import DecisionTransformerGymEpisodeCollator
 
 from config import config
 
@@ -59,24 +57,8 @@ def main(args):
     collator = DecisionTransformerGymEpisodeCollator( 
         state_dim, action_dim, app_config["subset_training_len"], app_config["max_ep_len"], app_config["minibatch_samples"], app_config["gamma"], app_config["scale_rewards"])
 
-    # Initializing a DecisionTransformer configuration
-    decision_transformer_config = DecisionTransformerConfig(
-        n_head=app_config["n_heads"],
-        n_layer=app_config["n_layers"],
-        hidden_size=app_config["hidden_size"],
-        n_positions=app_config["sequence_length"] * 3,
-        max_ep_len=app_config["max_ep_len"],
-        state_dim=state_dim, 
-        act_dim=action_dim,
-        agent_num_button_actions = app_config["button_encoder_num_actions"],
-        agent_num_camera_actions = AGENT_DT_NUM_CAMERA_ACTIONS,
-        agent_esc_button = AGENT_DT_NUN_ESC_BUTTON,
-        temperature_button = app_config["temperature_buttons"],
-        temperature_camera = app_config["temperature_camera"],
-        temperature_esc = app_config["temperature_esc"]
-        )
-    
-    model = TrainableDT(decision_transformer_config)
+    AgentClass = app_config["agent_implementation"] 
+    model = AgentClass.from_config(**app_config)
 
     os.makedirs(models_dir, exist_ok=True)
 
