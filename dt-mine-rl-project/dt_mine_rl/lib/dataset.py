@@ -111,13 +111,12 @@ def load_embedded_trajectories_as_transitions(npz_file_paths, act_button_encoder
         n = embeddings.shape[0]
 
         obs[current_index:current_index + n] = embeddings
+        
         # Pad last observation with zeros
         next_obs[current_index:current_index + n] = np.concatenate((embeddings[1:], np.zeros((1, expected_embedding_dim))), axis=0)
         acts[current_index:current_index + n] = np.stack([button_actions, camera_actions, esc_actions], axis=1)
         rewards[current_index:current_index + n] = [0.0] * n    
-        #for i in range(max(current_index + n - 100, current_index), max(current_index + n - 10, current_index)):
-        #    rewards[i] = 1.0
-        #rewards[max(current_index, current_index + n - 100): current_index + n] = 10.0  
+
         rewards[current_index + n - end_episode_margin] = 100.0
         dones[current_index + n - end_episode_margin] = True
         current_index += n + 1
@@ -133,7 +132,7 @@ def load_embedded_trajectories_as_transitions(npz_file_paths, act_button_encoder
         dones = dones[:current_index]
         infos = infos[:current_index] 
 
-        #Cut to last 64 transitions
+
         if end_cut_episode_length is not None:
             if (end_episode_margin is None):
                 end_episode_margin = 0
@@ -144,28 +143,7 @@ def load_embedded_trajectories_as_transitions(npz_file_paths, act_button_encoder
                 rewards = rewards[-(end_cut_episode_length + end_episode_margin):-end_episode_margin]
                 dones = dones[-(end_cut_episode_length + end_episode_margin):-end_episode_margin]
                 infos = infos[-(end_cut_episode_length + end_episode_margin):-end_episode_margin]
-            
 
-        # EPV: Cut off arrays from the front
-        #if (len(obs)>1024 + 200):
-            
-            # cut_index = 1024
-            # bad_obs = obs[0: cut_index]
-            # bad_next_obs = next_obs[0: cut_index]
-            # bad_acts = acts[0: cut_index]
-            # bad_rewards = rewards[0: cut_index]
-            # bad_dones = dones[0: cut_index]
-            # bad_infos = infos[0: cut_index]
-            # bad_rewards[-1] = -100.0
-            # bad_dones[-1] = True
-            # concat_all_parts = dict(zip(KEYS_FOR_TRANSITIONS, [bad_obs, bad_next_obs, bad_acts, bad_rewards, bad_dones, bad_infos]))
-            # episodes.append(concat_all_parts)
-            # obs = obs[cut_index:]
-            # next_obs = next_obs[cut_index:]
-            # acts = acts[cut_index:]
-            # rewards = rewards[cut_index:]
-            # dones = dones[cut_index:]
-            # infos = infos[cut_index:]
 
         # Create dictionary
         concat_all_parts = dict(zip(KEYS_FOR_TRANSITIONS, [obs, next_obs, acts, rewards, dones, infos]))
