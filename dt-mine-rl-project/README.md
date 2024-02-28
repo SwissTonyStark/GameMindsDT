@@ -4,6 +4,9 @@
 
 We have used the [basalt benchmark](https://github.com/minerllabs/basalt-benchmark) framework to test the decision transformers. First, we tested with the Hugging Face Decision Transformer, and then we used our own implementation from scratch. So far, the only environment completed has been find Cave, where we can see that almost 50% of the time the agent ends up finding a cave. Moreover, the agent learns to navigate through the environment with surprising skill. It can get out of complex situations and avoid obstacles. We believe that for the other environments, it is necessary to create a Hierarchical Decision Transformer.
 
+## Decision Transformer only trained with videos
+This model learns to make decisions based on the features extracted from the video frames. The features are extracted using the VPT library.This means that it learns to navigate through Minecraft and to find caves having been trained solely and exclusively with the viewing of videos (thanks to the embeddings and the extraction of actions from the VPT library). Additionally, for the model to understand that we wanted it to find caves, the videos have been trimmed so that only a few frames from the end have been used for training.
+
 # Installation:
 
 ## In Ubuntu Install java
