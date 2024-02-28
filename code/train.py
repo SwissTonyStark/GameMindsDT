@@ -31,7 +31,7 @@ class Trainer():
 
             self.optimizer.zero_grad()
 
-            _, _, act_preds, selfattn_ws = self.model(steps, states, actions, rtgs) # timestep, max_timesteps, states, actions, returns_to_go
+            act_preds = self.model(steps, states, actions, rtgs) # timestep, max_timesteps, states, actions, returns_to_go
 
             act_preds = act_preds[padd_mask]
             actions = actions[padd_mask]
@@ -49,7 +49,7 @@ class Trainer():
                 states, actions, steps, rtgs, padd_mask = (x.to(self.device) for x in [states, actions, steps, rtgs, padd_mask])
                 action_target = torch.clone(actions).detach().to(self.device)
 
-                _, _, act_preds, _ = self.model(steps, states, actions, rtgs)
+                act_preds = self.model(steps, states, actions, rtgs)
 
                 loss = self.criterion(act_preds, action_target)  
                 val_loss += loss.item()
@@ -65,6 +65,7 @@ class Trainer():
             epoc_val_loss = val_loss / len(val_loader.dataset) 
             epoch_train_loss = train_loss / len(val_loader.dataset)
 
-            self.wandb.log_training(epoch=epoch, train_loss_avg=epoch_train_loss, val_loss_avg=epoc_val_loss)
+            if self.wandb is not None:
+                self.wandb.log_training(epoch=epoch, train_loss_avg=epoch_train_loss, val_loss_avg=epoc_val_loss)
             # Imprimir la pérdida media del epoch
             print(f'Epoch [{epoch+1}/{num_epochs}], Training Loss: {epoch_train_loss:.4f}, Validation Loss: {epoc_val_loss:.4f}')

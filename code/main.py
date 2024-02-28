@@ -145,7 +145,7 @@ wandb_log = WandbLogger(model=model_dt)
 criterion = nn.MSELoss()
 optimizer = optim.Adam(model_dt.parameters(), lr=hparams['lr'])
 
-train_model = Trainer(model=model_dt, optimizer=optimizer, criterion= criterion, device=device, wandb_log=wandb_log)
+train_model = Trainer(model=model_dt, optimizer=optimizer, criterion= criterion, device=device, wandb_log=None)
 train_model.train(hparams['epochs'], train_loader=train_loader, val_loader=val_loader)
 
 # Now save the artifacts of the training

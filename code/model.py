@@ -57,7 +57,7 @@ class MaskedSelfAttention(nn.Module):
 
         # output projection
         y = self.resid_dropout(self.proj_out(out))
-        return y, attention
+        return y
 
 class MLP(nn.Module):
 
@@ -84,21 +84,18 @@ class DecoderBlock(nn.Module):
         self.mlp = MLP(h_dim, mlp_ratio, dropout)
         self.ln2 = nn.LayerNorm(h_dim)
 
-    def forward(self, x, return_att=False):
+    def forward(self, x):
         """ x = self.ln2(x) # add residual
         x = self.attn(x) + x # normalize
         x = self.ln2(x)
         x = self.mlp(x) + x """
 
-        attn_out, selfattn_w = self.attn(x)# add residual
+        attn_out= self.attn(x)# add residual
         x = self.ln1(x + attn_out) 
         mlp_out = self.mlp(x) + x
         x = self.ln2(x + mlp_out)
 
-        if return_att:
-            return x, selfattn_w
-        else:
-            return x
+        return x
 
 class DecisionTransformer(nn.Module):
     #def __init__(self, state_dim, act_dim, h_dim, h_dim, num_heads, num_blocks, max_timesteps, mlp_ratio, dropout, vocab_size, rtg_dim=1):
@@ -115,8 +112,8 @@ class DecisionTransformer(nn.Module):
         self.pos_embed = nn.Embedding(num_embeddings=max_timesteps, embedding_dim=h_dim)
 
         self.norm = nn.LayerNorm(h_dim)
-        # self.transformerGPT = nn.Sequential(*([DecoderBlock(h_dim, num_heads, self.seq_len, mlp_ratio, dropout) for _ in range(num_blocks)]))
-        self.decoder_transformer = nn.ModuleList([DecoderBlock(h_dim, num_heads, self.seq_len, mlp_ratio, dropout) for _ in range(num_blocks)])
+        
+        self.decoder_only = nn.Sequential(*([DecoderBlock(h_dim, num_heads, self.seq_len, mlp_ratio, dropout) for _ in range(num_blocks)]))  
 
         self.rtg_pred = nn.Linear(in_features=h_dim, out_features=1)
         self.state_pred = nn.Linear(in_features=h_dim, out_features=state_dim)
@@ -125,7 +122,7 @@ class DecisionTransformer(nn.Module):
             nn.Tanh()
         )
 
-    def forward(self, timestep, states, actions, returns_to_go, return_att=False):
+    def forward(self, timestep, states, actions, returns_to_go):
 
         B, T, _ = states.shape # [batch size, seq length, h_dim]
 
@@ -144,20 +141,13 @@ class DecisionTransformer(nn.Module):
         stacked_inputs = stacked_inputs.reshape(B, 3*T, self.h_dim) # [B, 3*T, hidden_size]  Nota: h_dim a.k.a "hidden_size"
 
         x = self.norm(stacked_inputs)
-
-        selfattn_ws = []
-        for decoder in self.decoder_transformer:
-            if return_att:
-                x, selfattn_w = decoder(x, return_att=True)
-                selfattn_ws.append(selfattn_w)
-            else:
-                x = decoder(x, return_att=False)   
-        #x = self.transformerGPT(x)
+ 
+        x = self.decoder_only(x)
 
         x = x.reshape(B, T, 3, self.h_dim).permute(0, 2, 1, 3)  #[B, T, 3, hidden_size] --> [B, 3, T, hidden_size]     Nota: h_dim a.k.a "hidden_size"
 
-        returns_to_go_preds = self.rtg_pred(x[:,2])   # predict next return (t) given state (t-1) and action (t)    [0 state, 1 action, 2 rtg]
-        state_preds = self.state_pred(x[:,2])      # predict next state  (t) given state (t-1) and action (t)    [0, 1, 2 rtg]
+        #returns_to_go_preds = self.rtg_pred(x[:,2])   # predict next return (t) given state (t-1) and action (t)    [0 state, 1 action, 2 rtg]
+        #state_preds = self.state_pred(x[:,2])      # predict next state  (t) given state (t-1) and action (t)    [0, 1, 2 rtg]
         act_preds = self.act_pred(x[:,1])             # predict next action (t) given state (t-1)                   [0, 1, 2]
     
-        return returns_to_go, state_preds, act_preds, selfattn_ws
+        return act_preds
