@@ -59,23 +59,23 @@ python rollout.py --env=[env] # Where env is the name of the environment, Exampl
 - MineRLBasaltBuildVillageHouse-v0: VillageMakeHouseEnvSpec,
 
 ## Acknowledgements:
-vpt_lib: OpenAI Video PreTraining (VPT): Learning to Act by Watching Unlabeled Online Videos: (https://github.com/openai/Video-Pre-Training)
-    - We have used the VPT library to extract the features from the videos and use them as input to the model. 
-    - We slightly modified the code to fit our needs. Concretly, we have separated the button actions from the camera actions. We have also deactivated inventory actions (for cave search).
+**vpt_lib:** OpenAI Video PreTraining (VPT): Learning to Act by Watching Unlabeled Online Videos: (https://github.com/openai/Video-Pre-Training)
+- We have used the VPT library to extract the features from the videos and use them as input to the model. 
+- We slightly modified the code to fit our needs. Concretly, we have separated the button actions from the camera actions. We have also deactivated inventory actions (for cave search).
 
-basalt and basalt-benchmark:
-    - Basalt: NeurIPS 2022: MineRL BASALT Behavioural Cloning Baseline: (https://github.com/minerllabs/basalt-2022-behavioural-cloning-baseline)
-    - Basalt-benchmark: (https://github.com/minerllabs/basalt-benchmark)
-    - We have adapted and reorganized the code from the basalt library to fit our Decision Transformer agent.
+**basalt and basalt-benchmark:**
+- **Basalt:** NeurIPS 2022: MineRL BASALT Behavioural Cloning Baseline: (https://github.com/minerllabs/basalt-2022-behavioural-cloning-baseline)
+- **Basalt-benchmark:** (https://github.com/minerllabs/basalt-benchmark)
+- We have adapted and reorganized the code from the basalt library to fit our Decision Transformer agent.
 
-d3rlpy:
-    -   d3rlpy: A collection of Reinforcement Learning baselines and algorithms for model-based reinforcement learning: We have use his GlobalPositionEncoding. (https://github.com/takuseno/d3rlpy/tree/v2.3.0)
+**d3rlpy:**
+-   **d3rlpy:** A collection of Reinforcement Learning baselines and algorithms for model-based reinforcement learning: We have use his GlobalPositionEncoding. (https://github.com/takuseno/d3rlpy/tree/v2.3.0)
 
-hugging_face:
-    -   Hugging Face: We have used the Hugging Face library to use the GPT-2 model and the Decision Transformer model. (https://huggingface.co/docs/transformers/model_doc/decision_transformer)
+**hugging_face:**
+-   **Hugging Face:** We have used the Hugging Face library to use the GPT-2 model and the Decision Transformer model. (https://huggingface.co/docs/transformers/model_doc/decision_transformer)
 
-other libraries:
-    -   We have used other libraries such as numpy, pandas, torch, torchvision, etc.
+**other libraries:**
+-   We have used other libraries such as numpy, pandas, torch, torchvision, etc.
 
 
 ## Results
