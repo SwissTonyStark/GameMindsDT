@@ -9,6 +9,13 @@ This model learns to make decisions based on the features extracted from the hum
 
 The only techniques used were to disable the inventory button and to cut the videos. An arbitrary reward has been added at the end of the episodes. No additional information has been added.
 
+## How it works
+### VPT
+
+![vpt_schema](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/dabd6445-2d82-4a65-94df-8969acd390d2)
+
+https://cdn.openai.com/vpt/Paper.pdf
+
 # Installation:
 
 ## In Ubuntu Install java
@@ -119,6 +126,8 @@ The agent not only learns to find caves. It also learns other basic skills such 
 [speed_runner.webm](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/4590dfba-0ed8-4622-aa47-87f18f6cced0)
 
 [good_explorer.webm](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/10781cf1-6690-4c95-a697-28ff72f835f4)
+
+
 
 
 
