@@ -14,7 +14,14 @@ The only techniques used were to disable the inventory button and to cut the vid
 
 ![vpt_schema](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/dabd6445-2d82-4a65-94df-8969acd390d2)
 
-https://cdn.openai.com/vpt/Paper.pdf
+### Training
+![training_dt](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/4983723a-06de-4a34-a3d5-829b54067e90)
+
+### Playing
+![playing_dt](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/ad7ddafc-f320-4c27-a664-e339c0b7d68c)
+
+
+*Credits for some images*: https://cdn.openai.com/vpt/Paper.pdf, https://arxiv.org/pdf/2106.01345.pdf, https://www.minecraft.net/
 
 # Installation:
 
