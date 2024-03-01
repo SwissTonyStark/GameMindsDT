@@ -69,6 +69,7 @@ python rollout.py --env=[env] # Where env is the name of the environment, Exampl
 - MineRLBasaltBuildVillageHouse-v0: VillageMakeHouseEnvSpec,
 
 ### The results
+![Ambush](https://storage.googleapis.com/dt-mine-rl-project/demos/zombie_scape.gif)
 
 
 ## Acknowledgements:
