@@ -68,7 +68,13 @@ python rollout.py --env=[env] # Where env is the name of the environment, Exampl
 - MineRLBasaltCreateVillageAnimalPen-v0: PenAnimalsVillageEnvSpec,
 - MineRLBasaltBuildVillageHouse-v0: VillageMakeHouseEnvSpec,
 
+### The results
+
+
 ## Acknowledgements:
+**Mine_rl** MineRL is a rich Python 3 library which provides a OpenAI Gym interface for interacting with the video game Minecraft, accompanied with datasets of human gameplay. 
+(https://minerl.readthedocs.io/en/latest/)
+
 **vpt_lib:** OpenAI Video PreTraining (VPT): Learning to Act by Watching Unlabeled Online Videos: (https://github.com/openai/Video-Pre-Training)
 - We have used the VPT library to extract the features from the videos and use them as input to the model. 
 - We slightly modified the code to fit our needs. Concretly, we have separated the button actions from the camera actions. We have also deactivated inventory actions (for cave search).
