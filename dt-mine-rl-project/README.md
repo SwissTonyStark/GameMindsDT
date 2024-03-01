@@ -68,8 +68,58 @@ python rollout.py --env=[env] # Where env is the name of the environment, Exampl
 - MineRLBasaltCreateVillageAnimalPen-v0: PenAnimalsVillageEnvSpec,
 - MineRLBasaltBuildVillageHouse-v0: VillageMakeHouseEnvSpec,
 
-### The results
-![Ambush](https://storage.googleapis.com/dt-mine-rl-project/demos/zombie_scape.gif)
+## The results
+
+### Cave found - Statistics Results
+We have conducted several rounds of rollout and manually checked how many caves are found.
+
+**Rollout 1:**
+7 caves of 12 tries
+
+**Rollout 2:**
+5 caves of 12 tries
+
+**Rollout 3:**
+6 caves of 12 tries
+
+### Demo videos
+
+The agent not only learns to find caves. It also learns other basic skills such as escaping from zombies, avoiding obstacles, getting out of traps, exploring, navigating through caves, swimming, etc. Here are some demonstration shortcuts from the many journeys our agent has made.
+
+[hole_in_one.webm](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/3d89bbda-cee0-4db3-8fa4-9f6dfd3207bd)
+
+[ambush.webm](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/5b132767-b715-42b7-89b1-32f39228cf85)
+
+[avoid_the_fall.webm](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/8411bb0e-e0df-401b-a7d8-4958608aafb8)
+
+[driver.webm](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/8c9f05fe-807b-4dba-a3af-9a5df17cfe97)
+
+[found_castle.webm](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/374ddff6-c75b-4abc-8b4d-5f9f002bb966)
+
+[good_view.webm](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/9960baae-1318-4c44-aa75-65a8a4c131af)
+
+[in_house.webm](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/479fa5a6-4b3f-483a-8d35-e873786fb81e)
+
+[more_cave_seeker.webm](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/6c2e37d2-a86e-46ac-9d98-43153ac95fce)
+
+[quick.webm](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/a2a958f2-5b2c-4849-8d98-7e000caf0263)
+
+[seek_cave.webm](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/a105c11e-1248-4ef3-a3fb-4a4b6bcf4e85)
+
+[sometimes_fails.webm](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/904b9867-097e-483d-80f3-b46d26dabdc0)
+
+[zombie_scape.webm](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/edaf9047-f363-4231-a818-80049eea2ed7)
+
+[scape_from_the_archers.webm](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/4d80bc57-04d7-41d7-b961-9fef2e529d91)
+
+[scape_from_trap.webm](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/d0045356-5726-48da-9d01-bf270158342d)
+
+[direct_to_hole.webm](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/c7b8adf5-3555-4816-a4bb-327c438cc819)
+
+[speed_runner.webm](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/4590dfba-0ed8-4622-aa47-87f18f6cced0)
+
+[good_explorer.webm](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/10781cf1-6690-4c95-a697-28ff72f835f4)
+
 
 
 ## Acknowledgements:
@@ -95,16 +145,6 @@ python rollout.py --env=[env] # Where env is the name of the environment, Exampl
 -   We have used other libraries such as numpy, pandas, torch, torchvision, etc.
 
 
-## Results
 
-Rollout 1:
-7/12
 
-Rollout 2:
-5/12
-
-Rollout 3:
-6/12
-
-Rollout 4:
 
