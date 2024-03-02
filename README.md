@@ -193,6 +193,35 @@ To use Docker, you'll need Docker installed on your machine. Here's a quick star
 
 Docker offers an efficient, consistent environment for your application, from development to production, regardless of where it runs.
 
+
+# Building the Docker Images for the Project
+
+## Step 1: Building the Base Image
+
+First, you need to build the base image that all other project-specific containers will be based on.
+
+```bash
+docker build -t nvidia-pytorch:base .
+```
+
+This command builds the base Docker image from the `Dockerfile` and tags it as `nvidia-pytorch:base`.
+
+## Step 2: Extending the Base Image
+
+Once you have your base image, you can create more specialized Docker images for different parts of your project. Here's how you can build an image for the MineRL project using the base image:
+
+1. Modify the `Dockerfile` to use `nvidia-pytorch:base` as the base image by setting the first line to `FROM nvidia-pytorch:base`.
+
+2. Build your new Docker image with the following command:
+
+```bash
+docker build -t my-minerl-project-image .
+```
+
+Replace `my-minerl-project-image` with your desired image name. This will build a new Docker image that includes everything from the `nvidia-pytorch:base` image plus the additional dependencies and configurations specified in your `Dockerfile`.
+
+Now you have a Docker image ready to be used for the MineRL project development, which is built on top of the robust, pre-configured `nvidia-pytorch:base` image.
+
 ## References and Acknowledgements
 - [Decision Transformer: Reinforcement Learning via Sequence Modeling](https://arxiv.org/abs/2106.01345)
 - [d3rlpy](https://d3rlpy.readthedocs.io/en/v2.3.0/)
