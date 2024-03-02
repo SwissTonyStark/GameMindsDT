@@ -51,7 +51,7 @@ We have used docker and notebooks to run the experiments. The notebooks are in t
 
 ### Docker Experiments
 
-We use docker to run the experiments.
+We use docker containerization to run the experiments.
 
 Before running the docker, you need to install the nvidia-docker2 if we want to use the GPU and you don't have installed yet. You need a nvidia GPU at least compatible with CUDA 11.0. You can check the version of CUDA with the command `nvidia-smi`
 
@@ -171,6 +171,27 @@ Are important the size of the dataset and the type of data?
 #### Open AI Gym (medium, medium-replay, medium-expert)
 **TODO:**
 
+## Introduction to Docker
+
+Docker is an open-source containerization platform that enables developers to package applications into containers—standardized executable components combining application source code with the operating system (OS) libraries and dependencies required to run that code in any environment.
+
+### Why Docker?
+
+- **Isolation**: Docker ensures that your application works in a consistent and isolated environment by packaging it along with its environment.
+- **Resource Efficiency**: Containers share the host OS kernel, are much lighter weight than virtual machines, and start up quickly.
+- **Simplified Development**: Avoid the "it works on my machine" problem by packaging the application with its environment.
+- **CI/CD Integration**: Docker integrates with continuous integration and deployment workflows, allowing for automated testing and deployment.
+
+### Getting Started with Docker
+
+To use Docker, you'll need Docker installed on your machine. Here's a quick start:
+
+1. Install Docker from the [official website](https://www.docker.com/products/docker-desktop).
+2. Run a test container: `docker run hello-world`.
+3. Build a Docker image for your app: `docker build -t your-app-name .`.
+4. Run your app in a Docker container: `docker run -p 80:80 your-app-name`.
+
+Docker offers an efficient, consistent environment for your application, from development to production, regardless of where it runs.
 
 ## References and Acknowledgements
 - [Decision Transformer: Reinforcement Learning via Sequence Modeling](https://arxiv.org/abs/2106.01345)
