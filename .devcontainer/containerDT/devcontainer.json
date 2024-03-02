@@ -1,19 +1,19 @@
 {
-    "name": "PyTorchContainer",
+    "name": "Decision Transformer Container",
     "context": "..",
-    "dockerFile": "../Dockerfile",
-    //Uncomment to load the image directly from Docker hub
-    //"image": "swisstonystark/...",
-    
+    "dockerFile": "../containerMineRL/Dockerfile",
+    // Uncomment the next line if you want to use an image from Docker Hub
+    // "image": "swisstonystark/your-image-name:your-tag",
+
     "customizations": {
         "vscode": {
             "extensions": [
                 "ms-python.python",
+                "ms-toolsai.jupyter",
                 "ms-python.vscode-pylance",
                 "eamodio.gitlens",
                 "mutantdino.resourcemonitor",
                 "ms-azuretools.vscode-docker",
-                "ms-toolsai.jupyter",
                 "ms-python.black-formatter",
                 "ziruiwang.nvidia-monitor",
                 "github.copilot",
@@ -23,9 +23,9 @@
         }
     },
     "forwardPorts": [
+        // List any ports you want to forward
         8080
     ],
-    //Uncomment to run with GPU 
     "runArgs": [
         "--gpus",
         "all",
@@ -34,5 +34,6 @@
         "memlock=-1",
         "--ulimit",
         "stack=67108864"
+        // Add any other Docker run arguments you may need
     ]
 }
