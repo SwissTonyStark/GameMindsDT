@@ -1,8 +1,8 @@
 {
-    "name": "GameMindsDT Development Container",
+    "name": "PyBulletContainer",
     "build": {
-        "context": ".",
-        "dockerfile": "d4rl_pybullet_dt/Dockerfile"
+        "context": "./d4rl_pybullet_dt",
+        "dockerfile": "Dockerfile"
     },
     "customizations": {
         "vscode": {
