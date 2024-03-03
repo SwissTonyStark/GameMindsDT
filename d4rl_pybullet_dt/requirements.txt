@@ -1,0 +1,6 @@
+torch==2.2.0
+tqdm==4.46.1
+gym==0.17.2
+pybullet==2.8.2
+h5py==3.10.0
+matplotlib
