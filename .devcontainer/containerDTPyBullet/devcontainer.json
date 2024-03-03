@@ -1,5 +1,5 @@
 {
-    "name": "GameMindsDT Development Container",
+    "name": "GameMindsDT PyBullet Container",
     "build": {
         "context": ".",
         "dockerfile": "Dockerfile"
