@@ -218,10 +218,10 @@ Once you have your base image, you can create more specialized Docker images for
 2. Build your new Docker image with the following command:
 
 \```bash
-docker build -t my-minerl-project-image .
+docker build -t minerl-project-image .
 \```
 
-Replace `my-minerl-project-image` with your desired image name. This will build a new Docker image that includes everything from the `nvidia-pytorch:base` image plus the additional dependencies and configurations specified in your `Dockerfile`.
+Replace `minerl-project-image` with your desired image name. This will build a new Docker image that includes everything from the `nvidia-pytorch:base` image plus the additional dependencies and configurations specified in your `Dockerfile`.
 
 Now you have a Docker image ready to be used for the MineRL project development, which is built on top of the robust, pre-configured `nvidia-pytorch:base` image.
 
@@ -233,11 +233,11 @@ For projects that require PyBullet, follow these steps to create a custom Docker
 
 2. Build the Docker image with the following command:
 
-\```bash
-docker build -t my-pybullet-project-image -f d4rl_pybullet_dt/Dockerfile .
-\```
+```bash
+docker build -t pybullet-project-image -f d4rl_pybullet_dt/Dockerfile .
+```
 
-Replace `my-pybullet-project-image` with your desired image name. This builds a new Docker image for PyBullet development, including all necessary dependencies on top of the `nvidia-pytorch:base` image.
+Replace `pybullet-project-image` with your desired image name. This builds a new Docker image for PyBullet development, including all necessary dependencies on top of the `nvidia-pytorch:base` image.
 
 You can now use this image to run containers for your PyBullet development environment, ensuring consistency and reproducibility across different machines and platforms.
 
