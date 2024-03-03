@@ -2,7 +2,7 @@
     "name": "GameMindsDT Development Container",
     "build": {
         "context": ".",
-        "dockerfile": "Dockerfile"
+        "dockerfile": "d4rl_pybullet_dt/Dockerfile"
     },
     "customizations": {
         "vscode": {
