@@ -196,17 +196,20 @@ Docker offers an efficient, consistent environment for your application, from de
 
 # Building the Docker Images for the Project
 
+
+# Building the Docker Images for the Project
+
 ## Step 1: Building the Base Image
 
 First, you need to build the base image that all other project-specific containers will be based on.
 
-```bash
+\```bash
 docker build -t nvidia-pytorch:base .
-```
+\```
 
 This command builds the base Docker image from the `Dockerfile` and tags it as `nvidia-pytorch:base`.
 
-## Step 2: Extending the Base Image
+## Step 2: Extending the Base Image for MineRL Project
 
 Once you have your base image, you can create more specialized Docker images for different parts of your project. Here's how you can build an image for the MineRL project using the base image:
 
@@ -214,13 +217,29 @@ Once you have your base image, you can create more specialized Docker images for
 
 2. Build your new Docker image with the following command:
 
-```bash
+\```bash
 docker build -t my-minerl-project-image .
-```
+\```
 
 Replace `my-minerl-project-image` with your desired image name. This will build a new Docker image that includes everything from the `nvidia-pytorch:base` image plus the additional dependencies and configurations specified in your `Dockerfile`.
 
 Now you have a Docker image ready to be used for the MineRL project development, which is built on top of the robust, pre-configured `nvidia-pytorch:base` image.
+
+## Step 3: Creating a Custom Image for PyBullet Development
+
+For projects that require PyBullet, follow these steps to create a custom Docker image:
+
+1. Ensure you are in the directory containing the PyBullet `Dockerfile`, which is based on the `nvidia-pytorch:base` image.
+
+2. Build the Docker image with the following command:
+
+\```bash
+docker build -t my-pybullet-project-image -f d4rl_pybullet_dt/Dockerfile .
+\```
+
+Replace `my-pybullet-project-image` with your desired image name. This builds a new Docker image for PyBullet development, including all necessary dependencies on top of the `nvidia-pytorch:base` image.
+
+You can now use this image to run containers for your PyBullet development environment, ensuring consistency and reproducibility across different machines and platforms.
 
 ## References and Acknowledgements
 - [Decision Transformer: Reinforcement Learning via Sequence Modeling](https://arxiv.org/abs/2106.01345)
