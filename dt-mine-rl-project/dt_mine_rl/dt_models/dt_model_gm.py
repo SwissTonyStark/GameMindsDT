@@ -1,10 +1,10 @@
 import torch
 import torch.nn as nn
+import numpy as np
 
 import os
 import safetensors.torch
 from dt_models.dt_model_common import AgentDT
-
 
 from dt_models.dt_model_common import ActionPolicy, ConfigActionPolicy, AgentDT, GlobalPositionEncoding, MultiCategorical
 from lib.common import AGENT_DT_ACTION_DIM, AGENT_DT_NUM_CAMERA_ACTIONS, AGENT_DT_NUN_ESC_BUTTON
@@ -12,7 +12,6 @@ from lib.common import AGENT_DT_ACTION_DIM, AGENT_DT_NUM_CAMERA_ACTIONS, AGENT_D
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
 SAFE_WEIGHTS_NAME = "model.safetensors"
-
 class MaskedSelfAttention(nn.Module):
 
     def __init__(self, h_dim, num_heads, seq_len, dropout):
@@ -66,7 +65,7 @@ class MaskedSelfAttention(nn.Module):
 
         # output projection
         y = self.resid_dropout(self.proj_out(out))
-        return y, attention
+        return y
 
 class MLP(nn.Module):
 
@@ -93,21 +92,18 @@ class DecoderBlock(nn.Module):
         self.mlp = MLP(h_dim, mlp_ratio, dropout)
         self.ln2 = nn.LayerNorm(h_dim)
 
-    def forward(self, x, return_att=False):
+    def forward(self, x):
         """ x = self.ln2(x) # add residual
         x = self.attn(x) + x # normalize
         x = self.ln2(x)
         x = self.mlp(x) + x """
 
-        attn_out, selfattn_w = self.attn(x)# add residual
-        x = self.ln1(x + attn_out) 
-        mlp_out = self.mlp(x) + x
+        attn_out= self.attn(x)# add residual
+        x = self.ln1(x + attn_out)
+        mlp_out = self.mlp(x)
         x = self.ln2(x + mlp_out)
 
-        if return_att:
-            return x, selfattn_w
-        else:
-            return x
+        return x
 
 class DecisionTransformerGM(AgentDT):
     #def __init__(self, state_dim, act_dim, h_dim, h_dim, num_heads, num_blocks, max_timesteps, mlp_ratio, dropout, vocab_size, rtg_dim=1):
@@ -124,8 +120,8 @@ class DecisionTransformerGM(AgentDT):
         self.pos_embed = nn.Embedding(num_embeddings=max_timesteps, embedding_dim=h_dim)
 
         self.norm = nn.LayerNorm(h_dim)
-        # self.transformerGPT = nn.Sequential(*([DecoderBlock(h_dim, num_heads, self.seq_len, mlp_ratio, dropout) for _ in range(num_blocks)]))
-        self.decoder_transformer = nn.ModuleList([DecoderBlock(h_dim, num_heads, self.seq_len, mlp_ratio, dropout) for _ in range(num_blocks)])
+        
+        self.decoder_only = nn.Sequential(*([DecoderBlock(h_dim, num_heads, self.seq_len, mlp_ratio, dropout) for _ in range(num_blocks)]))  
 
         self.rtg_pred = nn.Linear(in_features=h_dim, out_features=1)
         self.state_pred = nn.Linear(in_features=h_dim, out_features=state_dim)
@@ -134,7 +130,7 @@ class DecisionTransformerGM(AgentDT):
             nn.Tanh()
         )
 
-    def forward(self, timestep, states, actions, returns_to_go, return_att=False):
+    def forward(self, timestep, states, actions, returns_to_go):
 
         B, T, _ = states.shape # [batch size, seq length, h_dim]
 
@@ -153,27 +149,16 @@ class DecisionTransformerGM(AgentDT):
         stacked_inputs = stacked_inputs.reshape(B, 3*T, self.h_dim) # [B, 3*T, hidden_size]  Nota: h_dim a.k.a "hidden_size"
 
         x = self.norm(stacked_inputs)
-
-        selfattn_ws = []
-        for decoder in self.decoder_transformer:
-            if return_att:
-                x, selfattn_w = decoder(x, return_att=True)
-                selfattn_ws.append(selfattn_w)
-            else:
-                x = decoder(x, return_att=False)   
-        #x = self.transformerGPT(x)
+ 
+        x = self.decoder_only(x)
 
         x = x.reshape(B, T, 3, self.h_dim).permute(0, 2, 1, 3)  #[B, T, 3, hidden_size] --> [B, 3, T, hidden_size]     Nota: h_dim a.k.a "hidden_size"
 
-        returns_to_go_preds = self.rtg_pred(x[:,2])   # predict next return (t) given state (t-1) and action (t)    [0 state, 1 action, 2 rtg]
-        state_preds = self.state_pred(x[:,2])      # predict next state  (t) given state (t-1) and action (t)    [0, 1, 2 rtg]
+        #returns_to_go_preds = self.rtg_pred(x[:,2])   # predict next return (t) given state (t-1) and action (t)    [0 state, 1 action, 2 rtg]
+        #state_preds = self.state_pred(x[:,2])      # predict next state  (t) given state (t-1) and action (t)    [0, 1, 2 rtg]
         act_preds = self.act_pred(x[:,1])             # predict next action (t) given state (t-1)                   [0, 1, 2]
     
-        return returns_to_go, state_preds, act_preds, selfattn_ws
-
-
-
-
+        return act_preds
 class TrainableDTGM(DecisionTransformerGM):
     def __init__(self, state_dim, act_dim, h_dim, num_heads, num_blocks, context_len, max_timesteps, 
                  mlp_ratio, dropout, agent_num_button_actions, agent_num_camera_actions, agent_esc_button, rtg_dim=1):
@@ -214,7 +199,7 @@ class TrainableDTGM(DecisionTransformerGM):
         returns_to_go = kwargs.get("returns_to_go")
         attention_mask = kwargs.get("attention_mask")
 
-        _,_,action_preds,_ = super().forward(timestep, states, action_targets, returns_to_go, return_att=False)
+        action_preds = super().forward(timestep, states, action_targets, returns_to_go)
 
         action_preds_button = action_preds["buttons"] * attention_mask.float().unsqueeze(-1)
         action_preds_camera = action_preds["camera"] * attention_mask.float().unsqueeze(-1)
@@ -241,7 +226,7 @@ class TrainableDTGM(DecisionTransformerGM):
         action_targets = kwargs.get("actions")
         returns_to_go = kwargs.get("returns_to_go")
 
-        output = super().forward(timestep, states, action_targets, returns_to_go, return_att=False)
+        output = super().forward(timestep, states, action_targets, returns_to_go)
             
         return output
 
@@ -270,7 +255,7 @@ class TrainableDTGM(DecisionTransformerGM):
 
         timesteps = torch.cat([torch.zeros((1, padding), device=device, dtype=torch.long), timesteps], dim=1)
 
-        _,_,action_logits,_ = self.original_forward(
+        action_logits = self.original_forward(
             states=states,
             actions=actions,
             rewards=rewards,
@@ -320,7 +305,7 @@ class TrainableDTGM(DecisionTransformerGM):
             "act_dim": AGENT_DT_ACTION_DIM,
             "h_dim": config["hidden_size"], 
             "num_heads": config["n_heads"],
-            "num_blocks": 1,
+            "num_blocks": 2,
             "context_len": config["sequence_length"],
             "max_timesteps": config["max_ep_len"],
             "mlp_ratio": 4,
@@ -342,7 +327,7 @@ class TrainableDTGM(DecisionTransformerGM):
             "act_dim": AGENT_DT_ACTION_DIM,
             "h_dim": config["hidden_size"], 
             "num_heads": config["n_heads"],
-            "num_blocks": 1,
+            "num_blocks": 2,
             "context_len": config["sequence_length"],
             "max_timesteps": config["max_ep_len"],
             "mlp_ratio": 4,
@@ -356,5 +341,4 @@ class TrainableDTGM(DecisionTransformerGM):
 
         agent.load_model(config["models_dir"])
 
-        return agent
-    
+        return agent    
