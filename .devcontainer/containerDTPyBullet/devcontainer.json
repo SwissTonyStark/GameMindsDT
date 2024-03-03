@@ -1,39 +1,21 @@
 {
-    "name": "Decision Transformer Container",
-    "context": "..",
-    "dockerFile": "../containerMineRL/Dockerfile",
-    // Uncomment the next line if you want to use an image from Docker Hub
-    // "image": "swisstonystark/your-image-name:your-tag",
-
+    "name": "GameMindsDT Development Container",
+    "build": {
+        "context": ".",
+        "dockerfile": "Dockerfile"
+    },
     "customizations": {
         "vscode": {
             "extensions": [
                 "ms-python.python",
                 "ms-toolsai.jupyter",
                 "ms-python.vscode-pylance",
-                "eamodio.gitlens",
-                "mutantdino.resourcemonitor",
-                "ms-azuretools.vscode-docker",
-                "ms-python.black-formatter",
-                "ziruiwang.nvidia-monitor",
-                "github.copilot",
-                "github.copilot-chat",
-                "vscodevim.vim"
-            ]
+                "github.copilot"
+            ],
+            "settings": {
+                "terminal.integrated.shell.linux": "/bin/bash",
+                "python.pythonPath": "/opt/conda/envs/gamemindsDT/bin/python"
+            }
         }
-    },
-    "forwardPorts": [
-        // List any ports you want to forward
-        8080
-    ],
-    "runArgs": [
-        "--gpus",
-        "all",
-        "--ipc=host",
-        "--ulimit",
-        "memlock=-1",
-        "--ulimit",
-        "stack=67108864"
-        // Add any other Docker run arguments you may need
-    ]
+    }
 }
