@@ -1,7 +1,7 @@
 {
     "name": "MineRL Reinforcement Learning Container",
-    "context": "..",
-    "dockerFile": "../containerMineRL/Dockerfile",
+    "context": "../../dt-mine-rl-project",
+    "dockerFile": "../../dt-mine-rl-project/Dockerfile",
     "customizations": {
         "vscode": {
             "extensions": [
@@ -22,6 +22,9 @@
     "forwardPorts": [
         8080
     ],
+    "mounts": [
+        "source=${localWorkspaceFolder}/data,target=/data,type=bind,consistency=cached"
+    ],
     "runArgs": [
         "--gpus",
         "all",
@@ -33,6 +36,5 @@
     ],
     "workspaceFolder": "/dt-mine-rl-project",
     "workspaceMount": "source=${localWorkspaceFolder}/dt-mine-rl-project,target=/dt-mine-rl-project,type=bind,consistency=cached",
-    "postCreateCommand": "pip install -r requirements.txt",
     "shutdownAction": "stopContainer"
 }

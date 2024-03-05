@@ -14,3 +14,6 @@ RUN pip install -e .
 RUN pip install opencv-fixer==0.2.5
 RUN python -c "from opencv_fixer import AutoFix; AutoFix()"
 RUN pip uninstall -y transformer-engine
+
+RUN apt-get update
+RUN apt-get install -y ffmpeg

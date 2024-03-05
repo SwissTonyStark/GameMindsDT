@@ -8,7 +8,9 @@ results
 GameMindsDT.code-workspace
 .old
 __pycache__
+devcontainer.env
 
+data
 logs/**
 dt-mine-rl-project/DT_Mine_RL_Project.egg-info
 dt-mine-rl-project/settings.yaml

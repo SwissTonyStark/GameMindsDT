@@ -137,12 +137,16 @@ def load_embedded_trajectories_as_transitions(npz_file_paths, act_button_encoder
             if (end_episode_margin is None):
                 end_episode_margin = 0
             if (len(obs)>(end_cut_episode_length + end_episode_margin)):
-                obs = obs[-(end_cut_episode_length + end_episode_margin): -end_episode_margin]
-                next_obs = next_obs[-(end_cut_episode_length + end_episode_margin):-end_episode_margin]
-                acts = acts[-(end_cut_episode_length + end_episode_margin):-end_episode_margin]
-                rewards = rewards[-(end_cut_episode_length + end_episode_margin):-end_episode_margin]
-                dones = dones[-(end_cut_episode_length + end_episode_margin):-end_episode_margin]
-                infos = infos[-(end_cut_episode_length + end_episode_margin):-end_episode_margin]
+                if end_episode_margin == 0:
+                    end_margin = None
+                else:
+                    end_margin = -end_episode_margin
+                obs = obs[-(end_cut_episode_length + end_episode_margin): end_margin]
+                next_obs = next_obs[-(end_cut_episode_length + end_episode_margin):end_margin]
+                acts = acts[-(end_cut_episode_length + end_episode_margin):end_margin]
+                rewards = rewards[-(end_cut_episode_length + end_episode_margin):end_margin]
+                dones = dones[-(end_cut_episode_length + end_episode_margin):end_margin]
+                infos = infos[-(end_cut_episode_length + end_episode_margin):end_margin]
 
 
         # Create dictionary
