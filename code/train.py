@@ -68,4 +68,4 @@ class Trainer():
             if self.wandb is not None:
                 self.wandb.log_training(epoch=epoch, train_loss_avg=epoch_train_loss, val_loss_avg=epoc_val_loss)
             # Imprimir la pérdida media del epoch
-            print(f'Epoch [{epoch+1}/{num_epochs}], Training Loss: {epoch_train_loss:.4f}, Validation Loss: {epoc_val_loss:.4f}')
+            print(f'Epoch [{epoch+1}/{num_epochs}], Training Loss: {epoch_train_loss:.10f}, Validation Loss: {epoc_val_loss:.10f}')
