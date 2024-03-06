@@ -48,35 +48,7 @@ This project is licensed under the [MIT License](LICENSE).
 ## Experiments
 
 We have used docker and notebooks to run the experiments. The notebooks are in the folder `notebooks` and the docker files are in the folder `docker`.
-
-### Docker Experiments
-
-We use docker containerization to run the experiments.
-
-Before running the docker, you need to install the nvidia-docker2 if we want to use the GPU and you don't have installed yet. You need a nvidia GPU at least compatible with CUDA 11.0. You can check the version of CUDA with the command `nvidia-smi`
-
-```bash
-sudo apt install -y nvidia-docker2
-sudo systemctl daemon-reload
-sudo systemctl restart docker
-```
-
-To buid the docker, you need to run the command `docker build -t gamemindsdt:latest .` in the folder `docker`. This command will build the docker with the name `gamemindsdt:latest`. The docker will install all the requirements and will clone the repository in the folder `/home`.
-
-To run the docker, you need to run the command `docker run -it --gpus all --rm -v $(pwd):/home gamemindsdt:latest bash`. This command will run the docker with the name `gamemindsdt:latest` and will mount the current folder in the folder `/home`. The command will open a bash in the docker.
-
-```bash
-docker build -t gamemindsdt:latest . 
-docker run -it --gpus all --rm -v $(pwd):/home gamemindsdt:latest bash
-```
-
-To run the experiments, you need to run the command `python main.py <experiment_name>` in the folder `/home/app`. The command will run the experiment `<experiment_name>`. For example:
-```bash
-python main.py test_pendulum
-```
-```bash
-python main.py test_atari_games
-```
+## TODO
 
 
 ### Pendulum
@@ -182,64 +154,60 @@ Docker is an open-source containerization platform that enables developers to pa
 - **Simplified Development**: Avoid the "it works on my machine" problem by packaging the application with its environment.
 - **CI/CD Integration**: Docker integrates with continuous integration and deployment workflows, allowing for automated testing and deployment.
 
-### Getting Started with Docker
+# Docker Usage Guide for PyBullet and MineRL
 
-To use Docker, you'll need Docker installed on your machine. Here's a quick start:
+## Prerequisites
+Before getting started, make sure you have Docker installed on your machine. You can download and install Docker Desktop from the [official website](https://www.docker.com/products/docker-desktop).
 
-1. Install Docker from the [official website](https://www.docker.com/products/docker-desktop).
-2. Run a test container: `docker run hello-world`.
-3. Build a Docker image for your app: `docker build -t your-app-name .`.
-4. Run your app in a Docker container: `docker run -p 80:80 your-app-name`.
+## Usage Instructions
 
-Docker offers an efficient, consistent environment for your application, from development to production, regardless of where it runs.
+### Installation and Initial Setup
+1. **Installing Docker Desktop:**
+   - Download and install Docker Desktop from the [official website](https://www.docker.com/products/docker-desktop).
+   - Ensure Docker Desktop is running and the Docker Daemon is active.
 
+### Building the Base Image
+The base image includes PyTorch, CUDA, and other necessary dependencies. Navigate to the root directory of your repository.
 
-# Building the Docker Images for the Project
-
-
-# Building the Docker Images for the Project
-
-## Step 1: Building the Base Image
-
-First, you need to build the base image that all other project-specific containers will be based on.
-
-\```bash
+- Navigate to the root directory of your repository.
+- Run the following command:
+```
+cd GameMindsDT/
 docker build -t nvidia-pytorch:base .
-\```
-
-This command builds the base Docker image from the `Dockerfile` and tags it as `nvidia-pytorch:base`.
-
-## Step 2: Extending the Base Image for MineRL Project
-
-Once you have your base image, you can create more specialized Docker images for different parts of your project. Here's how you can build an image for the MineRL project using the base image:
-
-1. Modify the `Dockerfile` to use `nvidia-pytorch:base` as the base image by setting the first line to `FROM nvidia-pytorch:base`.
-
-2. Build your new Docker image with the following command:
-
-\```bash
-docker build -t minerl-project-image .
-\```
-
-Replace `minerl-project-image` with your desired image name. This will build a new Docker image that includes everything from the `nvidia-pytorch:base` image plus the additional dependencies and configurations specified in your `Dockerfile`.
-
-Now you have a Docker image ready to be used for the MineRL project development, which is built on top of the robust, pre-configured `nvidia-pytorch:base` image.
-
-## Step 3: Creating a Custom Image for PyBullet Development
-
-For projects that require PyBullet, follow these steps to create a custom Docker image:
-
-1. Ensure you are in the directory containing the PyBullet `Dockerfile`, which is based on the `nvidia-pytorch:base` image.
-
-2. Build the Docker image with the following command:
-
-```bash
-docker build -t pybullet-project-image -f d4rl_pybullet_dt/Dockerfile .
 ```
 
-Replace `pybullet-project-image` with your desired image name. This builds a new Docker image for PyBullet development, including all necessary dependencies on top of the `nvidia-pytorch:base` image.
+### Building the MineRL Image
+The MineRL image is required if you wish to work with the MineRL project. Navigate to the directory containing the Dockerfile for MineRL.
 
-You can now use this image to run containers for your PyBullet development environment, ensuring consistency and reproducibility across different machines and platforms.
+- Navigate to the directory containing the Dockerfile for MineRL.
+- Run the following command:
+```
+cd GameMindsDT/dt-mine-rl-project
+docker build -t minerl-dt .
+```
+### Building the PyBullet Image
+The PyBullet image is required if you wish to work with projects that require PyBullet. Navigate to the directory containing the Dockerfile for PyBullet.
+
+- Navigate to the directory containing the Dockerfile for PyBullet.
+- Run the following command:
+```
+cd GameMindsDT/d4rl_pybullet_dt
+docker build -t pybullet-dt .
+```
+### Running a Container
+Once you have built the image you need, you can run a container based on that image. Make sure to replace `nvidia-pytorch:base`, `minerl-dt`, or `pybullet-dt` with the name of the image you have built.
+
+- Run the following command:
+```
+docker run -it --rm nvidia-pytorch:base /bin/bash
+```
+### Setting Up Development Environment in VSCode
+After building the images, open the project in Visual Studio Code. Use the "Reopen in Container" feature from the top menu. Select the desired container from the available options.
+
+The Docker containers are defined in the `./devcontainer` directory, where you can find their configurations.
+
+That's it! You are now ready to work with Docker and use the built images for your projects with MineRL and PyBullet.
+
 
 ## References and Acknowledgements
 - [Decision Transformer: Reinforcement Learning via Sequence Modeling](https://arxiv.org/abs/2106.01345)
