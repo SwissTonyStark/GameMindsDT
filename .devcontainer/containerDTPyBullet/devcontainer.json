@@ -1,8 +1,8 @@
 {
     "name": "PyBulletContainer",
     "build": {
-        "context": "./d4rl_pybullet_dt",
-        "dockerfile": "Dockerfile"
+        "context": "../../d4rl_pybullet_dt",
+        "dockerfile": "../../d4rl_pybullet_dt/Dockerfile"
     },
     "customizations": {
         "vscode": {

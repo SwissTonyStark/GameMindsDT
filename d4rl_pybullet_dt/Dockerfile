@@ -12,7 +12,10 @@ RUN python -m pip install --upgrade pip \
     tabulate==0.9.0 \
     pybullet==2.8.2 \
     tqdm==4.46.1 \
-    git+https://github.com/takuseno/d4rl-pybullet
+    git+https://github.com/takuseno/d4rl-pybullet \
+    opencv-fixer==0.2.5
+    
+RUN pip install wandb==0.16.3
 
 # Configure Git to store credentials
 RUN git config --global credential.helper store
@@ -24,6 +27,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get update \
     && apt-get install -y openjdk-8-jdk \
     && rm -rf /var/lib/apt/lists/*
+
+RUN python -c "from opencv_fixer import AutoFix; AutoFix()"
 
 # Optionally, set the working directory (customize according to your workflow)
 WORKDIR /workspace
