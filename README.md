@@ -175,9 +175,11 @@ The base image includes PyTorch, CUDA, and other necessary dependencies. Navigat
 cd GameMindsDT/
 docker build -t nvidia-pytorch:base .
 ```
+Then will you have installed the base image to run our project in a container! But keep reading, you will need to add some extensions,
+new images which contain more dependencies.
 
 ### Building the MineRL Image
-The MineRL image is required if you wish to work with the MineRL project. Navigate to the directory containing the Dockerfile for MineRL.
+The MineRL image is required if you wish to work with the MineRL experiment. Navigate to the directory containing the Dockerfile for MineRL.
 
 - Navigate to the directory containing the Dockerfile for MineRL.
 - Run the following command:
@@ -186,7 +188,7 @@ cd GameMindsDT/dt-mine-rl-project
 docker build -t minerl-dt .
 ```
 ### Building the PyBullet Image
-The PyBullet image is required if you wish to work with projects that require PyBullet. Navigate to the directory containing the Dockerfile for PyBullet.
+The PyBullet image is required if you wish to work with experiments that require PyBullet. Navigate to the directory containing the Dockerfile for PyBullet.
 
 - Navigate to the directory containing the Dockerfile for PyBullet.
 - Run the following command:
@@ -196,18 +198,14 @@ docker build -t pybullet-dt .
 ```
 ### Running a Container
 Once you have built the image you need, you can run a container based on that image. Make sure to replace `nvidia-pytorch:base`, `minerl-dt`, or `pybullet-dt` with the name of the image you have built.
+You will find your images in Docker Desktop, it's recommendable to check if you have them all, but you won't need to run them manually. Visual Studio Code does it for you, it runs an instance of them.
 
-- Run the following command:
-```
-docker run -it --rm nvidia-pytorch:base /bin/bash
-```
 ### Setting Up Development Environment in VSCode
 After building the images, open the project in Visual Studio Code. Use the "Reopen in Container" feature from the top menu. Select the desired container from the available options.
 
 The Docker containers are defined in the `./devcontainer` directory, where you can find their configurations.
 
 That's it! You are now ready to work with Docker and use the built images for your projects with MineRL and PyBullet.
-
 
 ## References and Acknowledgements
 - [Decision Transformer: Reinforcement Learning via Sequence Modeling](https://arxiv.org/abs/2106.01345)
