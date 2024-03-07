@@ -3,6 +3,27 @@
 Welcome to GameMindsDT, where we combine the power of Decision Transformers and Reinforcement Learning to master a myriad of gaming challenges. Our project encapsulates the journey of building a custom Transformer model from the ground up, meticulously tailoring reinforcement learning models, and harnessing them to excel in a diverse array of virtual environments. From classic arcade arenas to sophisticated strategic simulations, GameMindsDT is at the forefront of AI-driven gameplay exploration.
 
 ## Table of Contents
+# Table of Contents
+- [Introduction and Motivation](#introduction-and-motivation)
+- [Objectives and Hypothesis](#objectives-and-hypothesis)
+- [Project Management](#project-management)
+  - [Team Composition and Work Distribution](#team-composition-and-work-distribution)
+  - [Gantt Chart and Milestones](#gantt-chart-and-milestones)
+- [Algorithms and Environments](#algorithms-and-environments)
+- [Installation and Experiments](#installation-and-experiments)
+  - [MineRL: Exploration and Objectives](#minerl-exploration-and-objectives)
+    - [Docker Integration](#docker-integration)
+- [Resources](#resources)
+- [Conclusions](#conclusions)
+- [References and Acknowledgements](#references-and-acknowledgements)
+
+
+<!-- PART ANTIGA PER APROFITAR -->
+<!-- A partir d'aqui esta el readme tal qual anterior -->
+<!-- La idea es comparar amb la nova versio i acabar-ho de completar tot -->
+<!-- Estic reorganitzant tot -->
+
+## Table of Contents
 - [Project Motivation](#project-motivation)
 - [Installation](#installation)
 - [Features](#features)
@@ -231,4 +252,4 @@ That's it! You are now ready to work with Docker and use the built images for yo
 - [Minigrid: A Minimalistic Gridworld Environment for OpenAI Gym](https://github.com/maximecb/gym-minigrid)
 
 
-2023-2024
+> **Published in: 2023-2024**
