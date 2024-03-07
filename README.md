@@ -1,11 +1,24 @@
-# GameMindsDT
-Unleashing the Power of Decision Transformers in Reinforcement Learning for mastering a variety of games and tasks, from classic arcade challenges to complex strategic simulations. Join us in building a custom Transformer model from scratch and exploring new frontiers in AI-driven gameplay.
+# GameMindsDT Project Overview
 
-## Overview
-Welcome to **GameMindsDT**, an innovative project at the intersection of Decision Transformers and Reinforcement Learning, aimed at mastering a variety of games and tasks. Our mission is to build a Transformer from scratch, design a robust RL model, and train it to excel in diverse virtual environments.
+Welcome to GameMindsDT, where we combine the power of Decision Transformers and Reinforcement Learning to master a myriad of gaming challenges. Our project encapsulates the journey of building a custom Transformer model from the ground up, meticulously tailoring reinforcement learning models, and harnessing them to excel in a diverse array of virtual environments. From classic arcade arenas to sophisticated strategic simulations, GameMindsDT is at the forefront of AI-driven gameplay exploration.
 
-## Motivation
-Decision Transformers represent a paradigm shift in reinforcement learning, offering a more efficient and flexible approach to decision-making. This project endeavors to unlock the full potential of Decision Transformers in various gaming and task-oriented scenarios, pushing the boundaries of what these architectures can achieve.
+## Table of Contents
+- [Project Motivation](#project-motivation)
+- [Installation](#installation)
+- [Features](#features)
+- [Usage](#usage)
+- [License](#license)
+- [Project Management](#project-management)
+  - [Team Division](#team-division)
+  - [Algorithms and Environments](#algorithms-and-environments)
+  - [Evolution of the Decision Transformer in our project](#evolution-of-the-decision-transformer)
+- [Experiments](#experiments)
+- [Introduction to Docker](#introduction-to-docker)
+- [Contact](#contact)
+- [Acknowledgements](#acknowledgements)
+
+## Project Motivation
+Decision Transformers represent a paradigm shift in reinforcement learning, offering a novel, efficient, and versatile approach to decision-making. Through GameMindsDT, we aim to unlock the untapped potential of these transformers across a broad spectrum of games and tasks, pushing the limits of AI capabilities in virtual environments.
 
 ## Installation
 ```bash
@@ -13,30 +26,30 @@ git clone https://github.com/your-username/GameMindsDT.git
 cd GameMindsDT
 pip install -r requirements.txt
 ```
+
 ## Features
-- **Transformer Building from Scratch**: Deep and personalized learning of Transformer mechanics.
-- **Customized RL Model**: Tailoring and fine-tuning models for different types of games and challenges.
-- **Rigorous Training and Testing**: Assessment across various games, ranging from classics to contemporary.
+- **Transformer Building from Scratch**: A deep dive into the mechanics of Transformers for a customized learning experience.
+- **Customized RL Model**: Tailoring models to suit varied gaming challenges.
+- **Rigorous Training and Testing**: Extensive evaluation across a multitude of games, from classic to modern titles.
 
 ## Usage
-Guidance on how to use the model with code examples.
-```python
-# Example code snippet
-```
-## Contributing
-Contributions are welcome! Please read `CONTRIBUTING.md` for details on how you can contribute to our project.
-
+- Comprehensive guide on model utilization with code examples.
+- 
 ## License
 This project is licensed under the [MIT License](LICENSE).
 
-## Team
-- Omar Aguilera Vera
-- Pol Fernández Blánquez
-- Shuang Long Ji Qiu
-- Edgar Planell
-- Alex Barrachina
+## Project Management
+### Team Division
+- **Omar Aguilera Vera** 
+- **Pol Fernández Blánquez** 
+- **Shuang Long Ji Qiu** 
+- **Edgar Planell**
+- **Alex Barrachina**
 
-## Possible Decision Transformer Variants to Implement and test
+### Algorithms and Environments
+**TODO**
+
+### Evolution of the Decision Transformer in our project
 - [Decision Transformer](https://arxiv.org/abs/2106.01345)
 - [Hierarchical Decision Transformer](https://arxiv.org/abs/2209.10447)
 - [Elastic Decision Transformer](https://kristery.github.io/edt/)
@@ -46,10 +59,7 @@ This project is licensed under the [MIT License](LICENSE).
 - [Constrained Decision Transformer b](https://arxiv.org/abs/2302.07351)
 
 ## Experiments
-
 We have used docker and notebooks to run the experiments. The notebooks are in the folder `notebooks` and the docker files are in the folder `docker`.
-## TODO
-
 
 ### Pendulum
 Perform the test on the simplest gym with d3rl to test the decision transformers. We choose the pendulum environment because it is the simplest and we can see if the DT is able to learn the optimal policy.
