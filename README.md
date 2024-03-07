@@ -14,7 +14,6 @@ Welcome to GameMindsDT, where we combine the power of Decision Transformers and 
   - [Evolution of the Decision Transformer in our project](#evolution-of-the-decision-transformer)
 - [Experiments](#experiments)
 - [Introduction to Docker](#introduction-to-docker)
-- [Contact](#contact)
 - [Acknowledgements](#acknowledgements)
 
 ## Project Motivation
@@ -41,7 +40,7 @@ This project is licensed under the [MIT License](LICENSE).
 ## Project Management
 ### Team Division
 - **Omar Aguilera Vera** 
-- **Pol Fernández Blánquez** 
+- **[Pol Fernández Blánquez](https://www.linkedin.com/in/polfernandezblanquez/)** 
 - **Shuang Long Ji Qiu** 
 - **Edgar Planell**
 - **Alex Barrachina**
@@ -134,8 +133,12 @@ For the test, we have run 100 matches of each game for each algorithm. And we ha
 ![atari_results](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/dd963e67-5b0e-45c2-b26d-578ec7ff2ea6)
 
 ### Test DT with different hyperparameters. 
-Are important size of model, number of layers, number of heads, number of attention heads, number of epochs, learning rate, batch size, etc.?
-Which are the best hyperparameters for DT in every game?
+Testing Decision Transformers (DT) with different hyperparameters and data experiences across various games and environments is a complex but crucial aspect of enhancing reinforcement learning (RL) models. The literature and experiments indicate that factors such as model size, number of layers, learning rate, batch size, and the mix of expert vs. non-expert training data significantly influence the performance of RL agents, including DTs.
+
+*Hyperparameters* like the learning rate, batch size, number of layers, and model size are pivotal for the training efficiency and final performance of DT models. For example, the learning rate controls the step size at each iteration while moving toward a minimum of a loss function, impacting the convergence speed and stability of the learning process. Similarly, the batch size influences the model's ability to generalize from the training data, while the number of layers and model size can affect the model's capacity to learn complex patterns and behaviors.
+
+In reinforcement learning, especially with Decision Transformers acrossing specific Atari Games, optimizing these hyperparameters is essential for achieving high performance across different games and environments. 
+
 #### Open AI Gym (HalfCheetah, Hopper, Walker, Reacher)
 **TODO:**
 
@@ -164,19 +167,17 @@ Docker is an open-source containerization platform that enables developers to pa
 - **Simplified Development**: Avoid the "it works on my machine" problem by packaging the application with its environment.
 - **CI/CD Integration**: Docker integrates with continuous integration and deployment workflows, allowing for automated testing and deployment.
 
-# Docker Usage Guide for PyBullet and MineRL
-
-## Prerequisites
+### Prerequisites
 Before getting started, make sure you have Docker installed on your machine. You can download and install Docker Desktop from the [official website](https://www.docker.com/products/docker-desktop).
 
-## Usage Instructions
+### Usage Instructions
 
-### Installation and Initial Setup
+#### Installation and Initial Setup
 1. **Installing Docker Desktop:**
    - Download and install Docker Desktop from the [official website](https://www.docker.com/products/docker-desktop).
    - Ensure Docker Desktop is running and the Docker Daemon is active.
 
-### Building the Base Image
+#### Building the Base Image
 The base image includes PyTorch, CUDA, and other necessary dependencies. Navigate to the root directory of your repository.
 
 - Navigate to the root directory of your repository.
@@ -188,7 +189,7 @@ docker build -t nvidia-pytorch:base .
 Then will you have installed the base image to run our project in a container! But keep reading, you will need to add some extensions,
 new images which contain more dependencies.
 
-### Building the MineRL Image
+#### Building the MineRL Image
 The MineRL image is required if you wish to work with the MineRL experiment. Navigate to the directory containing the Dockerfile for MineRL.
 
 - Navigate to the directory containing the Dockerfile for MineRL.
@@ -197,7 +198,7 @@ The MineRL image is required if you wish to work with the MineRL experiment. Nav
 cd GameMindsDT/dt-mine-rl-project
 docker build -t minerl-dt .
 ```
-### Building the PyBullet Image
+#### Building the PyBullet Image
 The PyBullet image is required if you wish to work with experiments that require PyBullet. Navigate to the directory containing the Dockerfile for PyBullet.
 
 - Navigate to the directory containing the Dockerfile for PyBullet.
@@ -206,11 +207,11 @@ The PyBullet image is required if you wish to work with experiments that require
 cd GameMindsDT/d4rl_pybullet_dt
 docker build -t pybullet-dt .
 ```
-### Running a Container
+#### Running a Container
 Once you have built the image you need, you can run a container based on that image. Make sure to replace `nvidia-pytorch:base`, `minerl-dt`, or `pybullet-dt` with the name of the image you have built.
 You will find your images in Docker Desktop, it's recommendable to check if you have them all, but you won't need to run them manually. Visual Studio Code does it for you, it runs an instance of them.
 
-### Setting Up Development Environment in VSCode
+#### Setting Up Development Environment in VSCode
 After building the images, open the project in Visual Studio Code. Use the "Reopen in Container" feature from the top menu. Select the desired container from the available options.
 
 The Docker containers are defined in the `./devcontainer` directory, where you can find their configurations.
@@ -229,11 +230,5 @@ That's it! You are now ready to work with Docker and use the built images for yo
 - [OpenAI Gym: A Toolkit for Developing and Comparing Reinforcement Learning Algorithms](https://gym.openai.com/)
 - [Minigrid: A Minimalistic Gridworld Environment for OpenAI Gym](https://github.com/maximecb/gym-minigrid)
 
-## Contact
-- Omar Aguilera Vera
-- [Pol Fernández Blánquez](https://www.linkedin.com/in/polfernandezblanquez/)
-- Shuang Long Ji Qiu
-- Edgar Planell
-- Alex Barrachina
 
-
+2023-2024
