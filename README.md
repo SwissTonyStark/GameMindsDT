@@ -10,7 +10,7 @@ Welcome to GameMindsDT, where we combine the power of Decision Transformers and 
 - [Algorithms and Environments](#algorithms-and-environments)
 - [Installation and Experiments](#installation-and-experiments)
   - [MineRL: Exploration and Objectives](#minerl-exploration-and-objectives)
-    - [Docker Integration](#docker-integration)
+- [Docker Integration](#docker-integration)
 - [Resources](#resources)
 - [Conclusions](#conclusions)
 - [References and Acknowledgements](#references-and-acknowledgements)
@@ -29,8 +29,13 @@ Our goal was to explore the realms of AI in gaming beyond traditional approaches
 ### Gantt Chart and Milestones
 Our project timeline and key milestones were tracked using a Gantt chart, illustrating our structured approach to achieving our objectives.
 
+<!-- AFEGIR DIAGRAMA GANNT PANTALLAZO EXCEL COMPLERT -->
+<!-- ORGANITZAR MILESTONES? COMENTAR COM LA EVOLUCIO DE LES TASQUES, PER ON HEM FET VIA -->
+
 ## Algorithms and Environments
 We ventured through various algorithms and environments, from the traditional OpenAI Gym settings to complex strategic simulations, each offering unique challenges and learning opportunities.
+
+<!-- DIAGRAMA AMB ELSLLISTATS D'ALGORISMES UTILITZATS I ENVIRONMENTS -->
 
 ## Installation and Experiments
 For installation instructions and detailed experiment walkthroughs, refer to the specific README files linked below. Here's a quick start:
@@ -44,7 +49,11 @@ pip install -r requirements.txt
 ### MineRL: Exploration and Objectives
 A concise introduction to our work with MineRL, highlighting our motivation and goals. For an in-depth look, visit the [MineRL README](#).
 
-#### Docker Integration
+<!-- EDGAR -->
+<!-- AFEGIR OMAR I SHUANG EL VOSTRE -->
+<!-- ALEX?? FINALMENT HI HA README? -->
+
+## Docker Integration
 Docker played a crucial role in ensuring a consistent development environment across our team. Detailed instructions for setting up Docker can be found [here](#).
 
 ## Resources
