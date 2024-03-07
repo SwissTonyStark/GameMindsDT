@@ -1,10 +1,8 @@
 # GameMindsDT Project Overview
-
+## Introduction and Motivation
 Welcome to GameMindsDT, where we combine the power of Decision Transformers and Reinforcement Learning to master a myriad of gaming challenges. Our project encapsulates the journey of building a custom Transformer model from the ground up, meticulously tailoring reinforcement learning models, and harnessing them to excel in a diverse array of virtual environments. From classic arcade arenas to sophisticated strategic simulations, GameMindsDT is at the forefront of AI-driven gameplay exploration.
 
-## Table of Contents
 # Table of Contents
-- [Introduction and Motivation](#introduction-and-motivation)
 - [Objectives and Hypothesis](#objectives-and-hypothesis)
 - [Project Management](#project-management)
   - [Team Composition and Work Distribution](#team-composition-and-work-distribution)
@@ -17,6 +15,50 @@ Welcome to GameMindsDT, where we combine the power of Decision Transformers and 
 - [Conclusions](#conclusions)
 - [References and Acknowledgements](#references-and-acknowledgements)
 
+## Objectives and Hypothesis
+Our goal was to explore the realms of AI in gaming beyond traditional approaches, hypothesizing that Decision Transformers can provide a more nuanced understanding and execution of game strategies. We aimed to unlock the untapped potential of these transformers across a broad spectrum of games and tasks, pushing the limits of AI capabilities in virtual environments.
+
+## Project Management
+### Team Composition and Work Distribution
+- **Omar Aguilera Vera**
+- **[Pol Fernández Blánquez](https://www.linkedin.com/in/polfernandezblanquez/)**
+- **Shuang Long Ji Qiu**
+- **Edgar Planell**
+- **Alex Barrachina**
+
+### Gantt Chart and Milestones
+Our project timeline and key milestones were tracked using a Gantt chart, illustrating our structured approach to achieving our objectives.
+
+## Algorithms and Environments
+We ventured through various algorithms and environments, from the traditional OpenAI Gym settings to complex strategic simulations, each offering unique challenges and learning opportunities.
+
+## Installation and Experiments
+For installation instructions and detailed experiment walkthroughs, refer to the specific README files linked below. Here's a quick start:
+
+```bash
+git clone https://github.com/your-username/GameMindsDT.git
+cd GameMindsDT
+pip install -r requirements.txt
+```
+
+### MineRL: Exploration and Objectives
+A concise introduction to our work with MineRL, highlighting our motivation and goals. For an in-depth look, visit the [MineRL README](#).
+
+#### Docker Integration
+Docker played a crucial role in ensuring a consistent development environment across our team. Detailed instructions for setting up Docker can be found [here](#).
+
+## Resources
+Overview of our repository structure and data flow diagrams to navigate through our project's architecture efficiently.
+
+## Conclusions
+Summarizing our journey, achievements, challenges faced, and the insights gained through the development of GameMindsDT.
+
+## References and Acknowledgements
+- [Decision Transformer: Reinforcement Learning via Sequence Modeling](https://arxiv.org/abs/2106.01345)
+- [d3rlpy](https://d3rlpy.readthedocs.io/en/v2.3.0/)
+- [Docker: Containerization Platform](https://www.docker.com/)
+- [OpenAI Gym: A Toolkit for Developing and Comparing Reinforcement Learning Algorithms](https://gym.openai.com/)
+- [Minigrid: A Minimalistic Gridworld Environment for OpenAI Gym](https://github.com/maximecb/gym-minigrid)
 
 <!-- PART ANTIGA PER APROFITAR -->
 <!-- A partir d'aqui esta el readme tal qual anterior -->
