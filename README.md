@@ -220,13 +220,20 @@ That's it! You are now ready to work with Docker and use the built images for yo
 ## References and Acknowledgements
 - [Decision Transformer: Reinforcement Learning via Sequence Modeling](https://arxiv.org/abs/2106.01345)
 - [d3rlpy](https://d3rlpy.readthedocs.io/en/v2.3.0/)
-TBD.
+- [Hierarchical Decision Transformer for Cooperative Multi-Agent Reinforcement Learning](https://arxiv.org/abs/2209.10447)
+- [Elastic Decision Transformer for Generalizable Offline Reinforcement Learning](https://kristery.github.io/edt/)
+- [Critic-Guided Decision Transformer for Offline Hindsight Information Matching](https://arxiv.org/abs/2312.13716)
+- [Online Decision Transformer](https://arxiv.org/pdf/2202.05607.pdf)
+- [Constrained Decision Transformer for Safe Reinforcement Learning](https://www.offline-saferl.org/)
+- [Docker: Containerization Platform](https://www.docker.com/)
+- [OpenAI Gym: A Toolkit for Developing and Comparing Reinforcement Learning Algorithms](https://gym.openai.com/)
+- [Minigrid: A Minimalistic Gridworld Environment for OpenAI Gym](https://github.com/maximecb/gym-minigrid)
 
 ## Contact
-TBD(Contact information for inquiries and collaborations.)
-
-
----
-![Uploading Logo.png…]()
+- Omar Aguilera Vera
+- [Pol Fernández Blánquez](https://www.linkedin.com/in/polfernandezblanquez/)
+- Shuang Long Ji Qiu
+- Edgar Planell
+- Alex Barrachina
 
 
