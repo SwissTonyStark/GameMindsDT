@@ -23,6 +23,73 @@ The only techniques used were to disable the inventory button and to cut the vid
 
 *Credits for some images*: https://cdn.openai.com/vpt/Paper.pdf, https://arxiv.org/pdf/2106.01345.pdf, https://www.minecraft.net/
 
+## Main challenges and Decissions   
+
+* 3 action logits (buttons, camera, esc button)
+Implement a Multicategorical distribution class
+* Problems with temperature of camera vs buttons
+Decouple the button action from the camera action in VPT.
+* Big action space buttons combinations (> 8000)
+ActEncoderDecoder reducer to most commons 125
+* Downsampling
+Disabled, we may miss important actions
+* Timesteps too long
+Added a GlobalPositionEncoding (max_episode_length, sequence_length)
+* Not Rewards
+Cut episodes and give and arbitrary reward at the end (for find cave env)
+* Gamma = 1
+Changing the value doesn't seem to have an impact
+* Hiperparameter tunning
+Not a big model
+- 1024 embeddings
+- 64 sequence length ( * 3 (state,action,rewards_to_go))
+- 8 heads
+- 6 layers (blocks)
+- 256 hidden size
+- Reward to go in inference
+* The same as the end-of-episode reward
+Two compatible implementations
+- Hugging Face DT
+- Our own DT
+* Install and run mine RL
+* Multi Environment framework
+
+## Results
+
+* Good Explorer
+The agent learns to navigate the environment without difficulties. Learns to go fast, avoid trees, jump over steps, swim, climb hills, get out of puddles, run away from enemies, …
+* Learns only seen tasks
+The agent learns only tasks it has seen, for example, it doesn't know how to fight zombies, only how to escape from them.
+* Not only luck in Find Cave
+It's easy to see that after training it with the end of episodes in "find cave", the agent finds more caves than by pure chance. However, there's always a luck component due to blind exploration.
+* The other environments have not been resolved.
+Despite our attempts, we have been unable to solve the other environments. We suspect it's due to their complexity.
+
+## Conclusions
+
+* VPT is Powerful
+VPT is a very powerful model, and it's likely exportable to projects such as autonomous driving or similar.
+Preprocessing VPT is expensive
+It requires a day's worth of GPU work per environment.
+* Enough data for simple tasks.
+With the videos, we have big data for simple actions (run, jump, avoid obstacles, climb, etc).
+* Find caves needs a trick
+Cutting episodes has been effective for this case but doesn't work in other cases.
+* Not enough data for complex tasks.
+It's not easy to train a decision tree (DT) on long term actions without intermediate rewards and low data availability. There are big data for simple actions, but low data for complex actions such building houses.
+* Long DT sequences not work.
+Long sequences of DT don't work for long term actions with low data and not intermediate rewards.
+* Training and finding DT hyperparameters is relatively simple
+Less than an hour per training round, and few parameters to adjust with not many differences.
+
+Future Work
+
+* Hierarchical Decisión transformer
+We believe that the other environments could probably be solved with a hierarchical DT, which could be pure or multimodal based on Minedojo
+
+
+
+
 # Installation:
 
 ## In Ubuntu Install java
