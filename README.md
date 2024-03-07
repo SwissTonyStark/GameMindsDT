@@ -1,42 +1,105 @@
-# GameMindsDT
-Unleashing the Power of Decision Transformers in Reinforcement Learning for mastering a variety of games and tasks, from classic arcade challenges to complex strategic simulations. Join us in building a custom Transformer model from scratch and exploring new frontiers in AI-driven gameplay.
+# GameMindsDT - Project Overview
+## Introduction and Motivation
+Welcome to GameMindsDT, where we combine the power of Decision Transformers and Reinforcement Learning to master a myriad of gaming challenges. Our project encapsulates the journey of building a custom Transformer model from the ground up, meticulously tailoring reinforcement learning models, and harnessing them to excel in a diverse array of virtual environments. From classic arcade arenas to sophisticated strategic simulations, GameMindsDT is at the forefront of AI-driven gameplay exploration.
 
-## Overview
-Welcome to **GameMindsDT**, an innovative project at the intersection of Decision Transformers and Reinforcement Learning, aimed at mastering a variety of games and tasks. Our mission is to build a Transformer from scratch, design a robust RL model, and train it to excel in diverse virtual environments.
+# Table of Contents
+- [Objectives and Hypothesis](#objectives-and-hypothesis)
+- [Project Management](#project-management)
+  - [Team Composition and Work Distribution](#team-composition-and-work-distribution)
+  - [Gantt Chart and Milestones](#gantt-chart-and-milestones)
+- [Algorithms and Environments](#algorithms-and-environments)
+- [Installation and Experiments](#installation-and-experiments)
+  - [MineRL: Exploration and Objectives](#minerl-exploration-and-objectives)
+- [Docker Integration](#docker-integration)
+- [Resources](#resources)
+- [Conclusions](#conclusions)
+- [References and Acknowledgements](#references-and-acknowledgements)
+- [Licence](#license)
 
-## Motivation
-Decision Transformers represent a paradigm shift in reinforcement learning, offering a more efficient and flexible approach to decision-making. This project endeavors to unlock the full potential of Decision Transformers in various gaming and task-oriented scenarios, pushing the boundaries of what these architectures can achieve.
+## Objectives and Hypothesis
+Our goal was to explore the realms of AI in gaming beyond traditional approaches, hypothesizing that Decision Transformers can provide a more nuanced understanding and execution of game strategies. We aimed to unlock the untapped potential of these transformers across a broad spectrum of games and tasks, pushing the limits of AI capabilities in virtual environments.
 
-## Installation
+## Project Management
+### Team Composition and Work Distribution
+- **Omar Aguilera Vera**
+- **[Pol Fernández Blánquez](https://www.linkedin.com/in/polfernandezblanquez/)**
+- **Shuang Long Ji Qiu**
+- **Edgar Planell**
+- **Alex Barrachina**
+
+### Gantt Chart and Milestones
+Our project timeline and key milestones were tracked using a Gantt chart, illustrating our structured approach to achieving our objectives.
+
+<!-- AFEGIR DIAGRAMA GANNT PANTALLAZO EXCEL COMPLERT -->
+<!-- ORGANITZAR MILESTONES? COMENTAR COM LA EVOLUCIO DE LES TASQUES, PER ON HEM FET VIA -->
+
+## Algorithms and Environments
+We ventured through various algorithms and environments, from the traditional OpenAI Gym settings to complex strategic simulations, each offering unique challenges and learning opportunities.
+
+<!-- DIAGRAMA AMB ELSLLISTATS D'ALGORISMES UTILITZATS I ENVIRONMENTS -->
+
+## Installation and Experiments
+For installation instructions and detailed experiment walkthroughs, refer to the specific README files linked below. Here's a quick start:
+
 ```bash
 git clone https://github.com/your-username/GameMindsDT.git
 cd GameMindsDT
 pip install -r requirements.txt
 ```
-## Features
-- **Transformer Building from Scratch**: Deep and personalized learning of Transformer mechanics.
-- **Customized RL Model**: Tailoring and fine-tuning models for different types of games and challenges.
-- **Rigorous Training and Testing**: Assessment across various games, ranging from classics to contemporary.
 
-## Usage
-Guidance on how to use the model with code examples.
-```python
-# Example code snippet
-```
-## Contributing
-Contributions are welcome! Please read `CONTRIBUTING.md` for details on how you can contribute to our project.
+### MineRL: Exploration and Objectives
+A concise introduction to our work with MineRL, highlighting our motivation and goals. For an in-depth look, visit the [MineRL README](#).
+
+<!-- EDGAR -->
+<!-- AFEGIR OMAR I SHUANG EL VOSTRE -->
+<!-- ALEX?? FINALMENT HI HA README? -->
+
+## Docker Integration
+Docker played a crucial role in ensuring a consistent development environment across our team. Detailed instructions for setting up Docker can be found [here](#).
+
+## Resources
+Overview of our repository structure and data flow diagrams to navigate through our project's architecture efficiently.
+
+<!-- ADJUNTAR DIAGRAMA FLOWS DE LES CARPETES? -->
+
+## Conclusions
+Summarizing our journey, achievements, challenges faced, and the insights gained through the development of GameMindsDT.
+
+<!-- IMPORTANT OMAR WAND.DB??? QUE ESTIGUI VISUAL I BEN EXPLICAT -->
+
+## References and Acknowledgements
+- [Decision Transformer: Reinforcement Learning via Sequence Modeling](https://arxiv.org/abs/2106.01345)
+- [d3rlpy](https://d3rlpy.readthedocs.io/en/v2.3.0/)
+- [Docker: Containerization Platform](https://www.docker.com/)
+- [OpenAI Gym: A Toolkit for Developing and Comparing Reinforcement Learning Algorithms](https://gym.openai.com/)
+- [Minigrid: A Minimalistic Gridworld Environment for OpenAI Gym](https://github.com/maximecb/gym-minigrid)
 
 ## License
 This project is licensed under the [MIT License](LICENSE).
 
-## Team
-- Omar Aguilera Vera
-- Pol Fernández Blánquez
-- Shuang Long Ji Qiu
-- Edgar Planell
-- Alex Barrachina
+<!-- PART ANTIGA PER APROFITAR -->
+<!-- A partir d'aqui esta el readme tal qual anterior -->
+<!-- La idea es comparar amb la nova versio i acabar-ho de completar tot -->
+<!-- Estic reorganitzant tot -->
 
-## Possible Decision Transformer Variants to Implement and test
+## Table of Contents
+...
+- [Features](#features)
+- [Project Management](#project-management)
+  - [Team Division](#team-division)
+  - [Algorithms and Environments](#algorithms-and-environments)
+  - [Evolution of the Decision Transformer in our project](#evolution-of-the-decision-transformer)
+- [Experiments](#experiments)
+- [Introduction to Docker](#introduction-to-docker)
+- [Acknowledgements](#acknowledgements)
+
+
+## Features
+- **Transformer Building from Scratch**: A deep dive into the mechanics of Transformers for a customized learning experience.
+- **Customized RL Model**: Tailoring models to suit varied gaming challenges.
+- **Rigorous Training and Testing**: Extensive evaluation across a multitude of games, from classic to modern titles.
+
+### Evolution of the Decision Transformer in our project
 - [Decision Transformer](https://arxiv.org/abs/2106.01345)
 - [Hierarchical Decision Transformer](https://arxiv.org/abs/2209.10447)
 - [Elastic Decision Transformer](https://kristery.github.io/edt/)
@@ -44,11 +107,6 @@ This project is licensed under the [MIT License](LICENSE).
 - [Online Decision Transformer](https://arxiv.org/pdf/2202.05607.pdf)
 - [Constrained Decision Transformer a](https://www.offline-saferl.org/)
 - [Constrained Decision Transformer b](https://arxiv.org/abs/2302.07351)
-
-## Experiments
-
-We have used docker and notebooks to run the experiments. The notebooks are in the folder `notebooks` and the docker files are in the folder `docker`.
-## TODO
 
 
 ### Pendulum
@@ -124,8 +182,12 @@ For the test, we have run 100 matches of each game for each algorithm. And we ha
 ![atari_results](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/dd963e67-5b0e-45c2-b26d-578ec7ff2ea6)
 
 ### Test DT with different hyperparameters. 
-Are important size of model, number of layers, number of heads, number of attention heads, number of epochs, learning rate, batch size, etc.?
-Which are the best hyperparameters for DT in every game?
+Testing Decision Transformers (DT) with different hyperparameters and data experiences across various games and environments is a complex but crucial aspect of enhancing reinforcement learning (RL) models. The literature and experiments indicate that factors such as model size, number of layers, learning rate, batch size, and the mix of expert vs. non-expert training data significantly influence the performance of RL agents, including DTs.
+
+*Hyperparameters* like the learning rate, batch size, number of layers, and model size are pivotal for the training efficiency and final performance of DT models. For example, the learning rate controls the step size at each iteration while moving toward a minimum of a loss function, impacting the convergence speed and stability of the learning process. Similarly, the batch size influences the model's ability to generalize from the training data, while the number of layers and model size can affect the model's capacity to learn complex patterns and behaviors.
+
+In reinforcement learning, especially with Decision Transformers acrossing specific Atari Games, optimizing these hyperparameters is essential for achieving high performance across different games and environments. 
+
 #### Open AI Gym (HalfCheetah, Hopper, Walker, Reacher)
 **TODO:**
 
@@ -154,19 +216,17 @@ Docker is an open-source containerization platform that enables developers to pa
 - **Simplified Development**: Avoid the "it works on my machine" problem by packaging the application with its environment.
 - **CI/CD Integration**: Docker integrates with continuous integration and deployment workflows, allowing for automated testing and deployment.
 
-# Docker Usage Guide for PyBullet and MineRL
-
-## Prerequisites
+### Prerequisites
 Before getting started, make sure you have Docker installed on your machine. You can download and install Docker Desktop from the [official website](https://www.docker.com/products/docker-desktop).
 
-## Usage Instructions
+### Usage Instructions
 
-### Installation and Initial Setup
+#### Installation and Initial Setup
 1. **Installing Docker Desktop:**
    - Download and install Docker Desktop from the [official website](https://www.docker.com/products/docker-desktop).
    - Ensure Docker Desktop is running and the Docker Daemon is active.
 
-### Building the Base Image
+#### Building the Base Image
 The base image includes PyTorch, CUDA, and other necessary dependencies. Navigate to the root directory of your repository.
 
 - Navigate to the root directory of your repository.
@@ -178,7 +238,7 @@ docker build -t nvidia-pytorch:base .
 Then will you have installed the base image to run our project in a container! But keep reading, you will need to add some extensions,
 new images which contain more dependencies.
 
-### Building the MineRL Image
+#### Building the MineRL Image
 The MineRL image is required if you wish to work with the MineRL experiment. Navigate to the directory containing the Dockerfile for MineRL.
 
 - Navigate to the directory containing the Dockerfile for MineRL.
@@ -187,7 +247,7 @@ The MineRL image is required if you wish to work with the MineRL experiment. Nav
 cd GameMindsDT/dt-mine-rl-project
 docker build -t minerl-dt .
 ```
-### Building the PyBullet Image
+#### Building the PyBullet Image
 The PyBullet image is required if you wish to work with experiments that require PyBullet. Navigate to the directory containing the Dockerfile for PyBullet.
 
 - Navigate to the directory containing the Dockerfile for PyBullet.
@@ -196,11 +256,11 @@ The PyBullet image is required if you wish to work with experiments that require
 cd GameMindsDT/d4rl_pybullet_dt
 docker build -t pybullet-dt .
 ```
-### Running a Container
+#### Running a Container
 Once you have built the image you need, you can run a container based on that image. Make sure to replace `nvidia-pytorch:base`, `minerl-dt`, or `pybullet-dt` with the name of the image you have built.
 You will find your images in Docker Desktop, it's recommendable to check if you have them all, but you won't need to run them manually. Visual Studio Code does it for you, it runs an instance of them.
 
-### Setting Up Development Environment in VSCode
+#### Setting Up Development Environment in VSCode
 After building the images, open the project in Visual Studio Code. Use the "Reopen in Container" feature from the top menu. Select the desired container from the available options.
 
 The Docker containers are defined in the `./devcontainer` directory, where you can find their configurations.
@@ -210,13 +270,14 @@ That's it! You are now ready to work with Docker and use the built images for yo
 ## References and Acknowledgements
 - [Decision Transformer: Reinforcement Learning via Sequence Modeling](https://arxiv.org/abs/2106.01345)
 - [d3rlpy](https://d3rlpy.readthedocs.io/en/v2.3.0/)
-TBD.
+- [Hierarchical Decision Transformer for Cooperative Multi-Agent Reinforcement Learning](https://arxiv.org/abs/2209.10447)
+- [Elastic Decision Transformer for Generalizable Offline Reinforcement Learning](https://kristery.github.io/edt/)
+- [Critic-Guided Decision Transformer for Offline Hindsight Information Matching](https://arxiv.org/abs/2312.13716)
+- [Online Decision Transformer](https://arxiv.org/pdf/2202.05607.pdf)
+- [Constrained Decision Transformer for Safe Reinforcement Learning](https://www.offline-saferl.org/)
+- [Docker: Containerization Platform](https://www.docker.com/)
+- [OpenAI Gym: A Toolkit for Developing and Comparing Reinforcement Learning Algorithms](https://gym.openai.com/)
+- [Minigrid: A Minimalistic Gridworld Environment for OpenAI Gym](https://github.com/maximecb/gym-minigrid)
 
-## Contact
-TBD(Contact information for inquiries and collaborations.)
 
-
----
-![Uploading Logo.png…]()
-
-
+> **Published in: 2023-2024**
