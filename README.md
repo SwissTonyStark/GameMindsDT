@@ -14,6 +14,7 @@ Welcome to GameMindsDT, where we combine the power of Decision Transformers and 
 - [Resources](#resources)
 - [Conclusions](#conclusions)
 - [References and Acknowledgements](#references-and-acknowledgements)
+- [Licence](#license)
 
 ## Objectives and Hypothesis
 Our goal was to explore the realms of AI in gaming beyond traditional approaches, hypothesizing that Decision Transformers can provide a more nuanced understanding and execution of game strategies. We aimed to unlock the untapped potential of these transformers across a broad spectrum of games and tasks, pushing the limits of AI capabilities in virtual environments.
@@ -59,8 +60,12 @@ Docker played a crucial role in ensuring a consistent development environment ac
 ## Resources
 Overview of our repository structure and data flow diagrams to navigate through our project's architecture efficiently.
 
+<!-- ADJUNTAR DIAGRAMA FLOWS DE LES CARPETES? -->
+
 ## Conclusions
 Summarizing our journey, achievements, challenges faced, and the insights gained through the development of GameMindsDT.
+
+<!-- IMPORTANT OMAR WAND.DB??? QUE ESTIGUI VISUAL I BEN EXPLICAT -->
 
 ## References and Acknowledgements
 - [Decision Transformer: Reinforcement Learning via Sequence Modeling](https://arxiv.org/abs/2106.01345)
@@ -69,17 +74,17 @@ Summarizing our journey, achievements, challenges faced, and the insights gained
 - [OpenAI Gym: A Toolkit for Developing and Comparing Reinforcement Learning Algorithms](https://gym.openai.com/)
 - [Minigrid: A Minimalistic Gridworld Environment for OpenAI Gym](https://github.com/maximecb/gym-minigrid)
 
+## License
+This project is licensed under the [MIT License](LICENSE).
+
 <!-- PART ANTIGA PER APROFITAR -->
 <!-- A partir d'aqui esta el readme tal qual anterior -->
 <!-- La idea es comparar amb la nova versio i acabar-ho de completar tot -->
 <!-- Estic reorganitzant tot -->
 
 ## Table of Contents
-- [Project Motivation](#project-motivation)
-- [Installation](#installation)
+...
 - [Features](#features)
-- [Usage](#usage)
-- [License](#license)
 - [Project Management](#project-management)
   - [Team Division](#team-division)
   - [Algorithms and Environments](#algorithms-and-environments)
@@ -88,37 +93,11 @@ Summarizing our journey, achievements, challenges faced, and the insights gained
 - [Introduction to Docker](#introduction-to-docker)
 - [Acknowledgements](#acknowledgements)
 
-## Project Motivation
-Decision Transformers represent a paradigm shift in reinforcement learning, offering a novel, efficient, and versatile approach to decision-making. Through GameMindsDT, we aim to unlock the untapped potential of these transformers across a broad spectrum of games and tasks, pushing the limits of AI capabilities in virtual environments.
-
-## Installation
-```bash
-git clone https://github.com/your-username/GameMindsDT.git
-cd GameMindsDT
-pip install -r requirements.txt
-```
 
 ## Features
 - **Transformer Building from Scratch**: A deep dive into the mechanics of Transformers for a customized learning experience.
 - **Customized RL Model**: Tailoring models to suit varied gaming challenges.
 - **Rigorous Training and Testing**: Extensive evaluation across a multitude of games, from classic to modern titles.
-
-## Usage
-- Comprehensive guide on model utilization with code examples.
-- 
-## License
-This project is licensed under the [MIT License](LICENSE).
-
-## Project Management
-### Team Division
-- **Omar Aguilera Vera** 
-- **[Pol Fernández Blánquez](https://www.linkedin.com/in/polfernandezblanquez/)** 
-- **Shuang Long Ji Qiu** 
-- **Edgar Planell**
-- **Alex Barrachina**
-
-### Algorithms and Environments
-**TODO**
 
 ### Evolution of the Decision Transformer in our project
 - [Decision Transformer](https://arxiv.org/abs/2106.01345)
@@ -129,8 +108,6 @@ This project is licensed under the [MIT License](LICENSE).
 - [Constrained Decision Transformer a](https://www.offline-saferl.org/)
 - [Constrained Decision Transformer b](https://arxiv.org/abs/2302.07351)
 
-## Experiments
-We have used docker and notebooks to run the experiments. The notebooks are in the folder `notebooks` and the docker files are in the folder `docker`.
 
 ### Pendulum
 Perform the test on the simplest gym with d3rl to test the decision transformers. We choose the pendulum environment because it is the simplest and we can see if the DT is able to learn the optimal policy.
