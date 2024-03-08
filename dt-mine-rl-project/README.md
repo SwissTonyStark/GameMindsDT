@@ -6,6 +6,8 @@ We have used the [basalt benchmark](https://github.com/minerllabs/basalt-benchma
 
 ## Motivation
 We have demonstrated in previous experiments that Decision Transformers can solve games and benchmark environments such as mujoco, atari, and minigrid. However, we would really like to know if DTs can be used in more complex real-world applications. Lacking data, we have decided to use Minecraft, which, despite being a game, is an environment several orders of magnitude more complex than any of the previously proposed ones. The idea is to check if it can learn anything from human video demonstrations.
+## Hypothesis
+We hypothesize that a DT model should perform equally well or better than behavioral cloning (as used by Open AI to pre-train the VPT), and that it will be capable of learning in an environment with long-term rewards as it did in the Key-to-door minigrid environment.
 
 ## Decision Transformer only trained with videos
 This model learns to make decisions based on the features extracted from the human video frames. The features are extracted using the VPT library. This means that it learns to navigate through Minecraft and to find caves having been trained solely and exclusively with the viewing of videos (thanks to the embeddings and the extraction of actions from the VPT library). Additionally, for the model to understand that we wanted it to find caves, the videos have been trimmed so that only a few frames from the end have been used for training. 
@@ -97,9 +99,12 @@ Here we present a list of the most important decisions made in the creation of o
 
 * ### Hierarchical Decisión transformer
     We believe that the other environments could probably be solved with a hierarchical DT, which could be pure or multimodal based on Minedojo
+  
+![minedojo_hdt](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/0516f842-b7dd-40e6-9352-8580fc8f1be8)
 
+[minedojo.org](https://minedojo.org)
 
-
+[HIERARCHICAL DECISION TRANSFORMER](https://arxiv.org/pdf/2209.10447.pdf)
 
 # Installation:
 
