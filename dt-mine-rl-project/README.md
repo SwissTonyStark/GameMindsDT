@@ -4,17 +4,25 @@
 
 We have used the [basalt benchmark](https://github.com/minerllabs/basalt-benchmark) framework to test the decision transformers. First, we tested with the Hugging Face Decision Transformer, and then we used our own implementation from scratch. So far, the only environment completed has been find Cave, where we can see that almost 50% of the time the agent ends up finding a cave. Moreover, the agent learns to navigate through the environment with surprising skill. It can get out of complex situations and avoid obstacles. We believe that for the other environments, it is necessary to create a Hierarchical Decision Transformer.
 
+## Motivation
+We have demonstrated in previous experiments that Decision Transformers can solve games and benchmark environments such as mujoco, atari, and minigrid. However, we would really like to know if DTs can be used in more complex real-world applications. Lacking data, we have decided to use Minecraft, which, despite being a game, is an environment several orders of magnitude more complex than any of the previously proposed ones. The idea is to check if it can learn anything from human video demonstrations.
+
 ## Decision Transformer only trained with videos
 This model learns to make decisions based on the features extracted from the human video frames. The features are extracted using the VPT library. This means that it learns to navigate through Minecraft and to find caves having been trained solely and exclusively with the viewing of videos (thanks to the embeddings and the extraction of actions from the VPT library). Additionally, for the model to understand that we wanted it to find caves, the videos have been trimmed so that only a few frames from the end have been used for training. 
 
 The only techniques used were to disable the inventory button and to cut the videos. An arbitrary reward has been added at the end of the episodes. No additional information has been added.
 
 ## How it works
+First of all, we extract the embeddings and the associated actions from the videos with the pre-trained VPT model. After that, we train our DT agent with this data on a next-action prediction task. Finally, we test our agent, using the VPT in real time to extract the embeddings and pass them to the DT agent so it can predict the best action as in an RL model.
+
 ### VPT
+
+OpenAI has created Video PreTraining (VPT), a semi-supervised method that utilizes a small dataset of video and corresponding actions (like keypresses and mouse movements) to train an inverse dynamics model (IDM). This IDM predicts actions in videos by considering both past and future frames, a more efficient approach than traditional behavioral cloning. With the IDM, OpenAI labels a larger set of online videos to facilitate learning through behavioral cloning, significantly reducing the need for direct supervision.
 
 ![vpt_schema](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/dabd6445-2d82-4a65-94df-8969acd390d2)
 
 ### Training
+
 ![training_dt](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/4983723a-06de-4a34-a3d5-829b54067e90)
 
 ### Playing
@@ -25,6 +33,10 @@ The only techniques used were to disable the inventory button and to cut the vid
 
 ## Main challenges and Decissions   
 
+Here we present a list of the most important decisions made in the creation of our training and testing framework.
+ 
+* ### Custom DataCollator
+  Transform episodes, embeddings, and actions into sequences of state, action, and reward-to-go triads to correctly input them into the Decision Transformer.
 * ### 3 action logits (buttons, camera, esc button)
     Implement a Multicategorical distribution class
 * ### Problems with temperature of camera vs buttons
