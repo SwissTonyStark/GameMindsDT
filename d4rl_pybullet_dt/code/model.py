@@ -73,31 +73,78 @@ class MLP(nn.Module):
         x = self.drop(self.fc2(x))
         return x
 
-class DecoderBlock(nn.Module):
+    
+class Parameter(nn.Module):  # type: ignore
+    _parameter: nn.Parameter
 
+    def __init__(self, data: torch.Tensor):
+        super().__init__()
+        self._parameter = nn.Parameter(data)
+
+    def forward(self) -> torch.Tensor:
+        return self._parameter
+    
+    def __call__(self) -> torch.Tensor:
+        return super().__call__()
+    
+    @property
+    def data(self) -> torch.Tensor:
+        return self._parameter.data
+        
+class GlobalPositionEncoding(nn.Module):
+    def __init__(self, embed_dim: int, max_timestep: int, context_size: int):
+        super().__init__()
+        self._embed_dim = embed_dim
+        self._global_position_embedding = Parameter(
+            torch.zeros(1, max_timestep, embed_dim, dtype=torch.float32)
+        )
+        self._block_position_embedding = Parameter(
+            torch.zeros(1, 3 * context_size, embed_dim, dtype=torch.float32)
+        )
+
+    def forward(self, t: torch.Tensor) -> torch.Tensor:
+        assert t.dim() == 2, "Expects (B, T)"
+        batch_size, context_size = t.shape
+        # (B, 1, 1) -> (B, 1, N)
+        last_t = torch.repeat_interleave(
+            t[:, -1].view(-1, 1, 1), self._embed_dim, dim=-1
+        )
+
+        # (1, Tmax, N) -> (B, Tmax, N)
+        batched_global_embedding = torch.repeat_interleave(
+            self._global_position_embedding(),
+            batch_size,
+            dim=0,
+        )
+
+        last_tt = last_t.type(torch.int64)
+        # (B, Tmax, N) -> (B, 1, N)
+        global_embedding = torch.gather(batched_global_embedding, 1, last_tt)
+        # (1, 3 * Cmax, N) -> (1, T, N)
+        block_embedding = self._block_position_embedding()[:, :context_size, :]
+        # (B, 1, N) + (1, T, N) -> (B, T, N)
+
+        return global_embedding + block_embedding
+    
+
+class DecoderBlock(nn.Module):
     def __init__(self, h_dim, num_heads, seq_len, mlp_ratio, dropout):
         super().__init__()
-
         self.attn = MaskedSelfAttention(h_dim, num_heads, seq_len, dropout)
         self.ln1 = nn.LayerNorm(h_dim)
         self.mlp = MLP(h_dim, mlp_ratio, dropout)
         self.ln2 = nn.LayerNorm(h_dim)
-
     def forward(self, x):
-        """ x = self.ln2(x) # add residual
-        x = self.attn(x) + x # normalize
-        x = self.ln2(x)
-        x = self.mlp(x) + x """
 
         attn_out= self.attn(x)# add residual
-        x = self.ln1(x + attn_out) 
+        x = self.ln1(x + attn_out)
         mlp_out = self.mlp(x)
         x = self.ln2(x + mlp_out)
-
+        
         return x
+    
 
 class DecisionTransformer(nn.Module):
-    #def __init__(self, state_dim, act_dim, h_dim, h_dim, num_heads, num_blocks, max_timesteps, mlp_ratio, dropout, vocab_size, rtg_dim=1):
     def __init__(self, state_dim, act_dim, h_dim, num_heads, num_blocks, context_len, max_timesteps, mlp_ratio, dropout, rtg_dim=1):
         super().__init__()
 
@@ -108,7 +155,8 @@ class DecisionTransformer(nn.Module):
         self.state_embed = nn.Linear(in_features=state_dim, out_features=h_dim)
         self.act_embed = nn.Linear(in_features=act_dim, out_features=h_dim)
         self.rtg_embed = nn.Linear(in_features=rtg_dim, out_features=h_dim)
-        self.pos_embed = nn.Embedding(num_embeddings=max_timesteps, embedding_dim=h_dim)
+        #self.pos_embed = nn.Embedding(num_embeddings=max_timesteps, embedding_dim=h_dim)
+        self.pos_embed = GlobalPositionEncoding(h_dim, max_timesteps + 1, context_len)
 
         self.norm = nn.LayerNorm(h_dim)
         

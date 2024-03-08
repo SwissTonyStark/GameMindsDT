@@ -9,6 +9,7 @@
             "type": "debugpy",
             "request": "launch",
             "program": "code/main.py",
+            "justMyCode": false,    //if false allows debug inside env libraries (not necessary installed in local)
             "console": "integratedTerminal"
         }
     ]

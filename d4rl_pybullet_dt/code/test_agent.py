@@ -3,6 +3,7 @@ import torch
 import numpy as np
 import wandb
 
+from tqdm import tqdm
 from utils import *
 
 class TestAgent():
@@ -23,6 +24,7 @@ class TestAgent():
              rtg_target, 
              rtg_scale,
              constant_retrun_to_go,
+             stochastic_start,
              num_test_ep, 
              max_test_ep_len,
              state_mean, 
@@ -40,6 +42,7 @@ class TestAgent():
             'rtg_target': rtg_target,
             'rtg_scale': rtg_scale,
             'constant_retrun_to_go' : constant_retrun_to_go,
+            'stochastic_start' : stochastic_start,
             'num_test_ep': num_test_ep,
             'max_test_ep_len': max_test_ep_len,
             'state_mean': state_mean,
@@ -63,6 +66,7 @@ class TestAgent():
         total_reward = 0
         total_returns_to_go =[]
         total_timesteps = 0
+        
 
         state_dim = self.env.observation_space.shape[0]
         act_dim = self.env.action_space.shape[0]
@@ -84,12 +88,19 @@ class TestAgent():
 
         self.agent.eval()
 
+        # Initialize tqdm progess bar
+        epoch_range = tqdm(range(num_test_ep), desc=f'Testing in Progress')
+
+        # Potential & Return-to-go data windows
+        window_potential = []
+        window_return_to_go = []
+
         with torch.no_grad():
 
             for episode in range(num_test_ep):
 
                 episode_returns = []
-
+               
                 # zeros place holders
                 actions = torch.zeros((eval_batch_size, max_test_ep_len, act_dim),
                                     dtype=torch.float32, device=self.device)
@@ -100,9 +111,15 @@ class TestAgent():
 
                 # Environment reset
                 running_state = self.env.reset() #By using env_monitor.reset() we ensure that both the wrapper and the env are reseted synchronously
+                
+                # Add some noise to the initial observations, to prove generalization
+                if stochastic_start:
+                    running_state = running_state + np.random.normal(0, 0.1, size=running_state.shape)
 
                 running_reward = 0
                 running_rtg = rtg_target / rtg_scale
+
+                timestep_range = tqdm(range(num_test_ep), desc=f'Test Episode [{episode+1}/{num_test_ep}] Running')
 
                 for t in range(max_test_ep_len):
 
@@ -152,8 +169,9 @@ class TestAgent():
                     
                     total_returns_to_go.append(discounted_returns(episode_returns))
                     total_reward += running_reward
-
+                    
                     wandb.log({"Episode Return-to-go": np.sum(episode_returns)}, step=total_timesteps)
+                    
                     wandb.log({"ObsDim1": running_state[0]}, step=total_timesteps)
                     wandb.log({"ObsDim2": running_state[1]}, step=total_timesteps)
                     wandb.log({"ObsDim3": running_state[2]}, step=total_timesteps)
@@ -170,19 +188,43 @@ class TestAgent():
                     wandb.log({"ObsDim14": running_state[13]}, step=total_timesteps)
                     wandb.log({"ObsDim15": running_state[14]}, step=total_timesteps)
 
+                    # Update Potential & Return_to_go data windows
+                    window_potential.append(self.env.potential)
+                    window_return_to_go.append(np.sum(episode_returns))
+
+                    # Update Potential & Return_to_go data trend
+                    trend_potential = trend_arrow(window_potential)
+                    trend_return_to_go = trend_arrow(window_return_to_go)
+
+                    # Update progress bar data
+                    timestep_range.set_postfix({f'[{trend_potential}]Potential': self.env.potential,
+                                                f'[{trend_return_to_go}]Episode Return-to-go': np.sum(episode_returns),
+                                                f'Total Timesteps': total_timesteps})
+
+                    # Actualiza la barra de progreso
+                    timestep_range.update(1)
+                    
+
                     if render:
                         self.env.render()
                     if done:
                         break
-                    print(f'Episode [{episode}],  Timestep: [{t}/{max_test_ep_len}], Potential [{self.env.potential}],  Episode Return-to-go: {np.sum(episode_returns)}, Total Timesteps: {total_timesteps}')    
+                    
+                    #print(f'Episode [{episode}],  Timestep: [{t}/{max_test_ep_len}], Potential [{self.env.potential}],  Episode Return-to-go: {np.sum(episode_returns)}, Total Timesteps: {total_timesteps}')    
                     #print(f"Agent's action [{act[0]}],  Timestep: [{t}/{max_test_ep_len}], Episode Return-to-go: {np.sum(episode_returns)}, Total Timesteps: {total_timesteps}")      
                     #print(f'ObsDim1[{running_state[0]}], ObsDim2[{running_state[1]}], ObsDim3[{running_state[2]}], ObsDim4[{running_state[3]}], ObsDim5[{running_state[4]}], ObsDim6[{running_state[5]}], ObsDim7[{running_state[6]}], ObsDim8[{running_state[7]}], ObsDim9[{running_state[8]}], ObsDim10[{running_state[9]}], ObsDim11[{running_state[10]}], ObsDim12[{running_state[11]}], ObsDim13[{running_state[12]}], ObsDim14[{running_state[13]}], ObsDim15[{running_state[14]}]')
-    
+                
+                timestep_range.close()
+                epoch_range.update(1)
 
         results['Evaluation-avg_reward'] = total_reward / num_test_ep     
         results['Evaluation-avg_ep_len'] = total_timesteps / num_test_ep
         
-        wandb.log({"Average Return-to-go": results['Evaluation-avg_reward']})#, "num_test_episodes": num_test_ep})
+        try:
+            wandb.log({"Average Return-to-go": results['Evaluation-avg_reward']})#, "num_test_episodes": num_test_ep})
+        except wandb.Error as e:
+            print("Error during registering Data in wandb:", e)
+            raise SystemExit(1)
 
         print(f"Average return-to-go over {num_test_ep} episodes: {results['Evaluation-avg_reward']}")
         
@@ -191,8 +233,15 @@ class TestAgent():
         file_name = f'test_replay_{agent_name}_{self.env_name}' 
 
         video_recorded = generate_video_opencv(video_frames,file_name)
-       
-        wandb.log({"Video eval": wandb.Video(video_recorded, fps=4, format="")})
+        
+        try:
+            wandb.log({"Video eval": wandb.Video(video_recorded, fps=4, format="")})
+        except wandb.Error as e:
+            print("Error during registering Video in wandb:", e)
+            raise SystemExit(1)
+        
+        # Close tqdm progess bar
+        epoch_range.close()
 
         # Close enviornment
         self.env.close()

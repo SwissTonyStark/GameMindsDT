@@ -2,9 +2,12 @@ import torch
 import wandb
 import datetime
 import math
+import numpy as np
 
 from torch.utils.data import DataLoader
-from utils import *
+from tqdm import tqdm
+from utils import trend_arrow, generate_video_opencv
+
 
 
 class Trainer():
@@ -96,6 +99,10 @@ class Trainer():
 
         self.model.eval()
 
+        # Initialize tqdm progess bar
+        episode_range = tqdm(range(self.hyperparameters['num_eval_ep']), desc=f'Env.Evaluation Checkpoint {eval_checkpoint} Progress')
+
+
         with torch.no_grad():
 
             for episode in range(self.hyperparameters['num_eval_ep']): 
@@ -113,6 +120,10 @@ class Trainer():
 
                 # Environment reset
                 running_state = self.env.reset() #By using env_monitor.reset() we ensure that both the wrapper and the env are reseted synchronously
+
+                # Add some noise to the initial observations, to prove generalization
+                if self.hyperparameters['stochastic_start']:
+                    running_state = running_state + np.random.normal(0, 0.1, size=running_state.shape)
 
                 running_reward = 0
                 running_rtg = self.hyperparameters['rtg_target'] / self.hyperparameters['rtg_scale']  
@@ -156,6 +167,12 @@ class Trainer():
                     actions[0, t] = torch.cuda.FloatTensor(act)
                     
                     total_reward += running_reward
+
+                    # Update progress bar data
+                    episode_range.set_postfix({})
+
+                    # Actualiza la barra de progreso
+                    episode_range.update(1)
                     
                     # Register best frames and total reward for every eval_checkpoint
                     if  total_reward > best_acum_reward[eval_checkpoint-1]:
@@ -168,6 +185,9 @@ class Trainer():
                             best_video_buffer[eval_checkpoint-1] = video_frames[:]
                         break   
         
+        # Close tqdm progess bar
+        episode_range.close()
+
         #Video Management           
         file_name = f'train_checkpoint{eval_checkpoint}_{model_name}_{self.env_name}' 
         
@@ -178,11 +198,18 @@ class Trainer():
         return best_acum_reward 
 
     def train(self, train_loader: DataLoader, val_loader: DataLoader):
+
+        #03/03/24: Provisional:
+        #timestamp_project = datetime.datetime.now().strftime("%d_%m_%Y") # Original
+        timestamp_project = '03_03_2024' # provisional
         
         # WandB initialization
-        wandb_project_name = "Training DT ["+ self.env_name + '] ['+datetime.datetime.now().strftime("%d_%m_%Y")+']'
+        wandb_project_name = "Training DT ["+ self.env_name + '] ['+timestamp_project+']'
         wandb_run_name = 'Train Run ['+datetime.datetime.now().strftime("%H.%M.%S")+']'
         wandb.init(project=wandb_project_name, name=wandb_run_name)
+
+        # Track gradients (Tracks the Optimizer, Criterion and other Pytorch functions recognized)
+        wandb.watch(self.model)
         
         # Track hyperparameters used
         hyperparameters_log ={
@@ -192,12 +219,14 @@ class Trainer():
             'context_len': self.hyperparameters['context_len'],
             'batch_size': self.hyperparameters['batch_size'],
             'lr': self.hyperparameters['lr'],
+            'weight_decay': self.hyperparameters['weight_decay'],
             'mlp_ratio': self.hyperparameters['mlp_ratio'],
             'dropout': self.hyperparameters['dropout'],
             'train_epochs': self.hyperparameters['train_epochs'],
             'rtg_target': self.hyperparameters['rtg_target'],
             'rtg_scale': self.hyperparameters['rtg_scale'],
             'constant_retrun_to_go': self.hyperparameters['constant_retrun_to_go'],
+            'stochastic_start' : self.hyperparameters['stochastic_start'],
             'num_eval_ep': self.hyperparameters['num_eval_ep'],
             'max_eval_ep_len': self.hyperparameters['max_eval_ep_len'],
             'state_mean': self.hyperparameters['state_mean'],
@@ -214,10 +243,15 @@ class Trainer():
         eval_period = math.floor((0.1) * self.hyperparameters["train_epochs"]) #10% of the training epochs
         next_eval_checkpoint = eval_period
 
-        for epoch in range(self.hyperparameters["train_epochs"]):
+        
+         # Initialize tqdm progess bar
+        epoch_range = tqdm(range(self.hyperparameters['train_epochs']), desc=f'Training in Progress')
 
-            # Track gradients (Tracks the Optimizer, Criterion and other Pytorch functions recognized)
-            wandb.watch(self.model)
+        # Train & Validation data losses' windows
+        window_train_losses = []
+        window_val_losses = []
+
+        for epoch in range(self.hyperparameters["train_epochs"]):
 
             # Training Step
             self.model.train()
@@ -230,22 +264,45 @@ class Trainer():
             #Evaluation Environment
             if epoch == next_eval_checkpoint:
                 #todo 
-                print("\n"+f'** Envionment Evaluation Checkpoint Nº{eval_checkpoint} STARTED **')
+                print(f'\n** Envionment Evaluation Checkpoint Nº{eval_checkpoint} STARTED **')
                 best_acum_reward = self.__eval_env(eval_checkpoint,eval_period)  
                 print(f'Best Acumulated Reward in checkpoint Nº{eval_checkpoint}: {best_acum_reward[eval_checkpoint-1]}\n')
 
                 eval_checkpoint = eval_checkpoint + 1
                 next_eval_checkpoint = next_eval_checkpoint + eval_period
 
-            epoc_val_loss = val_loss / len(val_loader.dataset) 
-            epoch_train_loss = train_loss / len(train_loader.dataset)
-            
-            wandb.log({'Training Loss Average': epoch_train_loss, 'Validation Loss Average': epoc_val_loss})
-            # Imprimir la pérdida media del epoch
-            print(f'Epoch [{epoch+1}/{self.hyperparameters["train_epochs"]}], Training Loss Average: {epoch_train_loss:.10f}, Validation Loss Average: {epoc_val_loss:.10f}')
 
-        # Close enviornment
-        #self.env.close() # Pensar una manera de iniciar y hacer close de forma independiente por si queremos hacer trarining sin test.
+            epoch_train_loss = train_loss / len(train_loader.dataset)
+            epoch_val_loss = val_loss / len(val_loader.dataset) 
+
+            # Update Train & Validation data losses' windows
+            window_train_losses.append(epoch_train_loss)
+            window_val_losses.append(epoch_val_loss)
+
+            # Update Train & Validation data losses trend
+            trend_train_loss = trend_arrow(window_train_losses)
+            trend_val_loss = trend_arrow(window_val_losses)
+            
+            try:
+                wandb.log({'Training Loss Average': epoch_train_loss, 'Validation Loss Average': epoch_val_loss})
+            except wandb.Error as e:
+                print("Error during registering Data in wandb:", e)
+                raise SystemExit(1)
+            
+            # Update progress bar data
+            epoch_range.set_postfix({f"[{trend_train_loss}]Training Loss Average": epoch_train_loss, f"[{trend_val_loss}]Validation Loss Average": epoch_val_loss})
+
+            # Update ratio progress bar 
+            epoch_range.update(1)
+
+            # Update epoch, training and validation info
+            #print(f'Epoch [{epoch+1}/{self.hyperparameters["train_epochs"]}], Training Loss Average: {epoch_train_loss:.10f}, Validation Loss Average: {epoch_val_loss:.10f}')
+
+        # Close tqdm progess bar
+        epoch_range.close()   
 
         # Finish Weights and Biases run
         wandb.finish()
+
+
+       

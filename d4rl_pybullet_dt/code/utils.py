@@ -3,8 +3,41 @@ import torch
 import numpy as np
 import cv2
 import glob
-
 import gym
+
+from scipy.stats import linregress
+
+
+"""
+============================================
+              ENVIRONMENTS DICT                         
+============================================
+"""
+
+env_dict = {
+
+    # Hopper Agent
+    #'hopper-bullet-random-v0': None, # ==> Contains NaN values
+    'hopper-bullet-medium-v0': None,
+    'hopper-bullet-mixed-v0': None,
+
+    # HalfCheetah Agent
+    #'halfcheetah-bullet-random-v0': None, ==> Contains NaN values
+    'halfcheetah-bullet-medium-v0': None,
+    'halfcheetah-bullet-mixed-v0': None,
+
+    # Ant Agent
+    #'ant-bullet-random-v0': None, # ==> Contains NaN values
+    'ant-bullet-medium-v0': None,
+    'ant-bullet-mixed-v0': None,
+
+    # Walker2D Agent
+    #'walker2d-bullet-random-v0': None, # ==> Contains NaN values
+    'walker2d-bullet-medium-v0': None,
+    'walker2d-bullet-mixed-v0': None
+}
+
+
 
 """
 ============================================
@@ -13,7 +46,6 @@ import gym
 """
 
 def clear_console():
-    # Limpiar la consola
     os.system('cls' if os.name == 'nt' else 'clear')
 
 def print_logo():
@@ -21,46 +53,162 @@ def print_logo():
         logo = file.read()
     print(logo)
 
-def mostrar_menu_principal():
+def display_main_menu():
     print("--------------------- MAIN MENU ---------------------")
     print("1. Train a Decision Transformer from scratch")
-    print("2. Load a Pretrained Decision Transformer")
+    print("2. Overview Pretrained Decision Transformer config")
     print("3. Test a Decision Transformer in Gym-V0 Environments")
+    print("exit. Finish runtime execution")
 
-def navegar_menu_principal():
+
+
+def show_environments():
+    print('\u2198 Available environments for training:')
+    for i, env_name in enumerate(env_dict.keys(), start=1):
+        print(f"{i}. {env_name}")
+    
     while True:
-        clear_console()
-        print_logo()
-        mostrar_menu_principal()
-        opcion = input("\nPor favor, seleccione una opción: ")
-        # Convertir la entrada del usuario a un número entero
         try:
-            opcion = int(opcion)
+            selection = int(input("\nSelect an environment by entering its number: "))
+            if 1 <= selection <= len(env_dict):
+                selected_env = list(env_dict.keys())[selection - 1]
+                return selected_env
+            else:
+                print("Invalid selection. Please enter a valid number.")
         except ValueError:
-            print("Por favor, introduzca un número válido.")
+            print("Invalid input. Please enter a number.")
+
+
+
+def show_configurations():
+    
+    config, env_name, _ = load_config_from_checkpoint()
+    if config and env_name:
+        print("\n╔═══════════════════════════════════════╗")
+        print("║             Models Config             ║")
+        print("╚═══════════════════════════════════════╝")
+        for key, value in config.items():
+            print(f" \u27ad {key}: {value}")
+
+        print("\n╔═══════════════════════════════════════╗")
+        print("║     Agent's Training Environment      ║")
+        print("╚═══════════════════════════════════════╝")
+        print(f" Environment name: {env_name}")
+        
+        input("\nPress ENTER to return to Main Menu.")
+        navigate_main_menu()
+    else:
+        print("Model's configuration or environment name not available.")
+
+
+def navigate_main_menu():
+    clear_console()
+    print_logo()
+    display_main_menu()
+
+    option_selected = False
+    trigger_train = False   
+    trigger_test = False 
+    env_name = None  
+    pretrained_file_name = None
+    
+
+    while not option_selected:
+
+        option = input("\nPlease, select one of the options available: ")
+        
+        # Convert input to integer
+        try:
+            option = int(option)
+        except ValueError:
+            clear_console()
+            print_logo()
+            print("Invalid Entry. Please, select one of the options available")
             continue
-        if opcion == 1:
-            print("Has seleccionado la opción 1: Entrenar un modelo desde cero")
-            # Aquí podrías llamar a una función para entrenar un modelo desde cero
-        elif opcion == 2:
-            print("Has seleccionado la opción 2: Cargar un modelo preentrenado")
-            config = load_config_from_checkpoint()
-            #if config:
-            #    print(config)
-        elif opcion == 3:
-            print("Has seleccionado la opción 3: Testear un modelo")
-            # Aquí podrías llamar a una función para testear un modelo
+        
+        #==> Option 1
+        if option == 1:
+            clear_console()
+            print_logo()
+
+            print("\n╔════════════════════════════════════════════════════════╗")
+            print("║  Selected: Train a Decision Transformer from scratch   ║")
+            print("╚════════════════════════════════════════════════════════╝")
+            env_name = show_environments()
+            trigger_train = True
+            #Jump to main
+            option_selected = True
+            
+        
+        #==> Option 2    
+        elif option == 2:
+            clear_console()
+            print_logo()
+            
+            print("\n╔═════════════════════════════════════════════════════════╗")
+            print("║  Selected: Overview & Edit Environment's model config   ║")
+            print("╚═════════════════════════════════════════════════════════╝")
+
+            show_configurations()
+            
+       
+        #==> Option 3
+        elif option == 3:
+            clear_console()
+            print_logo()
+
+            print("\n╔═════════════════════════════════════════════════════════════════╗")
+            print("║  Selected: Test a Decision Transformer in Gym-V0 Environments   ║")
+            print("╚═════════════════════════════════════════════════════════════════╝")
+            print("Selected: Test a Decision Transformer in Gym-V0 Environments")
+            # Select pretrained file .pt
+            config, env_name, pretrained_file_name = load_config_from_checkpoint()
+            # Select environment to test
+            env_name = show_environments()
+            trigger_test = True
+            #Jump to main
+            option_selected = True
+       
+        #==> Option Exit   
+        elif option.lower() == "exit":
+            print("Exiting the program. Goodbye :)!")
+            #Jump to main
+            option_selected = True
+
         else:
-            print("Opción inválida. Por favor, seleccione una opción válida.")
+            print("Invalid option. Please select a valid option.")
 
+    return trigger_train, trigger_test, env_name, pretrained_file_name
 
-#/////////////////////////////////////////////////////////////////////////
+"""
+============================================
+                FUNCTIONS                         
+============================================
+"""
 
+def trend_arrow(data, window_size=10):
+    if len(data) < window_size:
+        return ''
+
+    # Calculated trend via Linear Regression over set of data
+    x = range(len(data[-window_size:]))
+    y = data[-window_size:]
+    slope, _, _, _, _ = linregress(x, y)
+
+    # Data increasing trend
+    if slope > 0:
+        return '↑'  # 
+    # Data decreasing trend
+    elif slope < 0:
+        return '↓'  
+    # Data stability
+    else:
+        return '~'   
 
 
 def get_episodes(terminals):
     terminals = terminals.astype('int32')
-    #Las posiciones donde estan los Terminal=1
+    #Positions where therminals are located
     if terminals[-1] == 0 : 
         terminals[-1] = 1  
     terminal_pos = np.where(terminals==1)[0]
@@ -141,7 +289,6 @@ def get_data_set(obs, actions, rewards, terminals, episodes):
 
     return r_obs, r_act, r_rew, r_ter
 
-#O.A 26.02.2024
 def discounted_returns(rewards, discount_rate=0.99):
     discounted = np.zeros_like(rewards, dtype=np.float32)
     running_add = 0
@@ -150,7 +297,7 @@ def discounted_returns(rewards, discount_rate=0.99):
         discounted[t] = running_add
     return discounted
 
-def get_video_filename(video_dir): #No necesaria
+def get_video_filename(video_dir): 
   glob_mp4 = os.path.join(dir, "*.mp4")
   mp4list = glob.glob(glob_mp4)
   assert len(mp4list) > 0, "couldnt find video files"
@@ -233,26 +380,26 @@ def generate_video_opencv_v2(video_frames, video_name):
         video_file = os.path.join(videos_directory, video_name+f'_hd_{count}.mp4')
         count += 1
 
-    # Configurar el escritor de video
+    # Video Writer config
     fourcc = cv2.VideoWriter_fourcc(*'avc1')
     video_writer = cv2.VideoWriter(video_file, fourcc, fps, (width, height))  # Resolución de 240x320 y 40 fps
     
-    # Bucle para procesar cada frame del video
+    # Loop top process video frames
     for frame in video_frames:
-        # Escalar el frame a una resolución más alta 
-        #frame_resized = cv2.resize(frame, (720, 480)) #====>> Can't be scalated (Default 240x320)
+        # Resize every frame to a higher/lower resolution
+        #frame_resized = cv2.resize(frame, (720, 480)) #====>> Can't be scalated (Default 240x320) (Dont' use it for this video frames, it crash)
         
-        # Aplicar afilado para resaltar bordes y detalles
-        frame_afilado = cv2.filter2D(frame, -1, sharpening_kernel[1]) # Edge enhancement kernel as preference
+        # Apply sharpening to enhance edges and details.
+        frame_sharpening = cv2.filter2D(frame, -1, sharpening_kernel[1]) # Edge enhancement kernel as preference
         
         # Aplicar suavizado Gaussiano al frame para mejorar la calidad visual
-        frame_suavizado = cv2.GaussianBlur(frame_afilado, (5, 5), 0)
+        frame_smoothed = cv2.GaussianBlur(frame_sharpening, (5, 5), 0)
 
         # Ajustar el contraste y el brillo para mejorar la claridad
-        #frame_contrastado = cv2.convertScaleAbs(frame_afilado, alpha=1.2, beta=10)
+        frame_contrasted = cv2.convertScaleAbs(frame_smoothed, alpha=1.2, beta=10)
         
         # Convertir el frame de RGB a BGR (formato de color utilizado por OpenCV)
-        frame_bgr = cv2.cvtColor(frame_suavizado, cv2.COLOR_RGB2BGR)
+        frame_bgr = cv2.cvtColor(frame_smoothed, cv2.COLOR_RGB2BGR)
         
         # Escribir el frame en el video
         video_writer.write(frame_bgr)
@@ -271,17 +418,17 @@ def load_config_from_checkpoint():
     pt_files = [f for f in files if f.endswith('.pt')]
     
     if not pt_files:
-        print("No hay archivos .pt en el directorio actual.")
+        print("No .pt files found in current directory.")
         return None
     
-    print("Archivos .pt disponibles:")
+    print("\u21aa Pretrained model files .pt available:")
     for i, f in enumerate(pt_files, start=1):
-        print(f"{i}. {f}")
+        print(f"  {i}. {f}")
     
     # Pedir al usuario que seleccione un archivo por su índice
     while True:
         try:
-            selection = int(input("Seleccione el número correspondiente al archivo .pt que desea cargar: "))
+            selection = int(input("\nWrite the number of the .pt file you're interested to load: "))
             if 1 <= selection <= len(pt_files):
                 break
             else:
@@ -293,7 +440,7 @@ def load_config_from_checkpoint():
     file_name = pt_files[selection - 1]
     
     # Cargar el archivo .pt seleccionado
-    checkpoint = torch.load(os.path.join(os.getcwd(),'checkpoints',file_name), map_location=torch.device('cpu'))
+    checkpoint = torch.load(os.path.join(os.getcwd(),'checkpoints',file_name), map_location=torch.device('cuda'))
     
     # Obtener la configuración del modelo
     config = checkpoint['config']
@@ -301,11 +448,9 @@ def load_config_from_checkpoint():
     optimizer_state_dict = checkpoint['optimizer_state_dict']
     env_name = checkpoint['env_name']
 
-    clear_console()
-    print_logo()
-    print("Models config:",config,"\nEnvironment name: ",env_name)
-    user_input = input("Por favor, inserte un dato: ")
-    print("Ha insertado:", user_input)
+    #clear_console()
+    #print_logo()
+    #print("Models config:",config,"\nEnvironment name: ",env_name)
 
-    return config
+    return config, env_name, file_name
 
