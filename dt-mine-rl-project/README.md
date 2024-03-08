@@ -165,14 +165,8 @@ python rollout.py --env=[env] # Where env is the name of the environment, Exampl
 ### Cave found - Statistics Results
 We have conducted several rounds of rollout and manually checked how many caves are found.
 
-**Rollout 1:**
-7 caves of 12 tries
+![dt_rollouts](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/a0bbe1d2-6a97-46d9-87b6-757fb8daae83)
 
-**Rollout 2:**
-5 caves of 12 tries
-
-**Rollout 3:**
-6 caves of 12 tries
 
 ### Demo videos
 
