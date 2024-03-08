@@ -157,6 +157,8 @@ Are important the size of the dataset and the type of data?
 #### Open AI Gym (medium, medium-replay, medium-expert)
 **TODO:**
 
+PROBANDO
+
 
 ## References and Acknowledgements
 - [Decision Transformer: Reinforcement Learning via Sequence Modeling](https://arxiv.org/abs/2106.01345)
