@@ -30,7 +30,8 @@ The preproecess of the data consisted on:
   - Check the number of steps an episode has. We removed those when the duration was less than the mean duration. The main reason is to void episode too shorts, because at training, those episoded will have a large amount of padding, thus adding noise to our data.
   - Although the mean and the standard deviation can be extracted from the data, we wanted to ensure that it is normalized, so we jsut applied a standard score normalization to the observation space. We did not normalize the actions since its already on the range [-1,1] since we are in a continous space.
 
+Additional data were needed to feed into the model. We have had to calcultae the return-to-go array and the timesteps manually since the enviroment only provides the observation space, action space, reward space and episode terminals.
+
 ## Training
-
-
+To do the training, we 
 
