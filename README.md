@@ -4,10 +4,16 @@ Welcome to **GameMindsDT**, where we combine the potent synergy of **Decision Tr
 
 ### Reinforcement Learning: A Primer
 **Reinforcement learning (RL)** is a specialized branch of machine learning that empowers an agent to learn by perceiving and interpreting its environment. The agent operates within this environment, striving to maximize a reward function tied to its actions.
+In conventional scenarios, RL algorithms operate online, learning directly through environmental interaction. This iterative learning process involves the agent receiving environmental observations, taking actions, and earning rewards, which leads to the discovery of the next state.
+However, the challenge arises when a simulation environment is unavailable. Constructing such an environment can be complex and resource-intensive.
+### The Offline RL Paradigm
+Conversely, in **offline RL**, an agent leverages pre-collected data, bypassing the need for direct environmental interaction. This data, typically stored as sequences, may originate from humans or other agents. The pivotal concern here is data quality; subpar or insufficient data can severely impact the optimization of the agent's policy.
+
+<!-- He afegit format al text , feel free d'afegir text
 Reinforcement learning is a particular branch of machine learning that endows an agent with the ability to learn through the perception and interpretation of the environment in which it is situated. Within the environment, the agent has a reward function associated with how it acts, so the main goal of the agent is to maximize this function.
 In general cases, RL algorithms are said to be online, meaning that an agent's policy is trained by interacting directly with the environment. The agent learns iteratively, where in each iteration it receives observations from the environment, performs a possible action based on what was observed, and finally obtains a reward and the next state. Therefore, if an environment for simulations is not available, one must be built, which is complex and costly.
 On the other hand, in offline RL, the agent uses data collected by humans or even by other agents, and therefore, there is no need to interact with the environment. The metadata is commonly saved as sequences. In this case, the main problem is the data: having poor quality or insufficient data causes the learning of the agent's policy to be less than optimal.
-
+-->
 # Table of Contents
 - [Objectives and Hypothesis](#objectives-and-hypothesis)
 - [Project Management](#project-management)
