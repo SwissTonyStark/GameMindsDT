@@ -23,13 +23,13 @@ On the other hand, in offline RL, the agent uses data collected by humans or eve
 ## Objectives and Hypothesis
 Our goal was to explore the realms of AI in gaming beyond traditional approaches, hypothesizing that Decision Transformers can provide a more nuanced understanding and execution of game strategies. We aimed to unlock the untapped potential of these transformers across a broad spectrum of games and tasks, pushing the limits of AI capabilities in virtual environments. The main objectives are:
 
-1 Explore the Decision Transformer:
-  1.1 Perform analysis and understand this model.
-  1.2 Implement the model following the official paper.
-2 Explore variants of the Decision Transformer:
-  2.1 There are variants to the original model. The goal here is to analyze some of these variants and implement them, thus making a comparison with the base model. Some examples are: Hierarchical Decision Transformer or Constrained Decision Transformer.
-3 Check the performance of the Decision Transformer in classic environments, such as Atari or Mujoco, also taking into account the performance of classic RL algorithms.
-4 Check the performance of the Decision Transformer in complex environments, in this case, the game Minecraft will be used as a simulation environment.
+1. Explore the Decision Transformer:
+  1.1. Perform analysis and understand this model.
+  1.2. Implement the model following the official paper.
+2. Explore variants of the Decision Transformer:
+  2.1. There are variants to the original model. The goal here is to analyze some of these variants and implement them, thus making a comparison with the base model. Some examples are: Hierarchical Decision Transformer or Constrained Decision Transformer.
+3. Check the performance of the Decision Transformer in classic environments, such as Atari or Mujoco, also taking into account the performance of classic RL algorithms.
+4. Check the performance of the Decision Transformer in complex environments, in this case, the game Minecraft will be used as a simulation environment.
 
 ## Planification
 Regarding to the planning, it has been divided into two different paths, forming two teams to tackle the proposed objectives:
@@ -51,8 +51,7 @@ Our project timeline and key milestones were tracked using a Gantt chart, illust
 <!-- AFEGIR DIAGRAMA GANNT PANTALLAZO EXCEL COMPLERT -->
 <!-- ORGANITZAR MILESTONES? COMENTAR COM LA EVOLUCIO DE LES TASQUES, PER ON HEM FET VIA -->
 
-## State of Art
-### Decision Transformer
+## State of Art: Decision Transformer
 The leitmotif of this project is centered on Reinforcement Learning. However, focusing on it in an offline manner and, as previously mentioned, working with data sequences and not directly interacting with an environment. This is why this project explores the architecture of the Decision Transformer presented in this paper, where it reduces the RL problem to a conditional sequence modeling problem. As its name suggests, it is based on Transformers, models par excellence for solving sequence problems.
 Unlike basic RL algorithms that are based on estimating a function or optimizing policies, DTs directly model the relationship between cumulative reward (return-to-go), states, and previous actions, thus predicting the future action to achieve the desired reward.
 As already mentioned in the paper, the generation of the next action is based on future desired returns, rather than past rewards. That's why, instead of using the rewards space, so-called return-to-go values are fed with the states and actions.
