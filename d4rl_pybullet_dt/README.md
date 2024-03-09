@@ -1,7 +1,7 @@
 # Experiment: PyBullet enviroments
 In this experiment we are using our Decision Trasnformer in PyBullet enviroments using the library d4rl-pybullet from this repository. The original idea was to use Mujoco enviroment from gymnasium, but since we had problems on installing the library due to deprecated dependencies and lisence problems, we seek another similar enviroment.
 
-The library d4rl-pybullet has four replicable enviroments: Hopper, Halfcheetah, Ant and Walker2D. For our experiments we used all available enviroments. Each of these enviroments offers diferents types of dataset as seen in the following table extracted from d4rl-pybullet repository:
+The library d4rl-pybullet has four replicable enviroments: *Hopper*, *Halfcheetah*, *Ant* and *Walker2D*. For our experiments we used all available enviroments. Each of these enviroments offers diferents types of dataset as seen in the following table extracted from d4rl-pybullet repository:
 
 - `random` denotes datasets sampled with a randomly initialized policy.
 - `medium` denotes datasets sampled with a medium-level policy.
