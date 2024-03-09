@@ -2,8 +2,8 @@
 
 ## Motivation
 We decided to train Atari games using a decision transformer for some reasons:
-- Complexity: Atari games offer a visually rich and diverse environment, in some cases more complex than other more simpler environments often used in RL. Some Atari games are specially challenging due to the difficulty of credit assignment arising from the delay between actions and resulting rewards
-- Benchmarking: Atari games serve as a well-established benchmark for RL algorithms, that allows us to compare the performance of owr model with other RL techniques.
+- <b>Complexity</b>: Atari games offer a visually rich and diverse environment, in some cases more complex than other more simpler environments often used in RL. Some Atari games are specially challenging due to the difficulty of credit assignment arising from the delay between actions and resulting rewards
+- <b>Benchmarking</b>: Atari games serve as a well-established benchmark for RL algorithms, that allows us to compare the performance of owr model with other RL techniques.
 
 ## Implementation
 We implemented from scratch another Decision Transformer to try to solve Atari games. This DT is very similar to the previous one, except that:
@@ -64,20 +64,17 @@ Our results are, in some cases, better than other RL techniques.
 <img src='/assets/metrics_atari.png' width="10" height="10">
 
 ## Conclusions & Future work
+TODO
 
+## Installation:
 
+Installation options:
 
-# Installation:
-
-## Installation options:
-
-### 1/ just run our colab:
+1/Just run our colab:
 https://colab.research.google.com/drive/1KhUZoDw-3lbm41GLiuoboDp6pn4dfAoe?usp=sharing
-or execute the notebook in the repository `DT_from_scratch_Atari_Simplified.ipynb
 
-### 2/ local installation:
-
-Dependencies can be installed with the following command:
+2/Local installation:
+Dependencies can be installed with the following commands:
 
 ```
 conda create --name dt python=3.10.12
@@ -97,42 +94,13 @@ Scripts to reproduce our Decision Transformer results can be found in `train_.sh
 
 By default:
 ```
-python main.py
+python ./code/main.py
 ```
 
 
 ## Multi-game Decision Transformer
-
-  
-![minedojo_hdt](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/0516f842-b7dd-40e6-9352-8580fc8f1be8)
-
-
-
-
+TODO
 
 ## Acknowledgements:
 
-(https://github.com/takuseno/d4rl-atari)
-
-*Image credits https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/10a57bff-849c-4d44-985b-4f72c83c8d03
-
-**Mine_rl** MineRL is a rich Python 3 library which provides a OpenAI Gym interface for interacting with the video game Minecraft, accompanied with datasets of human gameplay. 
-(https://minerl.readthedocs.io/en/latest/)
-
-**vpt_lib:** OpenAI Video PreTraining (VPT): Learning to Act by Watching Unlabeled Online Videos: (https://github.com/openai/Video-Pre-Training)
-- We have used the VPT library to extract the features from the videos and use them as input to the model. 
-- We slightly modified the code to fit our needs. Concretly, we have separated the button actions from the camera actions. We have also deactivated inventory actions (for cave search).
-
-**basalt and basalt-benchmark:**
-- **Basalt:** NeurIPS 2022: MineRL BASALT Behavioural Cloning Baseline: (https://github.com/minerllabs/basalt-2022-behavioural-cloning-baseline)
-- **Basalt-benchmark:** (https://github.com/minerllabs/basalt-benchmark)
-- We have adapted and reorganized the code from the basalt library to fit our Decision Transformer agent.
-
-**d3rlpy:**
--   **d3rlpy:** A collection of Reinforcement Learning baselines and algorithms for model-based reinforcement learning: We have use his GlobalPositionEncoding. (https://github.com/takuseno/d3rlpy/tree/v2.3.0)
-
-**hugging_face:**
--   **Hugging Face:** We have used the Hugging Face library to use the GPT-2 model and the Decision Transformer model. (https://huggingface.co/docs/transformers/model_doc/decision_transformer)
-
-**other libraries:**
--   We have used other libraries such as numpy, pandas, torch, torchvision, etc.
+TODO
