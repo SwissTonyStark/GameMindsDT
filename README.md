@@ -23,28 +23,28 @@ On the other hand, in offline RL, the agent uses data collected by humans or eve
 ## Objectives and Hypothesis
 Our goal was to explore the realms of AI in gaming beyond traditional approaches, hypothesizing that Decision Transformers can provide a more nuanced understanding and execution of game strategies. We aimed to unlock the untapped potential of these transformers across a broad spectrum of games and tasks, pushing the limits of AI capabilities in virtual environments. The main objectives are:
 
-# **Exploration of the Decision Transformer** 🚀
+## **Exploration of the Decision Transformer** 🚀
 
-## **1. Decision Transformer**
+### **1. Decision Transformer**
 
-### **1.1. Analysis and Understanding of the Model**
+#### **1.1. Analysis and Understanding of the Model**
 - Conduct an in-depth analysis to understand how the Decision Transformer works.
 
-### **1.2. Implementation of the Model**
+#### **1.2. Implementation of the Model**
 - Follow the official paper to implement the model from scratch.
 
-## **2. Variants of the Decision Transformer**
+### **2. Variants of the Decision Transformer**
 
-### **2.1. Analysis and Implementation of Variants**
+#### **2.1. Analysis and Implementation of Variants**
 - Explore and analyze variants of the original model, such as the **Hierarchical Decision Transformer** or the **Constrained Decision Transformer**.
 - Implement these variants and compare them with the base model.
 
-## **3. Performance in Classic Environments**
+### **3. Performance in Classic Environments**
 
 - Assess the performance of the Decision Transformer in classic RL environments, like **Atari** or **Mujoco**.
 - Compare its performance against classic RL algorithms.
 
-## **4. Performance in Complex Environments**
+### **4. Performance in Complex Environments**
 
 - Check the model's performance in more complex environments, using **Minecraft** as a simulation environment.
 
