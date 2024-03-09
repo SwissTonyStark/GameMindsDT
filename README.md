@@ -11,9 +11,6 @@ Conversely, in **offline RL**, an agent leverages pre-collected data, bypassing 
 
 Let's continue with what we will see next.
 <!-- He afegit format al text , feel free d'afegir text
-Reinforcement learning is a particular branch of machine learning that endows an agent with the ability to learn through the perception and interpretation of the environment in which it is situated. Within the environment, the agent has a reward function associated with how it acts, so the main goal of the agent is to maximize this function.
-In general cases, RL algorithms are said to be online, meaning that an agent's policy is trained by interacting directly with the environment. The agent learns iteratively, where in each iteration it receives observations from the environment, performs a possible action based on what was observed, and finally obtains a reward and the next state. Therefore, if an environment for simulations is not available, one must be built, which is complex and costly.
-On the other hand, in offline RL, the agent uses data collected by humans or even by other agents, and therefore, there is no need to interact with the environment. The metadata is commonly saved as sequences. In this case, the main problem is the data: having poor quality or insufficient data causes the learning of the agent's policy to be less than optimal.
 -->
 # Table of Contents
 - [Objectives and Hypothesis](#objectives-and-hypothesis)
@@ -112,6 +109,8 @@ git clone https://github.com/SwissTonyStark/GameMindsDT.git
 cd GameMindsDT
 pip install -r requirements.txt
 ```
+### Preliminars experiments
+Before we deep dive into our scratch decision transformer, we wanted to verify that the DT algorithm outperforms some classic RL algorithm. So the main objective of these experiments is to verify the power of the DT algorithm in comparison to other classical algorithms. Note that the DT used on this short experiments is an already implemented one found in the d3rlpy library. Visit the [Preliminars experiments README](experiments/README.md)
 
 ### MineRL: Exploration and Objectives
 <!-- Estic muntant a draw.io una llista d'algorismes i environments -->
