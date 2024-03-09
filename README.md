@@ -114,8 +114,7 @@ pip install -r requirements.txt
 <!-- Estic muntant a draw.io una llista d'algorismes i environments -->
 **TODO**
 <!-- EDGAR -->
-A concise introduction to our work with MineRL, highlighting our motivation and goals. For an in-depth look, visit the [MineRL README](#).
-
+A concise introduction to our work with MineRL, highlighting our motivation and goals. For an in-depth look, visit the [MineRL README](dt-mine-rl-project/README.md).
 
 <!-- AFEGIR OMAR I SHUANG EL VOSTRE -->
 <!-- ALEX?? FINALMENT HI HA README? -->
@@ -191,15 +190,13 @@ Overview of our repository structure and data flow diagrams to navigate through 
 
 ## Conclusions
 Summarizing our journey, achievements, challenges faced, and the insights gained through the development of GameMindsDT.
+DT s'ha adaptat be a l'Atari, hem estat optimistes.., referenciar els problemes que hem tingut, retards, solucions/parches, 
 
+**FEM CADASCÚ 3,4,5 linies de conclusions personals, que hem apres, problemes que ha tingut**
 <!-- IMPORTANT OMAR WAND.DB??? QUE ESTIGUI VISUAL I BEN EXPLICAT -->
 
 ## References and Acknowledgements
-- [Decision Transformer: Reinforcement Learning via Sequence Modeling](https://arxiv.org/abs/2106.01345)
-- [d3rlpy](https://d3rlpy.readthedocs.io/en/v2.3.0/)
-- [Docker: Containerization Platform](https://www.docker.com/)
-- [OpenAI Gym: A Toolkit for Developing and Comparing Reinforcement Learning Algorithms](https://gym.openai.com/)
-- [Minigrid: A Minimalistic Gridworld Environment for OpenAI Gym](https://github.com/maximecb/gym-minigrid)
+
 
 ## License
 This project is licensed under the [MIT License](LICENSE).
