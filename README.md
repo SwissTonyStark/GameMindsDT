@@ -65,6 +65,8 @@ Finally, in the last steps of the project, these paths converge at the same poin
 Our project timeline and key milestones were tracked using a Gantt chart, illustrating our structured approach to achieving our objectives.
 
 <!-- AFEGIR DIAGRAMA GANNT PANTALLAZO EXCEL COMPLERT -->
+![image](https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/a9e6e770-8ec6-4e02-a5be-fab2d814f058)
+
 <!-- ORGANITZAR MILESTONES? COMENTAR COM LA EVOLUCIO DE LES TASQUES, PER ON HEM FET VIA -->
 
 ## State of Art: Decision Transformer
