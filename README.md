@@ -10,8 +10,7 @@ However, the challenge arises when a simulation environment is unavailable. Cons
 Conversely, in **offline RL**, an agent leverages pre-collected data, bypassing the need for direct environmental interaction. This data, typically stored as sequences, may originate from humans or other agents. The pivotal concern here is data quality; subpar or insufficient data can severely impact the optimization of the agent's policy.
 
 Let's continue with what we will see next.
-<!-- He afegit format al text , feel free d'afegir text
--->
+
 # Table of Contents
 - [Objectives and Hypothesis](#objectives-and-hypothesis)
 - [Project Management](#project-management)
@@ -26,6 +25,7 @@ Let's continue with what we will see next.
 - [Conclusions](#conclusions)
 - [References and Acknowledgements](#references-and-acknowledgements)
 - [Licence](#license)
+- [Glossary](#glossary)
 
 ## Objectives and Hypothesis
 Our goal was to explore the realms of AI in gaming beyond traditional approaches, hypothesizing that Decision Transformers can provide a more nuanced understanding and execution of game strategies. We aimed to unlock the untapped potential of these transformers across a broad spectrum of games and tasks, pushing the limits of AI capabilities in virtual environments. The main objectives are:
@@ -213,7 +213,35 @@ This project is licensed under the [MIT License](LICENSE).
 
 
 ## Glossary
-**Generar amb el GPT una llista de conceptes clau, etc, i posar links mes generics**
+
+**Decision Transformers (DT)**: A novel approach to reinforcement learning that frames the RL problem as a conditional sequence modeling task, leveraging Transformer architectures to predict future actions based on past states, actions, and desired future rewards. [More info](https://arxiv.org/abs/2106.01345)
+
+**Reinforcement Learning (RL)**: A branch of machine learning where an agent learns to make decisions by performing actions in an environment to maximize some notion of cumulative reward. [More info](https://deepmind.com/learning-resources/-introduction-reinforcement-learning-david-silver)
+
+**Offline Reinforcement Learning**: A paradigm of reinforcement learning where the agent learns from a fixed dataset of previously collected experiences without further interaction with the environment. [More info](https://arxiv.org/abs/2005.01643)
+
+**Return-to-Go**: The total expected reward that an agent can accumulate from a certain point in time until the end of the episode. This concept is crucial in many RL algorithms, including Decision Transformers. [More info](https://spinningup.openai.com/en/latest/spinningup/rl_intro3.html)
+
+**Atari**: A classic set of environments provided by the OpenAI Gym toolkit, based on Atari 2600 video games, commonly used for evaluating reinforcement learning algorithms. [More info](https://gym.openai.com/envs/#atari)
+
+**Mujoco**: A physics engine used for simulating complex robot dynamics and kinematics, often utilized in reinforcement learning experiments for tasks requiring physical interactions. [More info](https://mujoco.org/)
+
+**Minecraft**: A popular sandbox video game that serves as a complex, open-world environment for testing advanced reinforcement learning models, such as those capable of navigating and manipulating their environment. [More info](https://www.microsoft.com/en-us/research/project/project-malmo/)
+
+**Docker**: An open-source platform for developing, shipping, and running applications in containers, which allows for packaging an application and its dependencies into a standardized unit for software development. [More info](https://www.docker.com/)
+
+**Gantt Chart**: A type of bar chart that illustrates a project schedule, representing the start and finish dates of the various components and elements of a project. [More info](https://www.projectmanager.com/gantt-chart)
+
+**CUDA**: A parallel computing platform and application programming interface (API) model created by Nvidia, allowing software developers to use a CUDA-enabled graphics processing unit (GPU) for general purpose processing (an approach known as GPGPU, General-Purpose computing on Graphics Processing Units). [More info](https://developer.nvidia.com/cuda-zone)
+
+**PyTorch**: An open source machine learning library based on the Torch library, used for applications such as computer vision and natural language processing, primarily developed by Facebook's AI Research lab (FAIR). [More info](https://pytorch.org/)
+
+**MineRL**: A research project aimed at solving open problems in artificial intelligence and machine learning using the popular game Minecraft as a platform for developing intelligent agents. [More info](https://minerl.io/)
+
+**Hierarchical Decision Transformer**: A variant of the Decision Transformer that introduces a hierarchical structure into the model to handle more complex decision-making scenarios with longer sequences or multiple objectives. While specific papers on "Hierarchical Decision Transformers" might not be available, the concept builds on principles found in both decision transformers and hierarchical reinforcement learning. [More info on HRL](https://arxiv.org/abs/1604.06057)
+
+**Constrained Decision Transformer**: Another variant of the Decision Transformer designed to operate under specific constraints, optimizing the policy within given boundaries to ensure safe or compliant behavior in sensitive environments. Like the Hierarchical Decision Transformer, specific references might be conceptual, reflecting advancements in constrained RL and decision transformers. [More info on Constrained RL](https://arxiv.org/abs/2005.00513)
+
 ## References and Acknowledgements
 - [Decision Transformer: Reinforcement Learning via Sequence Modeling](https://arxiv.org/abs/2106.01345)
 - [d3rlpy](https://d3rlpy.readthedocs.io/en/v2.3.0/)
