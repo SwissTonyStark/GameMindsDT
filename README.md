@@ -116,13 +116,18 @@ git clone https://github.com/SwissTonyStark/GameMindsDT.git
 cd GameMindsDT
 pip install -r requirements.txt
 ```
-### Preliminars experiments
-Before we deep dive into our scratch decision transformer, we wanted to verify that the DT algorithm outperforms some classic RL algorithm. So the main objective of these experiments is to verify the power of the DT algorithm in comparison to other classical algorithms. Note that the DT used on this short experiments is an already implemented one found in the d3rlpy library. Visit the [Preliminars experiments README](experiments/README.md)
+### Preliminary experiments
+Before we deep dive into our scratch decision transformer, we wanted to verify that the DT algorithm outperforms some classic RL algorithm. So the main objective of these experiments is to **verify the power of the DT algorithm in comparison to other classical algorithms**. Note that the DT used on this short experiments is an already implemented one found in the d3rlpy library. Visit the [Preliminars experiments README](experiments/README.md)
 
 ![key_to_door](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/d05b3385-73c9-4abb-a1d0-c03e06b9646f)
 
+*The agent is trying to get the key to unlock the door to find the next level.*
+***
 ### MineRL: Exploration and Objectives
 <!-- Estic muntant a draw.io una llista d'algorismes i environments -->
+
+![image](https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/d75127fd-e5a2-4f32-b0a4-2b6ec87778a8)
+
 
 <!-- EDGAR -->
 
@@ -133,8 +138,10 @@ We have demonstrated in previous experiments that Decision Transformers can solv
 For an in-depth look, visit the [MineRL README](dt-mine-rl-project/README.md).
 
 <!-- AFEGIR OMAR I SHUANG EL VOSTRE -->
+
 <!-- ALEX?? FINALMENT HI HA README? -->
 
+***
 # Docker Integration
 ## Introduction to Docker
 
