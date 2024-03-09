@@ -67,6 +67,8 @@ Our project timeline and key milestones were tracked using a Gantt chart, illust
 <!-- AFEGIR DIAGRAMA GANNT PANTALLAZO EXCEL COMPLERT -->
 ![image](https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/a9e6e770-8ec6-4e02-a5be-fab2d814f058)
 
+As is shown, .... **TODO**
+
 <!-- ORGANITZAR MILESTONES? COMENTAR COM LA EVOLUCIO DE LES TASQUES, PER ON HEM FET VIA -->
 
 ## State of Art: Decision Transformer
