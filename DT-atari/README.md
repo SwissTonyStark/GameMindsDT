@@ -1,8 +1,6 @@
 # Decision Transformer for Atari
 
 ## Motivation
-hey are more intricate than simple environments but not as complex as real-world robotic tasks.
-
 We decided to train Atari games using a decision transformer for some reasons:
 - Complexity: Atari games offer a visually rich and diverse environment, in some cases more complex than other more simpler environments often used in RL. Some Atari games are specially challenging due to the difficulty of credit assignment arising from the delay between actions and resulting rewards
 - Benchmarking: Atari games serve as a well-established benchmark for RL algorithms, that allows us to compare the performance of owr model with other RL techniques.
@@ -12,11 +10,9 @@ We implemented from scratch another Decision Transformer to try to solve Atari g
 - convolutional encoder: In a transition, the state is an image of the game screen. In fact, a stack of images of the last 4 transitions (to catch information like velocity objects). The state is fed into a convolutional encoder instead of a linear layer to obtain token embeddings. The fact that the states are images and take up much more space complicates the data management.
 - cross-entropy loss function: An Atari game typically have a discrete set of actions (e.g., jump, move left, shoot). So, we use the cross-entropy loss function instead of the mean-squared error. 
 
-![vpt_schema](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/dabd6445-2d82-4a65-94df-8969acd390d2)
-*Credits for some images*: https://cdn.openai.com/vpt/Paper.pdf, https://arxiv.org/pdf/2106.01345.pdf, https://www.minecraft.net/
+<img src='/assets/metrics_atari.png' width="5" height="10">
 
-We use a different version of gym and a dedicated version of D4rl, to have access to the Atari datasets 
-https://github.com/takuseno/d4rl-atari
+We use a different version of gym and a dedicated version of D4rl, to have access to the Atari datasets
 
 The original paper uses Tanh (hyperbolic tangents) instead of LayerNorm  after the embeddings, but we obtained the same or worst results using Tanhs.
 We adapted the position encoding with an alternative version that improves the performance thanks to the d3lply library
@@ -43,12 +39,13 @@ https://github.com/nikhilbarhate99/min-decision-transformer
 We trained the Breakout, Qbert, Space_invaders and Seaquest.
 In the evaluation, As the reward may vary between episodes, after every epoch we calcule the mean of the total rewards of 100 episodes.
 We trained the model with a dataset of 1.000.000 trajectories and we observed that the model overfit after aproximately 3/4 epochs.
+![dt_rollouts](https://github.com/SwissTonyStark/GameMindsDT/blob/main/assets/metrics_atari.png?raw=true)
 
 Atari games perform better when trained with expert data. We trained Breakout with mixed data and, as a result, the performance is not as good as the other games.
 
 At test time the DT is handed the first return-to-go token, indicating the desirable return to reach in the task. Til aprox. 5 times the maximum return-to-go in the dataset, he results show a correlation between desired target return and true observed return. We used higher initial return-to-go with a similar result as 5x the maximum in the dataset.
  
-Our results are similar as the original DT paper, and usually better than other RL techniques.
+Our results are, in some cases, better than other RL techniques.
 
 ![dt_rollouts](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/a0bbe1d2-6a97-46d9-87b6-757fb8daae83)
 
@@ -107,6 +104,11 @@ The agent not only learns to find caves. It also learns other basic skills such 
 
 
 ## Acknowledgements:
+
+(https://github.com/takuseno/d4rl-atari)
+
+*Image credits https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/10a57bff-849c-4d44-985b-4f72c83c8d03
+
 **Mine_rl** MineRL is a rich Python 3 library which provides a OpenAI Gym interface for interacting with the video game Minecraft, accompanied with datasets of human gameplay. 
 (https://minerl.readthedocs.io/en/latest/)
 
