@@ -5,9 +5,7 @@ Welcome to **GameMindsDT**, where we combine the potent synergy of **Decision Tr
 ### Reinforcement Learning: A Primer
 **Reinforcement learning (RL)** is a specialized branch of machine learning that empowers an agent to learn by perceiving and interpreting its environment. The agent operates within this environment, striving to maximize a reward function tied to its actions.
 In conventional scenarios, RL algorithms operate online, learning directly through environmental interaction. This iterative learning process involves the agent receiving environmental observations, taking actions, and earning rewards, which leads to the discovery of the next state.
-<p align="center">
   ![image](https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/ae47e1ce-a98a-4348-a918-3505bbba5206)
-</p>
 However, the challenge arises when a simulation environment is unavailable. Constructing such an environment can be complex and resource-intensive.
 
 
@@ -81,19 +79,13 @@ Finally, in the last steps of the project, these paths converge at the same poin
 Our project timeline and key milestones were tracked using a Gantt chart, illustrating our structured approach to achieving our objectives.
 
 <!--DIAGRAMA GANNT -->
-<p align="center">
-  ![image](https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/a9e6e770-8ec6-4e02-a5be-fab2d814f058)
-</p>
+     ![image](https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/a9e6e770-8ec6-4e02-a5be-fab2d814f058)
 
 Over the course of this project, we systematically approached the exploration and development of the Decision Transformer (DT). Our journey began with an in-depth analysis of existing DT environments and models, where Team A achieved complete progress, setting a robust foundation for the project. Subsequently, Team B took the reins to develop and optimize our DT from the ground up, ensuring it was tailored to our specific needs and achieving full progress in all related tasks. **AFEGIM asteriscs amb problemes o les tasques amb menys %??**
 
 ## State of the Art: Decision Transformer
 The leitmotif of this project is centered on **Reinforcement Learning**. However, focusing on it in an offline manner and, as previously mentioned, working with data sequences and not directly interacting with an environment. This is why this project explores the architecture of the **Decision Transformer** presented in this paper, where it reduces the RL problem to a conditional sequence modeling problem. As its name suggests, it is based on **Transformers**, models _par excellence_ for solving sequence problems.
-<p align="center">
   ![image](https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/10a57bff-849c-4d44-985b-4f72c83c8d03)
-</p>
-
-
 Unlike basic RL algorithms that are based on estimating a function or optimizing policies, DTs directly model the relationship between **cumulative reward** (return-to-go), states, and previous actions, thus predicting the future action to achieve the desired reward.
 
 As already mentioned in the paper, the generation of the next action is based on **future desired returns**, rather than past rewards. That's why, instead of using the rewards space, so-called **return-to-go** values are fed with the states and actions.
@@ -110,10 +102,7 @@ We ventured through various algorithms and environments, from the traditional Op
 
 <!-- DIAGRAMA AMB ELS LLISTATS D'ALGORISMES UTILITZATS I ENVIRONMENTS -->
 <!-- DRAW.IO -->
-<p align="center">
   ![Environments GameMinds DT](https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/693b1b93-9197-4720-a7bc-2ea66f445763)
-</p>
-
 ## Installation and Experiments
 For installation instructions and detailed experiment walkthroughs, refer to the specific README files linked below. Here's a quick start:
 
