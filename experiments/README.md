@@ -57,13 +57,13 @@ https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/07b4d3c3-8e25-4e0
 
 https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/25c57515-57ee-4cac-a0a3-3f70b3b7251a
 
-##### Comparing DT with other offline algorithms in Atari games (QBert, Seaquest, Pong, Breakout)
+### Comparing DT with other offline algorithms in Atari games (QBert, Seaquest, Pong, Breakout)
 
 We have trained the 4 games with the d3rply library on the 3 algorithms, DT, BC, and CQL, without hardly touching the hyperparameters, and the results show that DT is better compared to the others.
 For the test, we have run 100 matches of each game for each algorithm. And we have averaged the results.
 ![atari_results](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/dd963e67-5b0e-45c2-b26d-578ec7ff2ea6)
 
-### Test DT with different hyperparameters. 
+# Conclusions
 Testing Decision Transformers (DT) with different hyperparameters and data experiences across various games and environments is a complex but crucial aspect of enhancing reinforcement learning (RL) models. The literature and experiments indicate that factors such as model size, number of layers, learning rate, batch size, and the mix of expert vs. non-expert training data significantly influence the performance of RL agents, including DTs.
 
 *Hyperparameters* like the learning rate, batch size, number of layers, and model size are pivotal for the training efficiency and final performance of DT models. For example, the learning rate controls the step size at each iteration while moving toward a minimum of a loss function, impacting the convergence speed and stability of the learning process. Similarly, the batch size influences the model's ability to generalize from the training data, while the number of layers and model size can affect the model's capacity to learn complex patterns and behaviors.
