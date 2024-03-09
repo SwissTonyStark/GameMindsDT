@@ -20,7 +20,7 @@ On the other hand, in offline RL, the agent uses data collected by humans or eve
 - [Project Management](#project-management)
   - [Team Composition and Work Distribution](#team-composition-and-work-distribution)
   - [Gantt Chart and Milestones](#gantt-chart-and-milestones)
-- [State of Art: Decision Transformer](#state-of-the-art)
+- [State of Art: Decision Transformer](#state-of-the-art_.decision-transformer)
 - [Algorithms and Environments](#algorithms-and-environments)
 - [Installation and Experiments](#installation-and-experiments)
   - [MineRL: Exploration and Objectives](#minerl-exploration-and-objectives)
