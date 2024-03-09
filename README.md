@@ -111,14 +111,18 @@ pip install -r requirements.txt
 ```
 
 ### MineRL: Exploration and Objectives
+<!-- Estic muntant a draw.io una llista d'algorismes i environments -->
+**TODO**
+<!-- EDGAR -->
 A concise introduction to our work with MineRL, highlighting our motivation and goals. For an in-depth look, visit the [MineRL README](#).
 
-<!-- EDGAR -->
+
 <!-- AFEGIR OMAR I SHUANG EL VOSTRE -->
 <!-- ALEX?? FINALMENT HI HA README? -->
 
 ## Docker Integration
 Docker played a crucial role in ensuring a consistent development environment across our team. Detailed instructions for setting up Docker can be found [here](#).
+
 
 ## Resources
 Overview of our repository structure and data flow diagrams to navigate through our project's architecture efficiently.
@@ -145,16 +149,6 @@ This project is licensed under the [MIT License](LICENSE).
 <!-- La idea es comparar amb la nova versio i acabar-ho de completar tot -->
 <!-- Estic reorganitzant tot -->
 
-## Table of Contents
-...
-- [Features](#features)
-- [Project Management](#project-management)
-  - [Team Division](#team-division)
-  - [Algorithms and Environments](#algorithms-and-environments)
-  - [Evolution of the Decision Transformer in our project](#evolution-of-the-decision-transformer)
-- [Experiments](#experiments)
-- [Introduction to Docker](#introduction-to-docker)
-- [Acknowledgements](#acknowledgements)
 
 
 ## Features
