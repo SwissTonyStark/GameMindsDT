@@ -117,7 +117,12 @@ pip install -r requirements.txt
 <!-- Estic muntant a draw.io una llista d'algorismes i environments -->
 **TODO**
 <!-- EDGAR -->
-A concise introduction to our work with MineRL, highlighting our motivation and goals. For an in-depth look, visit the [MineRL README](dt-mine-rl-project/README.md).
+
+A concise introduction to our work with MineRL, highlighting our motivation and goals. 
+
+![hole_in_one](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/d6d4af15-0e29-4013-a6bb-d38f74e09921)
+
+For an in-depth look, visit the [MineRL README](dt-mine-rl-project/README.md).
 
 <!-- AFEGIR OMAR I SHUANG EL VOSTRE -->
 <!-- ALEX?? FINALMENT HI HA README? -->
