@@ -55,10 +55,12 @@ The second team is responsible for checking the performance of different RL algo
 Finally, in the last steps of the project, these paths converge at the same point to merge the progress and share it. The last objective is to test the DT implementation with the Minecraft environment, specifically using MineRL.
 
 ### Team Composition and Work Distribution
-- **Omar Aguilera Vera**
+#### Team A
 - **[Pol Fernández Blánquez](https://www.linkedin.com/in/polfernandezblanquez/)**
-- **Shuang Long Ji Qiu**
 - **Edgar Planell**
+#### Team B
+- **Shuang Long Ji Qiu**
+- **Omar Aguilera Vera**
 - **Alex Barrachina**
 
 ### Gantt Chart and Milestones
@@ -67,9 +69,9 @@ Our project timeline and key milestones were tracked using a Gantt chart, illust
 <!-- AFEGIR DIAGRAMA GANNT PANTALLAZO EXCEL COMPLERT -->
 ![image](https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/a9e6e770-8ec6-4e02-a5be-fab2d814f058)
 
-As is shown, .... **TODO**
-
-<!-- ORGANITZAR MILESTONES? COMENTAR COM LA EVOLUCIO DE LES TASQUES, PER ON HEM FET VIA -->
+Over the course of this project, we systematically approached the exploration and development of the Decision Transformer (DT). Our journey began with an in-depth analysis of existing DT environments and models, where Team A achieved complete progress, setting a robust foundation for the project. Subsequently, Team B took the reins to develop and optimize our DT from the ground up, ensuring it was tailored to our specific needs and achieving full progress in all related tasks. **TODO**
+<!-- ORGANITZAR MILESTONES? COMENTAR COM LA EVOLUCIO DE LES TASQUES, PER ON HEM FET VIA
+Sobretot veure quines passes hem fet -->
 
 ## State of Art: Decision Transformer
 The leitmotif of this project is centered on Reinforcement Learning. However, focusing on it in an offline manner and, as previously mentioned, working with data sequences and not directly interacting with an environment. This is why this project explores the architecture of the Decision Transformer presented in this paper, where it reduces the RL problem to a conditional sequence modeling problem. As its name suggests, it is based on Transformers, models par excellence for solving sequence problems.
