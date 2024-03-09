@@ -149,7 +149,7 @@ while not done:  # autoregressive generation/sampling
     R, s, a, t = R[-K:], s[-K:], a[-K:], t[-K:]
 ```
 
-# Algorithms and Environments
+# Environments
 We ventured through various algorithms and environments, from the traditional OpenAI Gym settings to complex strategic simulations, each offering unique challenges and learning opportunities.
 
 <!-- DIAGRAMA AMB ELS LLISTATS D'ALGORISMES UTILITZATS I ENVIRONMENTS -->
