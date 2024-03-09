@@ -118,12 +118,14 @@ pip install -r requirements.txt
 ### Preliminars experiments
 Before we deep dive into our scratch decision transformer, we wanted to verify that the DT algorithm outperforms some classic RL algorithm. So the main objective of these experiments is to verify the power of the DT algorithm in comparison to other classical algorithms. Note that the DT used on this short experiments is an already implemented one found in the d3rlpy library. Visit the [Preliminars experiments README](experiments/README.md)
 
+![key_to_door](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/d05b3385-73c9-4abb-a1d0-c03e06b9646f)
+
 ### MineRL: Exploration and Objectives
 <!-- Estic muntant a draw.io una llista d'algorismes i environments -->
-**TODO**
+
 <!-- EDGAR -->
 
-A concise introduction to our work with MineRL, highlighting our motivation and goals. 
+We have demonstrated in previous experiments that Decision Transformers can solve games and benchmark environments such as mujoco, atari, and minigrid. However, we would really like to know if DTs can be used in more complex real-world applications. Lacking data, we have decided to use Minecraft, which, despite being a game, is an environment several orders of magnitude more complex than any of the previously proposed ones. The idea is to check if it can learn anything from human video demonstrations.
 
 ![hole_in_one](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/d6d4af15-0e29-4013-a6bb-d38f74e09921)
 
