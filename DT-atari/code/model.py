@@ -4,6 +4,53 @@ import torch.nn.functional as F
 import numpy as np
 import math
 
+# alternative position embedding
+# Thanks to d3lply library for the following code Parameter and GlobalPositionEncoding
+
+class Parameter(nn.Module):  # type: ignore
+    _parameter: nn.Parameter
+    def __init__(self, data: torch.Tensor):
+        super().__init__()
+        self._parameter = nn.Parameter(data)
+    def forward(self) -> torch.Tensor:
+        return self._parameter
+    def __call__(self) -> torch.Tensor:
+        return super().__call__()
+    @property
+    def data(self) -> torch.Tensor:
+        return self._parameter.data
+
+class GlobalPositionEncoding(nn.Module):
+    def __init__(self, embed_dim: int, max_timestep: int, context_size: int):
+        super().__init__()
+        self._embed_dim = embed_dim
+        self._global_position_embedding = Parameter(
+            torch.zeros(1, max_timestep, embed_dim, dtype=torch.float32)
+        )
+        self._block_position_embedding = Parameter(
+            torch.zeros(1, 3 * context_size, embed_dim, dtype=torch.float32)
+        )
+    def forward(self, t: torch.Tensor) -> torch.Tensor:
+        assert t.dim() == 2, "Expects (B, T)"
+        batch_size, context_size = t.shape
+        # (B, 1, 1) -> (B, 1, N)
+        last_t = torch.repeat_interleave(
+            t[:, -1].view(-1, 1, 1), self._embed_dim, dim=-1
+        )
+        # (1, Tmax, N) -> (B, Tmax, N)
+        batched_global_embedding = torch.repeat_interleave(
+            self._global_position_embedding(),
+            batch_size,
+            dim=0,
+        )
+        # (B, Tmax, N) -> (B, 1, N)
+        global_embedding = torch.gather(batched_global_embedding, 1, last_t)
+        # (1, 3 * Cmax, N) -> (1, T, N)
+        block_embedding = self._block_position_embedding()[:, :context_size, :]
+        # (B, 1, N) + (1, T, N) -> (B, T, N)
+        return global_embedding + block_embedding
+
+
 class MaskedSelfAttention(nn.Module):
     def __init__(self, h_dim, seq_len, n_heads, drop_p):
         super().__init__()
@@ -103,7 +150,8 @@ class DecisionTransformer(nn.Module):
         self.drop_p = drop_p
 
         # TIMESTEP embedding: the positional embeddings are learned.
-        self.embed_timestep = nn.Embedding(max_timestep, self.h_dim)
+        #self.embed_timestep = nn.Embedding(max_timestep, self.h_dim)
+        self.embed_timestep = GlobalPositionEncoding(self.h_dim, max_timestep + 1, self.context_len)
         # RTG embedding
         self.embed_rtg = torch.nn.Linear(1, self.h_dim)
 
