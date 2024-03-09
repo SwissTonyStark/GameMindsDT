@@ -61,7 +61,15 @@ Some examples of the performance after training:
 
 Our results are, in some cases, better than other RL techniques.
 
-<img src='/assets/metrics_atari.png' width="10" height="10">
+| Game     | our DT |    CQL | QR-DQN | Random |    DQN |MulD-KL |    
+| -------- | ------ | ------ | ------ | ------ | ------ | ------ |
+| Qbert    |  12822 |  14012 |    156 |    164 |   4590 |   6098 |
+| Seaquest |   1800 |    779 |    250 |     68 |   2793 |   4321 |
+| Breakout |     18 |     61 |    6,8 |      2 |    304 |    216 |
+| Space inv|    776 |      ? |      ? |    148 |   1450 |    461 |
+
+sources https://www.researchgate.net/publication/284219036_Policy_Distillation
+        https://arxiv.org/pdf/2106.01345.pdf
 
 ## Conclusions & Future work
 TODO
@@ -80,10 +88,6 @@ Dependencies can be installed with the following commands:
 conda create --name dt python=3.10.12
 conda activate dt
 pip install git+https://github.com/takuseno/d4rl-atari
-#brew install cmake zlib # on mac only
-#pip install gym[atari]
-#pip install autorom[accept-rom-license]
-#pip install autorom
 pip install 'gym [atari,accept-rom-license]==0.25.2'
 pip install -r requirements.txt
 ```
@@ -103,4 +107,4 @@ TODO
 
 ## Acknowledgements:
 
-TODO
+
