@@ -96,6 +96,56 @@ The architecture is simple; as input, we feed the DT with the **return-to-go**, 
 
 In addition, the Decision Transformer introduces a unique approach to handle sequence order. An **embedding of each timestep** is generated and added to each token. Since each timestep includes states, actions, and return-to-go, the traditional positional encoding can’t be applied because it won’t guarantee the actual order. Once the input is tokenized, it is passed as input to a **decoder-only transformer** (GPT).
 
+```python
+# Algorithm 1 Decision Transformer Pseudocode (for continuous actions)
+
+# R, s, a, t: returns-to-go, states, actions, or timesteps
+# transformer: transformer with causal masking (GPT)
+# embed_s, embed_a, embed_R: linear embedding layers
+# embed_t: learned episode positional embedding
+# pred_a: linear action prediction layer
+
+# main model
+def DecisionTransformer(R, s, a, t):
+    # compute embeddings for tokens
+    pos_embedding = embed_t(t)  # per-timestep (note: not per-token)
+    s_embedding = embed_s(s) + pos_embedding
+    a_embedding = embed_a(a) + pos_embedding
+    R_embedding = embed_R(R) + pos_embedding
+
+    # interleave tokens as (R_1, s_1, a_1, ..., R_K, s_K)
+    input_embeds = stack(R_embedding, s_embedding, a_embedding)
+
+    # use transformer to get hidden states
+    hidden_states = transformer(input_embeds=input_embeds)
+
+    # select hidden states for action prediction tokens
+    a_hidden = unstack(hidden_states).actions
+
+    # predict action
+    return pred_a(a_hidden)
+
+# training loop
+for (R, s, a, t) in dataloader:  # dims: (batch_size, K, dim)
+    a_preds = DecisionTransformer(R, s, a, t)
+    loss = mean((a_preds - a)**2)  # L2 loss for continuous actions
+    optimizer.zero_grad(); loss.backward(); optimizer.step()
+
+# evaluation loop
+target_return = 1  # for instance, expert-level return
+R, s, a, t, done = [target_return], [env.reset()], [], [1], False
+while not done:  # autoregressive generation/sampling
+    # sample next action
+    action = DecisionTransformer(R, s, a, t)[-1]  # for cts actions
+    new_s, r, done, _ = env.step(action)
+
+    # append new tokens to sequence
+    R = R + [R[-1] - r]  # decrement returns-to-go with reward
+    s, a, t = s + [new_s], a + [action], t + [len(R)]
+
+    # only keep context length of K
+    R, s, a, t = R[-K:], s[-K:], a[-K:], t[-K:]
+```
 
 # Algorithms and Environments
 We ventured through various algorithms and environments, from the traditional OpenAI Gym settings to complex strategic simulations, each offering unique challenges and learning opportunities.
