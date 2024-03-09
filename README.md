@@ -96,6 +96,8 @@ The architecture is simple; as input, we feed the DT with the **return-to-go**, 
 
 In addition, the Decision Transformer introduces a unique approach to handle sequence order. An **embedding of each timestep** is generated and added to each token. Since each timestep includes states, actions, and return-to-go, the traditional positional encoding can’t be applied because it won’t guarantee the actual order. Once the input is tokenized, it is passed as input to a **decoder-only transformer** (GPT).
 
+In the following block, we can see the pseudocode from the Decision Trasnformer paper. It basically describes the implementation about the DT, and a possible train and eval loop:
+
 ```python
 # Algorithm 1 Decision Transformer Pseudocode (for continuous actions)
 
