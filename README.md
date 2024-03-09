@@ -48,14 +48,12 @@ Our goal was to explore the realms of AI in gaming beyond traditional approaches
 
 - Check the model's performance in more complex environments, using **Minecraft** as a simulation environment.
 
-
-## Planification
+## Project Management
 Regarding to the planning, it has been divided into two different paths, forming two teams to tackle the proposed objectives:
 The first team aims to analyze the original paper and implement a Decision Transformer (DT) from scratch. This includes carrying out all the tasks to train the model: model definition and training.
 The second team is responsible for checking the performance of different RL algorithms along with the DT, testing the various existing environments that can be used for the DT implementation.
 Finally, in the last steps of the project, these paths converge at the same point to merge the progress and share it. The last objective is to test the DT implementation with the Minecraft environment, specifically using MineRL.
 
-## Project Management
 ### Team Composition and Work Distribution
 - **Omar Aguilera Vera**
 - **[Pol Fernández Blánquez](https://www.linkedin.com/in/polfernandezblanquez/)**
