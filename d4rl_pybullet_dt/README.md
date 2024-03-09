@@ -44,10 +44,24 @@ We splitted the data into a training set (80%) and a validation set (20%). The t
 #### Hypotesis
 This environment was the first environment where we trained and tested our Decision Transformer in a continuous space of actions and observations. Since we where starting from scratch with the training of our Decision Transformer, we didn’t want to jump straight forward into an environment of high level of complexity (in dimensionality and computational terms), so the election of the most friendly environment to start, was fundamental for the progress. Obtaining a prominent success in this first environment, will lead us towards the more complex environments and it’s challenges
 That’s where Hopper Pybullet comes intoplace. This environment shines for it’s simplicity  in terms of dimensionality in comparison with the other environments available from the same library. Here a quick overview of the actions and observations space dimensions:
+
 #### Troubleshooting
+
+Not all stories start off on the right foot, and our initial trials with our Decision Transformer were not going to be an exception. After investing a good amount of time building our early version of the model, and carefully selecting the environment to start training it, problems arose. During the model training process, we experimented with various hyperparameter configurations, and in all of them, the results were quite satisfactory, with both the average loss and validation loss decreasing correctly until they balanced each other out in most configurations. However, when it came to testing the trained models, the situation was a bit more dramatic. 
 
 ![replay_decisiontransformer_pybullet_hopper-ezgif com-speed](https://github.com/SwissTonyStark/GameMindsDT/assets/86020737/f15186e4-d4a6-4e9a-b95e-e26404999d25)
 ![replay_decisiontransformer_pybullet_hopper_4-ezgif com-speed](https://github.com/SwissTonyStark/GameMindsDT/assets/86020737/fe912675-b674-4a4b-bc57-bebbe4b34a81)
+
+As can be seen in the test videos above, the agent consistently performed no or minimal actions throughout all iterations (Video on the left). One of our initial hypotheses was that the issue originated from a potential problem related to reward shaping and exploration-exploitation trade-offs. However, we quickly dismissed this hypothesis when we realized that neither setting the 'return to go' value sufficiently high to motivate exploitation nor fixing the 'return to go' to zero to incentivize exploration resulted in the agent moving. 
+
+This initially puzzled, us until we considered the possibility that the predicted actions by our Decision Transformer may not have been in the correct magnitude order, leading to a lack of expected response from any of the agent’s joints. To address this, we multiplied the predicted actions by a scalar before forwarding  them again to the environment. The test video on the right was recorded during this action magnification, confirming our hypothesis. Subsequent checks in our code revealed that the actions predicted by the Decision Transformer were not adequately scaled during testing, as they were not subject to the same normalization process applied during training. Consequently, the magnitudes of the predicted actions were insufficient to produce a response in the agent's joints when forwarded to the environment.
+
+We made the necessary fixes in the code, and we reran the test. After this changes, our first agent in the Pybullet environment was finally walking. 
+
+https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/95f4d853-056c-454c-9ecb-eb3fcd5c65cf
+
+
+
 
 ### Scenario 2: Walker2D
 #### Hypotesis
