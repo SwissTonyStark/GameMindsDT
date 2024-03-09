@@ -79,7 +79,7 @@ Our project timeline and key milestones were tracked using a Gantt chart, illust
 <!--DIAGRAMA GANNT -->
 ![image](https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/a9e6e770-8ec6-4e02-a5be-fab2d814f058)
 
-Over the course of this project, we systematically approached the exploration and development of the Decision Transformer (DT). Our journey began with an in-depth analysis of existing DT environments and models, where Team A achieved complete progress, setting a robust foundation for the project. Subsequently, Team B took the reins to develop and optimize our DT from the ground up, ensuring it was tailored to our specific needs and achieving full progress in all related tasks. **Afegim algo mes?**
+Over the course of this project, we systematically approached the exploration and development of the Decision Transformer (DT). Our journey began with an in-depth analysis of existing DT environments and models, where Team A achieved complete progress, setting a robust foundation for the project. Subsequently, Team B took the reins to develop and optimize our DT from the ground up, ensuring it was tailored to our specific needs and achieving full progress in all related tasks. **AFEGIM ALGO MÉS?**
 
 ## State of the Art: Decision Transformer
 The leitmotif of this project is centered on **Reinforcement Learning**. However, focusing on it in an offline manner and, as previously mentioned, working with data sequences and not directly interacting with an environment. This is why this project explores the architecture of the **Decision Transformer** presented in this paper, where it reduces the RL problem to a conditional sequence modeling problem. As its name suggests, it is based on **Transformers**, models _par excellence_ for solving sequence problems.
@@ -98,13 +98,14 @@ In addition, the Decision Transformer introduces a unique approach to handle seq
 ## Algorithms and Environments
 We ventured through various algorithms and environments, from the traditional OpenAI Gym settings to complex strategic simulations, each offering unique challenges and learning opportunities.
 
-<!-- DIAGRAMA AMB ELSLLISTATS D'ALGORISMES UTILITZATS I ENVIRONMENTS -->
+<!-- DIAGRAMA AMB ELS LLISTATS D'ALGORISMES UTILITZATS I ENVIRONMENTS -->
+
 
 ## Installation and Experiments
 For installation instructions and detailed experiment walkthroughs, refer to the specific README files linked below. Here's a quick start:
 
 ```bash
-git clone https://github.com/your-username/GameMindsDT.git
+git clone https://github.com/SwissTonyStark/GameMindsDT.git
 cd GameMindsDT
 pip install -r requirements.txt
 ```
