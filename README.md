@@ -1,6 +1,10 @@
 # GameMindsDT - Project Overview
 ## Introduction and Motivation
-Welcome to GameMindsDT, where we combine the power of Decision Transformers and Reinforcement Learning to master a myriad of gaming challenges. Our project encapsulates the journey of building a custom Transformer model from the ground up, meticulously tailoring reinforcement learning models, and harnessing them to excel in a diverse array of virtual environments. From classic arcade arenas to sophisticated strategic simulations, GameMindsDT is at the forefront of AI-driven gameplay exploration.
+Welcome to GameMindsDT, where we combine the power of Decision Transformers and Reinforcement Learning to master a myriad of gaming challenges. Our project encapsulates the journey of building a custom Transformer model from the ground up, meticulously tailoring reinforcement learning models, and harnessing them to excel in a diverse array of virtual environments. From classic arcade arenas to sophisticated strategic simulations, GameMindsDT is at the forefront of AI-driven gameplay exploration. But before we dive into the project, let's recall about reinforcement learning.
+
+Reinforcement learning is a particular branch of machine learning that endows an agent with the ability to learn through the perception and interpretation of the environment in which it is situated. Within the environment, the agent has a reward function associated with how it acts, so the main goal of the agent is to maximize this function.
+In general cases, RL algorithms are said to be online, meaning that an agent's policy is trained by interacting directly with the environment. The agent learns iteratively, where in each iteration it receives observations from the environment, performs a possible action based on what was observed, and finally obtains a reward and the next state. Therefore, if an environment for simulations is not available, one must be built, which is complex and costly.
+On the other hand, in offline RL, the agent uses data collected by humans or even by other agents, and therefore, there is no need to interact with the environment. The metadata is commonly saved as sequences. In this case, the main problem is the data: having poor quality or insufficient data causes the learning of the agent's policy to be less than optimal.
 
 # Table of Contents
 - [Objectives and Hypothesis](#objectives-and-hypothesis)
@@ -17,7 +21,21 @@ Welcome to GameMindsDT, where we combine the power of Decision Transformers and 
 - [Licence](#license)
 
 ## Objectives and Hypothesis
-Our goal was to explore the realms of AI in gaming beyond traditional approaches, hypothesizing that Decision Transformers can provide a more nuanced understanding and execution of game strategies. We aimed to unlock the untapped potential of these transformers across a broad spectrum of games and tasks, pushing the limits of AI capabilities in virtual environments.
+Our goal was to explore the realms of AI in gaming beyond traditional approaches, hypothesizing that Decision Transformers can provide a more nuanced understanding and execution of game strategies. We aimed to unlock the untapped potential of these transformers across a broad spectrum of games and tasks, pushing the limits of AI capabilities in virtual environments. The main objectives are:
+
+1 Explore the Decision Transformer:
+  1.1 Perform analysis and understand this model.
+  1.2 Implement the model following the official paper.
+2 Explore variants of the Decision Transformer:
+  2.1 There are variants to the original model. The goal here is to analyze some of these variants and implement them, thus making a comparison with the base model. Some examples are: Hierarchical Decision Transformer or Constrained Decision Transformer.
+3 Check the performance of the Decision Transformer in classic environments, such as Atari or Mujoco, also taking into account the performance of classic RL algorithms.
+4 Check the performance of the Decision Transformer in complex environments, in this case, the game Minecraft will be used as a simulation environment.
+
+## Planification
+Regarding to the planning, it has been divided into two different paths, forming two teams to tackle the proposed objectives:
+The first team aims to analyze the original paper and implement a Decision Transformer (DT) from scratch. This includes carrying out all the tasks to train the model: model definition and training.
+The second team is responsible for checking the performance of different RL algorithms along with the DT, testing the various existing environments that can be used for the DT implementation.
+Finally, in the last steps of the project, these paths converge at the same point to merge the progress and share it. The last objective is to test the DT implementation with the Minecraft environment, specifically using MineRL.
 
 ## Project Management
 ### Team Composition and Work Distribution
@@ -32,6 +50,14 @@ Our project timeline and key milestones were tracked using a Gantt chart, illust
 
 <!-- AFEGIR DIAGRAMA GANNT PANTALLAZO EXCEL COMPLERT -->
 <!-- ORGANITZAR MILESTONES? COMENTAR COM LA EVOLUCIO DE LES TASQUES, PER ON HEM FET VIA -->
+
+## State of Art
+### Decision Transformer
+The leitmotif of this project is centered on Reinforcement Learning. However, focusing on it in an offline manner and, as previously mentioned, working with data sequences and not directly interacting with an environment. This is why this project explores the architecture of the Decision Transformer presented in this paper, where it reduces the RL problem to a conditional sequence modeling problem. As its name suggests, it is based on Transformers, models par excellence for solving sequence problems.
+Unlike basic RL algorithms that are based on estimating a function or optimizing policies, DTs directly model the relationship between cumulative reward (return-to-go), states, and previous actions, thus predicting the future action to achieve the desired reward.
+As already mentioned in the paper, the generation of the next action is based on future desired returns, rather than past rewards. That's why, instead of using the rewards space, so-called return-to-go values are fed with the states and actions.
+Return-to-go is nothing more than the total amount of reward that is expected to be collected from a point in time until the end of the episode or task. If you are halfway through your journey, the return to go is the sum of all future rewards that you expect to earn from that midpoint to the destination. Then, the main goal of the agent will be to maximize this value, performing actions such that at the end of the episode it has achieved a future reward.
+The architecture is simple; as input, we feed the DT with the return-to-go, state, and action. Each of these three spaces is tokenized, having a total of three times the length of each space. So, if we feed the last K tokens to the DT, we will have a total of 3*K tokens. To obtain the token embeddings, we project a linear layer for each modality, but in the case we are working with visual inputs, convolutionals are used instead. In addition, the Decision Transformer introduces a unique approach to handle sequence order. An embedding of each timestep is generated and added to each token. Since each timestep includes states, actions, and return-to-go, the traditional positional encoding can’t be applied because it won’t guarantee the actual order. Once the input is tokenized, it is passed as input to a decoder-only transformer (GPT).
 
 ## Algorithms and Environments
 We ventured through various algorithms and environments, from the traditional OpenAI Gym settings to complex strategic simulations, each offering unique challenges and learning opportunities.
