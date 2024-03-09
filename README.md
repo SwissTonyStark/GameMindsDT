@@ -140,6 +140,8 @@ For an in-depth look, visit the [MineRL README](dt-mine-rl-project/README.md).
 
 Docker played a crucial role in ensuring a consistent development environment across our team. Is an *open-source containerization platform* that enables developers to **package applications into containers—standardized executable components** combining application source code with the operating system (OS) libraries and dependencies required to run that code in any environment.
 
+![docker logo](https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/c7ffea0a-fac7-4b4b-9e8d-bc1104028fe1)
+
 ### Why Docker?
 
 - **Isolation**: Docker ensures that your application works in a consistent and isolated environment by packaging it along with its environment.
@@ -205,6 +207,10 @@ Overview of our repository structure and data flow diagrams to navigate through 
 ## Conclusions
 Summarizing our journey, achievements, challenges faced, and the insights gained through the development of GameMindsDT.
 DT s'ha adaptat be a l'Atari, hem estat optimistes.., referenciar els problemes que hem tingut, retards, solucions/parches, 
+
+**EDGAR**: In this project, I have learned that decision transformers and their variants are currently an active area of research. This is both good and bad. On one hand, it means that we can obtain promising results, but on the other, we have encountered a lack of documentation and real working examples. Many algorithms have only been theoretically tested in simple environments. Ultimately, the project has been an R&D exercise in itself. Despite the difficulties, the fact that we managed to get several environments working has been very rewarding and enriching. For my part, I plan to closely follow this technology to try to apply it in future projects.
+
+**POL**: During my work on the GameMindsDT project, I've really gotten to grips with Decision Transformers, Reinforcement Learning, and Docker. Exploring Decision Transformers and Reinforcement Learning has opened my eyes to the powerful ways AI can solve complex problems and improve decision-making in games and simulations. At the same time, dealing with Docker taught me a lot about the importance of containerization for keeping software running smoothly across different computers. This project showed me how essential both advanced AI concepts and practical software tools are for creating effective and reliable applications. It's made me even more excited to keep working in this field, combining deep AI knowledge with solid software development skills.
 
 **FEM CADASCÚ 3,4,5 linies de conclusions personals, que hem apres, problemes que ha tingut**
 <!-- IMPORTANT OMAR WAND.DB??? QUE ESTIGUI VISUAL I BEN EXPLICAT -->
