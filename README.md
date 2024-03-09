@@ -175,6 +175,24 @@ Before we deep dive into our scratch decision transformer, we wanted to verify t
 
 *The agent is trying to get the key to unlock the door to find the next level.*
 ***
+
+### Atari: Exploration and Objectives
+
+
+We decided to train Atari games using a decision transformer for some reasons:
+- <b>Complexity</b>: Atari games offer a visually rich and diverse environment, in some cases more complex than other more simpler environments often used in RL. Some Atari games are specially challenging due to the difficulty of credit assignment arising from the delay between actions and resulting rewards
+- <b>Benchmarking</b>: Atari games serve as a well-established benchmark for RL algorithms, that allows us to compare the performance of owr model with other RL techniques.
+
+<table style="padding:10px">
+  <tr>
+    <td><img src="/assets/seaquest_3620.gif"  alt="1" width = 300px height = 425px ></td>
+    <td><img src="/assets/qbert_19000.gif"  alt="1" width = 300px height = 425px ></td>
+     <td><img src="/assets/spaceinvaders_1350.gif"  alt="1" width = 300px height = 425px ></td>
+  </tr>
+</table>
+
+For an in-depth look, visit the [DT-ATARI README](DT-atari/README.md).
+
 ### MineRL: Exploration and Objectives
 <!-- Estic muntant a draw.io una llista d'algorismes i environments -->
 
