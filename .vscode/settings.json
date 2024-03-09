@@ -1,5 +1,0 @@
-{
-    "python.analysis.extraPaths": [
-        "./dt-mine-rl-project/dt_mine_rl"
-    ]
-}
