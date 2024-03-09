@@ -77,3 +77,10 @@ Testing Decision Transformers (DT) with different hyperparameters and data exper
 *Hyperparameters* like the learning rate, batch size, number of layers, and model size are pivotal for the training efficiency and final performance of DT models. For example, the learning rate controls the step size at each iteration while moving toward a minimum of a loss function, impacting the convergence speed and stability of the learning process. Similarly, the batch size influences the model's ability to generalize from the training data, while the number of layers and model size can affect the model's capacity to learn complex patterns and behaviors.
 
 In reinforcement learning, especially with Decision Transformers acrossing specific Atari Games, optimizing these hyperparameters is essential for achieving high performance across different games and environments. 
+
+# References
+- [Decision Transformer: Reinforcement Learning via Sequence Modeling](https://arxiv.org/abs/2106.01345)
+- [d3rlpy](https://d3rlpy.readthedocs.io/en/v2.3.0/)
+- [Docker: Containerization Platform](https://www.docker.com/)
+- [OpenAI Gym: A Toolkit for Developing and Comparing Reinforcement Learning Algorithms](https://gym.openai.com/)
+- [Minigrid: A Minimalistic Gridworld Environment for OpenAI Gym](https://github.com/maximecb/gym-minigrid)
