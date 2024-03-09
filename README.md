@@ -103,6 +103,8 @@ We ventured through various algorithms and environments, from the traditional Op
 
 <!-- DIAGRAMA AMB ELS LLISTATS D'ALGORISMES UTILITZATS I ENVIRONMENTS -->
 <!-- DRAW.IO -->
+![Environments GameMinds DT](https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/0bc036a9-354a-4154-81d1-d4c4385d9518)
+
 
 ## Installation and Experiments
 For installation instructions and detailed experiment walkthroughs, refer to the specific README files linked below. Here's a quick start:
