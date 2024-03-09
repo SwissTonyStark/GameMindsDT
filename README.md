@@ -9,6 +9,7 @@ However, the challenge arises when a simulation environment is unavailable. Cons
 ### The Offline RL Paradigm
 Conversely, in **offline RL**, an agent leverages pre-collected data, bypassing the need for direct environmental interaction. This data, typically stored as sequences, may originate from humans or other agents. The pivotal concern here is data quality; subpar or insufficient data can severely impact the optimization of the agent's policy.
 
+Let's continue with what we will see next.
 <!-- He afegit format al text , feel free d'afegir text
 Reinforcement learning is a particular branch of machine learning that endows an agent with the ability to learn through the perception and interpretation of the environment in which it is situated. Within the environment, the agent has a reward function associated with how it acts, so the main goal of the agent is to maximize this function.
 In general cases, RL algorithms are said to be online, meaning that an agent's policy is trained by interacting directly with the environment. The agent learns iteratively, where in each iteration it receives observations from the environment, performs a possible action based on what was observed, and finally obtains a reward and the next state. Therefore, if an environment for simulations is not available, one must be built, which is complex and costly.
@@ -19,6 +20,7 @@ On the other hand, in offline RL, the agent uses data collected by humans or eve
 - [Project Management](#project-management)
   - [Team Composition and Work Distribution](#team-composition-and-work-distribution)
   - [Gantt Chart and Milestones](#gantt-chart-and-milestones)
+- [State of Art: Decision Transformer](#state-of-the-art)
 - [Algorithms and Environments](#algorithms-and-environments)
 - [Installation and Experiments](#installation-and-experiments)
   - [MineRL: Exploration and Objectives](#minerl-exploration-and-objectives)
@@ -74,12 +76,10 @@ Finally, in the last steps of the project, these paths converge at the same poin
 ### Gantt Chart and Milestones
 Our project timeline and key milestones were tracked using a Gantt chart, illustrating our structured approach to achieving our objectives.
 
-<!-- AFEGIR DIAGRAMA GANNT PANTALLAZO EXCEL COMPLERT -->
+<!--DIAGRAMA GANNT -->
 ![image](https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/a9e6e770-8ec6-4e02-a5be-fab2d814f058)
 
-Over the course of this project, we systematically approached the exploration and development of the Decision Transformer (DT). Our journey began with an in-depth analysis of existing DT environments and models, where Team A achieved complete progress, setting a robust foundation for the project. Subsequently, Team B took the reins to develop and optimize our DT from the ground up, ensuring it was tailored to our specific needs and achieving full progress in all related tasks. **TODO**
-<!-- ORGANITZAR MILESTONES? COMENTAR COM LA EVOLUCIO DE LES TASQUES, PER ON HEM FET VIA
-Sobretot veure quines passes hem fet -->
+Over the course of this project, we systematically approached the exploration and development of the Decision Transformer (DT). Our journey began with an in-depth analysis of existing DT environments and models, where Team A achieved complete progress, setting a robust foundation for the project. Subsequently, Team B took the reins to develop and optimize our DT from the ground up, ensuring it was tailored to our specific needs and achieving full progress in all related tasks. **Afegim algo mes?**
 
 ## State of Art: Decision Transformer
 The leitmotif of this project is centered on Reinforcement Learning. However, focusing on it in an offline manner and, as previously mentioned, working with data sequences and not directly interacting with an environment. This is why this project explores the architecture of the Decision Transformer presented in this paper, where it reduces the RL problem to a conditional sequence modeling problem. As its name suggests, it is based on Transformers, models par excellence for solving sequence problems.
