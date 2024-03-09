@@ -47,6 +47,7 @@ Thatâ€™s where Hopper Pybullet comes intoplace. This environment shines for itâ€
 #### Troubleshooting
 
 ![replay_decisiontransformer_pybullet_hopper-ezgif com-speed](https://github.com/SwissTonyStark/GameMindsDT/assets/86020737/f15186e4-d4a6-4e9a-b95e-e26404999d25)
+![replay_decisiontransformer_pybullet_hopper_4-ezgif com-speed](https://github.com/SwissTonyStark/GameMindsDT/assets/86020737/fe912675-b674-4a4b-bc57-bebbe4b34a81)
 
 ### Scenario 2: Walker2D
 #### Hypotesis
