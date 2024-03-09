@@ -46,6 +46,8 @@ This environment was the first environment where we trained and tested our Decis
 That’s where Hopper Pybullet comes intoplace. This environment shines for it’s simplicity  in terms of dimensionality in comparison with the other environments available from the same library. Here a quick overview of the actions and observations space dimensions:
 #### Troubleshooting
 
+![replay_decisiontransformer_pybullet_hopper-ezgif com-speed](https://github.com/SwissTonyStark/GameMindsDT/assets/86020737/f15186e4-d4a6-4e9a-b95e-e26404999d25)
+
 ### Scenario 2: Walker2D
 #### Hypotesis
 #### Troubleshooting
