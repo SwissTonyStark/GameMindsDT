@@ -61,7 +61,7 @@ We made the necessary fixes in the code, and we reran the test. After this chang
 https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/95f4d853-056c-454c-9ecb-eb3fcd5c65cf
 
 ### Results
-<iframe width="800" height="600" src="https://wandb.ai/deeplearning-artificialintelligence-2023/Testing DT [hopper-bullet-medium-v0] [05_03_2024]/reports/Hopper-Pybullet-Test-Results--Vmlldzo3MDkwODA1" frameborder="0" allowfullscreen></iframe>
+
 
 
 ### Scenario 2: Walker2D
