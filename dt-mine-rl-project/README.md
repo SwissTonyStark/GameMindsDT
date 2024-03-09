@@ -4,8 +4,11 @@
 
 We have used the [basalt benchmark](https://github.com/minerllabs/basalt-benchmark) framework to test the decision transformers. First, we tested with the Hugging Face Decision Transformer, and then we used our own implementation from scratch. So far, the only environment completed has been find Cave, where we can see that almost 50% of the time the agent ends up finding a cave. Moreover, the agent learns to navigate through the environment with surprising skill. It can get out of complex situations and avoid obstacles. We believe that for the other environments, it is necessary to create a Hierarchical Decision Transformer.
 
-## Motivation
+## Motivation - From theory to practice
 We have demonstrated in previous experiments that Decision Transformers can solve games and benchmark environments such as mujoco, atari, and minigrid. However, we would really like to know if DTs can be used in more complex real-world applications. Lacking data, we have decided to use Minecraft, which, despite being a game, is an environment several orders of magnitude more complex than any of the previously proposed ones. The idea is to check if it can learn anything from human video demonstrations.
+
+![from_teory_to_practice](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/2246b179-2b43-4f8e-9995-0142e7a196af)
+
 ## Hypothesis
 We hypothesize that a DT model should perform equally well or better than behavioral cloning (as used by Open AI to pre-train the VPT), and that it will be capable of learning in an environment with long-term rewards as it did in the Key-to-door minigrid environment.
 
