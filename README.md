@@ -5,7 +5,9 @@ Welcome to **GameMindsDT**, where we combine the potent synergy of **Decision Tr
 ### Reinforcement Learning: A Primer
 **Reinforcement learning (RL)** is a specialized branch of machine learning that empowers an agent to learn by perceiving and interpreting its environment. The agent operates within this environment, striving to maximize a reward function tied to its actions.
 In conventional scenarios, RL algorithms operate online, learning directly through environmental interaction. This iterative learning process involves the agent receiving environmental observations, taking actions, and earning rewards, which leads to the discovery of the next state.
+
 ![image](https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/ae47e1ce-a98a-4348-a918-3505bbba5206)
+
 However, the challenge arises when a simulation environment is unavailable. Constructing such an environment can be complex and resource-intensive.
 
 
@@ -178,6 +180,7 @@ Before we deep dive into our scratch decision transformer, we wanted to verify t
 
 ### Atari: Exploration and Objectives
 
+<img src="/assets/atari.png" width = 174px height = 204px> 
 
 We decided to train Atari games using a decision transformer for some reasons:
 - <b>Complexity</b>: Atari games offer a visually rich and diverse environment, in some cases more complex than other more simpler environments often used in RL. Some Atari games are specially challenging due to the difficulty of credit assignment arising from the delay between actions and resulting rewards
@@ -185,13 +188,14 @@ We decided to train Atari games using a decision transformer for some reasons:
 
 <table style="padding:10px">
   <tr>
-    <td><img src="/assets/seaquest_3620.gif"  alt="1" width = 300px height = 425px ></td>
-    <td><img src="/assets/qbert_19000.gif"  alt="1" width = 300px height = 425px ></td>
-     <td><img src="/assets/spaceinvaders_1350.gif"  alt="1" width = 300px height = 425px ></td>
+    <td><img src="/assets/seaquest_3620.gif"  width = 300px height = 425px ></td>
+    <td><img src="/assets/qbert_19000.gif"  width = 300px height = 425px ></td>
+     <td><img src="/assets/spaceinvaders_1350.gif"  width = 300px height = 425px ></td>
   </tr>
 </table>
 
 For an in-depth look, visit the [DT-ATARI README](DT-atari/README.md).
+***
 
 ### MineRL: Exploration and Objectives
 <!-- Estic muntant a draw.io una llista d'algorismes i environments -->
