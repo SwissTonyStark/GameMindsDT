@@ -10,7 +10,8 @@ We implemented from scratch another Decision Transformer to try to solve Atari g
 - convolutional encoder: In a transition, the state is an image of the game screen. In fact, a stack of images of the last 4 transitions (to catch information like velocity objects). The state is fed into a convolutional encoder instead of a linear layer to obtain token embeddings. The fact that the states are images and take up much more space complicates the data management.
 - cross-entropy loss function: An Atari game typically have a discrete set of actions (e.g., jump, move left, shoot). So, we use the cross-entropy loss function instead of the mean-squared error. 
 
-<img src='/assets/metrics_atari.png' width="5" height="10">
+<img src="https://cosmoquester.github.io/assets/post_files/2021-06-29-decision-transformer/Untitled.png"  alt="1" width = 670px height = 496px >
+
 
 We use a different version of gym and a dedicated version of D4rl, to have access to the Atari datasets
 
@@ -19,35 +20,48 @@ We adapted the position encoding with an alternative version that improves the p
 https://github.com/takuseno/d3rlpy
 
 We have used hyperparameter values similar to those of the original paper:
-    * embedding dimension 128
-    * layers (blocks) 6
-    * attention heads 8
-    * context length 30
-    * Return-to-go conditioning 
-        * Qbert 2500
-        * Seaquest 1450
-        * Space Invaders 20000
-        * Breakout 90
-    * The same as the end-of-episode reward
+- embedding dimension 128
+- layers (blocks) 6
+- attention heads 8
+- context length 30
+- Return-to-go conditioning 
+  - Qbert 2500
+  - Seaquest 1450
+  - Space Invaders 20000
+  - Breakout 90
 
 We inspired our implementation on the following repositories:
-https://github.com/kzl/decision-transformer
-https://github.com/nikhilbarhate99/min-decision-transformer
+- https://github.com/kzl/decision-transformer
+- https://github.com/nikhilbarhate99/min-decision-transformer
 
 ## Results
 
 We trained the Breakout, Qbert, Space_invaders and Seaquest.
 In the evaluation, As the reward may vary between episodes, after every epoch we calcule the mean of the total rewards of 100 episodes.
-We trained the model with a dataset of 1.000.000 trajectories and we observed that the model overfit after aproximately 3/4 epochs.
-![dt_rollouts](https://github.com/SwissTonyStark/GameMindsDT/blob/main/assets/metrics_atari.png?raw=true)
+We trained the model with a dataset of 1.000.000 trajectories and we observed that the model improves the scores til aproximately 4/5 epochs.
 
-Atari games perform better when trained with expert data. We trained Breakout with mixed data and, as a result, the performance is not as good as the other games.
+<img src="/assets/metrics_atari.png"  alt="1" width = 350px height = 496px >
+
+Atari games perform better when trained with expert data. We trained Breakout with mixed data and the performance is not as good as the other games. We trained Qbert with mixed and expert data and the scores are 6 times better with expert data.
 
 At test time the DT is handed the first return-to-go token, indicating the desirable return to reach in the task. Til aprox. 5 times the maximum return-to-go in the dataset, he results show a correlation between desired target return and true observed return. We used higher initial return-to-go with a similar result as 5x the maximum in the dataset.
- 
+
+Some examples of the performance after training:
+
+<table style="padding:10px">
+  <tr>
+    <td><img src="/assets/seaquest_3620.gif"  alt="1" width = 350px height = 496px ></td>
+    <td><img src="/assets/qbert_19000.gif"  alt="1" width = 350px height = 496px ></td>
+  </tr>
+  <tr>
+     <td><img src="/assets/spaceinvaders_1350.gif"  alt="1" width = 350px height = 496px ></td>
+      <td><img src="/assets/breakout_32.gif"  alt="1" width = 350px height = 496px ></td>
+  </tr>
+</table>
+
 Our results are, in some cases, better than other RL techniques.
 
-![dt_rollouts](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/a0bbe1d2-6a97-46d9-87b6-757fb8daae83)
+<img src='/assets/metrics_atari.png' width="10" height="10">
 
 ## Conclusions & Future work
 
@@ -85,13 +99,6 @@ By default:
 ```
 python main.py
 ```
-
-
-### Demo videos
-
-The agent not only learns to find caves. It also learns other basic skills such as escaping from zombies, avoiding obstacles, getting out of traps, exploring, navigating through caves, swimming, etc. Here are some demonstration shortcuts from the many journeys our agent has made.
-
-[hole_in_one.webm](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/3d89bbda-cee0-4db3-8fa4-9f6dfd3207bd)
 
 
 ## Multi-game Decision Transformer
