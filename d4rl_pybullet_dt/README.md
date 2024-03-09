@@ -27,8 +27,8 @@ Since the dataset offers 3 types of levels: `random`, `medium` and `mixed`, we n
 
 Before start training, we analised the dataset. The number of samples corresponds to the total steps obtained from adding up the steps of each episode. This is an important point, since we trated the dataset as a sequence of episodes.
 The preproecess of the data consisted on:
-  - Check the number of steps a episode has. We removed those when the duration was less than the mean duration of the entire episode set.
-  - Normalize the final data set
+  - Check the number of steps an episode has. We removed those when the duration was less than the mean duration. The main reason is to void episode too shorts, because at training, those episoded will have a large amount of padding, thus adding noise to our data.
+  - Although the mean and the standard deviation can be extracted from the data, we wanted to ensure that it is normalized, so we jsut applied a standard score normalization to the observation space. We did not normalize the actions since its already on the range [-1,1] since we are in a continous space.
 
 ## Training
 
