@@ -111,13 +111,18 @@ Here we present a list of the most important decisions made in the creation of o
 
 # Installation:
 
-## In Ubuntu Install java
+You can choose between two ways to install the project: using Docker or directly on an Ubuntu environment with Conda or similar. If you opt for Docker, at the root of the repository, you will find the [dev-container](https://github.com/SwissTonyStark/GameMindsDT/tree/main/.devcontainer/containerMineRL) for installation in Visual Studio, and also in the readme, the steps to follow to build the docker images. Below, you will find how to run the code on Ubuntu.
+
+## In Ubuntu
+
+Install java
 
 ```bash
 add-apt-repository ppa:openjdk-r/ppa
 apt-get update
 apt-get install openjdk-8-jdk
 ```
+In a Conda Environment
 
 ```bash
 # Install the required libraries
