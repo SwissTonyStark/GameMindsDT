@@ -33,5 +33,16 @@ The preproecess of the data consisted on:
 Additional data were needed to feed into the model. We have had to calcultae the return-to-go array and the timesteps manually since the enviroment only provides the observation space, action space, reward space and episode terminals.
 
 ## Training
-To do the training, we 
+To do the training, we divided the samples into episoded, so at the end the number of samples of the data sets corresponds to the number of episodes. Due to this, the actual number of examples is much less than the initial one since it is obvious that the number of episodes << number of samples.
+We splitted the data into a training set (80%) and a validation set (20%). The test is going to be done directly using the eviroment.
+
+## Experiments
+### Scenario 1: Hopper
+
+### Scenario 2: Walker2D
+
+### Scenario 3: Halfcheetah
+
+### Scenario 4: Ant
+
 
