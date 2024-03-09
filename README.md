@@ -5,7 +5,10 @@ Welcome to **GameMindsDT**, where we combine the potent synergy of **Decision Tr
 ### Reinforcement Learning: A Primer
 **Reinforcement learning (RL)** is a specialized branch of machine learning that empowers an agent to learn by perceiving and interpreting its environment. The agent operates within this environment, striving to maximize a reward function tied to its actions.
 In conventional scenarios, RL algorithms operate online, learning directly through environmental interaction. This iterative learning process involves the agent receiving environmental observations, taking actions, and earning rewards, which leads to the discovery of the next state.
+![image](https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/ae47e1ce-a98a-4348-a918-3505bbba5206)
 However, the challenge arises when a simulation environment is unavailable. Constructing such an environment can be complex and resource-intensive.
+
+
 ### The Offline RL Paradigm
 Conversely, in **offline RL**, an agent leverages pre-collected data, bypassing the need for direct environmental interaction. This data, typically stored as sequences, may originate from humans or other agents. The pivotal concern here is data quality; subpar or insufficient data can severely impact the optimization of the agent's policy.
 
