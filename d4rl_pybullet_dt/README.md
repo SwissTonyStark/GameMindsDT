@@ -28,9 +28,12 @@ Since the dataset offers 3 types of levels: `random`, `medium` and `mixed`, we n
 Before start training, we analised the dataset. The number of samples corresponds to the total steps obtained from adding up the steps of each episode. This is an important point, since we trated the dataset as a sequence of episodes.
 The preproecess of the data consisted on:
   - Check the number of steps an episode has. We removed those when the duration was less than the mean duration. The main reason is to void episode too shorts, because at training, those episoded will have a large amount of padding, thus adding noise to our data.
-  - Although the mean and the standard deviation can be extracted from the data, we wanted to ensure that it is normalized, so we jsut applied a standard score normalization to the observation space. We did not normalize the actions since its already on the range [-1,1] since we are in a continous space.
+  - Although the mean and the standard deviation can be extracted from the data, we wanted to ensure that it is normalized, so we jsut applied a standard score normalization to the observation space. 
 
 Additional data were needed to feed into the model. We have had to calcultae the return-to-go array and the timesteps manually since the enviroment only provides the observation space, action space, reward space and episode terminals.
+
+## Decision Transformer modification
+The Decision Transformer algorithm used is the same presented in the official paper, but for this experiment, some changes must be done to work wiht this dataset correctly. Sampling the actions space in order to gather knowledgement of the enviroment, we realised that the values of the actions can take any value within the range (-1,1), meaning that we are working wiht a continuous actions space. In order to work with continous space, we needed to change the linearlity of the model, instead of using a softmax we used a hyperbolic tangent. 
 
 ## Training
 To do the training, we divided the samples into episoded, so at the end the number of samples of the data sets corresponds to the number of episodes. Due to this, the actual number of examples is much less than the initial one since it is obvious that the number of episodes << number of samples.
