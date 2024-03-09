@@ -65,6 +65,8 @@ The second team is responsible for checking the performance of different RL algo
 Finally, in the last steps of the project, these paths converge at the same point to merge the progress and share it. The last objective is to test the DT implementation with the Minecraft environment, specifically using MineRL.
 
 ### Team Composition and Work Distribution
+#### Supervisor
+- **Txus Bach**
 #### Team A
 - **[Pol Fernández Blánquez](https://www.linkedin.com/in/polfernandezblanquez/)**
 - **Edgar Planell**
@@ -195,8 +197,6 @@ DT s'ha adaptat be a l'Atari, hem estat optimistes.., referenciar els problemes 
 **FEM CADASCÚ 3,4,5 linies de conclusions personals, que hem apres, problemes que ha tingut**
 <!-- IMPORTANT OMAR WAND.DB??? QUE ESTIGUI VISUAL I BEN EXPLICAT -->
 
-## References and Acknowledgements
-
 
 ## License
 This project is licensed under the [MIT License](LICENSE).
@@ -207,12 +207,8 @@ This project is licensed under the [MIT License](LICENSE).
 <!-- Estic reorganitzant tot -->
 
 
-
-
-
-
-
-
+## Glossary
+**Generar amb el GPT una llista de conceptes clau, etc, i posar links mes generics**
 ## References and Acknowledgements
 - [Decision Transformer: Reinforcement Learning via Sequence Modeling](https://arxiv.org/abs/2106.01345)
 - [d3rlpy](https://d3rlpy.readthedocs.io/en/v2.3.0/)
