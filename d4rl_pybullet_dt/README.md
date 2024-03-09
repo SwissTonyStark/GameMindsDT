@@ -41,12 +41,25 @@ We splitted the data into a training set (80%) and a validation set (20%). The t
 
 ## Experiments
 ### Scenario 1: Hopper
+#### Hypotesis
+This environment was the first environment where we trained and tested our Decision Transformer in a continuous space of actions and observations. Since we where starting from scratch with the training of our Decision Transformer, we didn’t want to jump straight forward into an environment of high level of complexity (in dimensionality and computational terms), so the election of the most friendly environment to start, was fundamental for the progress. Obtaining a prominent success in this first environment, will lead us towards the more complex environments and it’s challenges
+That’s where Hopper Pybullet comes intoplace. This environment shines for it’s simplicity  in terms of dimensionality in comparison with the other environments available from the same library. Here a quick overview of the actions and observations space dimensions:
+#### Troubleshooting
 
 ### Scenario 2: Walker2D
+#### Hypotesis
+#### Troubleshooting
+#### Results
 
 ### Scenario 3: Halfcheetah
+#### Hypotesis
+#### Troubleshooting
+#### Results
 
 ### Scenario 4: Ant
+#### Hypotesis
+#### Troubleshooting
+#### Results
 
 ## Conclusions
 
