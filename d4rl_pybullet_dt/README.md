@@ -146,9 +146,11 @@ We have conducted several rounds with different agents trained using various hyp
 
 The results on test for the 3 best-performing agents:
 
-![Test Walker2D](https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/58eaddbc-0a79-4e48-9177-f963ef45e2d7)
+![Test Walker2D](https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/d9ca989d-a3e2-4af2-84c7-cf19136c8a63)
 
+As the displayed results highlight, while we achieved a better reduction in loss during training with the high-dimensional embedding and context_length agent, the results during testing differ quite significantly from what was expected. We assume that the reason for the significant decrease in loss during training, but not during testing, could be associated with overfitting, perhaps due to the limited amount of data used for training and evaluation. That being said, a video of the final trained agent can be seen as follows:
 
+https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/db4e9855-b892-4103-a222-0720eb026d4a
 
 
 ### Environment 3: Halfcheetah Pybullet-v0
