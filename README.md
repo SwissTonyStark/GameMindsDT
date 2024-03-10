@@ -83,9 +83,8 @@ The paths converge in the final stages of the project to merge progress and shar
 ## Gantt Chart and Milestones 📅
 Our project timeline and key milestones were meticulously tracked using a Gantt chart, illustrating our structured approach to reaching our objectives.
 
-<p align="center">
-  <img src="(https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/3a504abd-a889-439a-a7e4-f855cffbb242" alt="Gantt Chart">
-</p>
+<img width="1087" alt="Gannt" src="https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/d640f614-b9a4-4b8c-be01-b9ca77b8c669">
+
 
 # State of the Art: Decision Transformer 🌐
 The cornerstone of our project is **Reinforcement Learning**, specifically focusing on offline RL and data sequences rather than direct environment interaction. This project delves into the architecture of the **Decision Transformer**, reducing the RL problem to a conditional sequence modeling problem.
