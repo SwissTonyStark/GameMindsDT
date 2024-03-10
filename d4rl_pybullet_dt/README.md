@@ -162,15 +162,16 @@ According the logic followed for choosing the first environments, we placed the 
 |Box(26,)| Box(6,)| 
 
 #### Troubleshooting
-As we said, we imagined that perhaps setting up as hypotesis that a set of hyperparameters really close to the one used for fine tunning the Walker2D was a good start for working with this new task. It did not catch us by suprise once we performed the first training and test, and we realized that the train was converging succesfully (at least at first look) but then during testing the agent was not moving at all(sound familiar?). Using all the knowledge we've gathered from previous experiments we've tried all sorts of possible configurations with the hyperparameters until we reached the limits of our new machine. We felt quite lost after all those training and tests (together more than 100 only in this environment), that we started considering the possibility that maybe the root cause was in our decision transformer.
+As we said, we imagined that perhaps setting up as hypotesis that a set of hyperparameters really close to the one used for fine tunning the Walker2D was a good start for working with this new task. It did not catch us by suprise once we performed the first training and test, and we realized that the train was converging succesfully (at least at first look) but then during testing the agent was not moving at all(sound familiar?). Using all the knowledge we've gathered from previous experiments we've tried all sorts of possible configurations with the hyperparameters until we reached the limits of our new machine. We felt quite lost after all those training and tests (together more than 100 only in this environment), that we started considering the possibility that maybe the root cause was in our decision transformer.We spent quite a lot of time reviewing, all the replays during training and test trying to find out what was the thing we were missing after all those tests.Was then, when we find this highlights:
 
 ![TrainCheckpointN9_halfcheetah_1-ezgif com-speed](https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/3e6ca285-19a3-49a0-b33b-5f462405b66d)
 ![TrainCheckpointN9_halfcheetah_2-ezgif com-speed](https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/31ad80ad-1f42-438e-b841-bcd45f4ec96d)
 ![TrainCheckpointN2_halfcheetah_4-ezgif com-speed](https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/4e06216c-b0db-4713-be25-1f942713bd20)
 
 
-We spent quite a lot of time reviewing, all the replays during training and test trying to find out what was the thing we were missing after all those tests. Was then, when we find this highlights:
-Our bet after doing some research, was regarding that maybe the positional embeddings were not providing 
+Above can be seen the most common result after training (Video on the left), where the agent was straight falling down. In some other trains, we've found out that agent actually learned part of the body movement needed to perform the first step (Video in the midle) but seemed that the attention during training was more focused on standing still than walking, like can be seen in the las video.  
+
+After doing some research (the information was quite limited especially for this early version of the library), we placed our bet with the possibility that the problem maybe was regarding the positional embeddings, so we decided to implement Global Positional Embedding for our Decision Transformer and run trains and tests again. Unfortunatelly, the results were not better but worse, and still nowadays we continue to find out the possible root cause.
 
 ### Hyperparameters
 The set of hyperparameters for our Decision Transformer in the Halfcheetah Pybullet Medimum env-v0:
@@ -198,6 +199,9 @@ The set of hyperparameters for our Decision Transformer in the Halfcheetah Pybul
       "render" : False
       
 #### Results
+As crazy as it sounds, we didn't accomplished the task of making our Decision Transformer learn the optimal policy in the Halfcheetah Pybullet-v0 environment but: What if the agent learned to walk backwards?
+
+
 
 ### Environment 4: Ant Pybullet-v0
 #### Hypotesis
