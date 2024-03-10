@@ -90,7 +90,7 @@ Our project timeline and key milestones were meticulously tracked using a Gantt 
 The cornerstone of our project is **Reinforcement Learning**, specifically focusing on offline RL and data sequences rather than direct environment interaction. This project delves into the architecture of the **Decision Transformer**, reducing the RL problem to a conditional sequence modeling problem.
 
 <p align="center">
-  <img src="https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/10a57bff-849c-4d44-985b-4f72c83c8d03" alt="Decision Transformer">
+  <img src="https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/10a57bff-849c-4d44-985b-4f72c83c8d03" alt="Decision Transformer" width="545" height="335">
 </p>
 
 # Environments 🎮
@@ -141,9 +141,8 @@ Pushing the boundaries further, we applied the Decision Transformer to Minecraft
 
 Docker played a crucial role in ensuring a consistent development environment across our team. It's an *open-source containerization platform* that enables developers to **package applications into containers—standardized executable components** combining application source code with the operating system (OS) libraries and dependencies required to run that code in any environment.
 <p align="center">
-  <img src="[https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/d75127fd-e5a2-4f32-b0a4-2b6ec87778a8](https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/c7ffea0a-fac7-4b4b-9e8d-bc1104028fe1)" alt="Docker logo" width="640" height="150">
+  <img src="https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/acba1b48-351c-4977-9283-5dacf8115b14" alt="Docker logo" width="640" height="150">
 </p>
-
 
 ### Why Docker?
 
