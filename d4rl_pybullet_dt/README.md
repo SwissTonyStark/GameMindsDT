@@ -23,7 +23,7 @@ The library d4rl-pybullet has four replicable enviroments: **Hopper**, **Halfche
 | walker2d-bullet-mixed-v0 | Walker2DBulletEnv-v0 | 181.51 | 277.71 | 1363.94 | 9.45 | 89772 |
 
 ## Dataset
-Since the dataset offers 3 types of levels: `random`, `medium` and `mixed`, we need to analise which of them are the cleanest and optim one to use. First we used the `random` datasets, but after different trials we saw that the results was not as we expected compared to the other two types. This could be happend because those samples are sampled wiht a randomly initialized policy, making the results hard to converge to a optim result for the Decision Transformer. Another artifact we took care was the amount of samples that the dataset has. In this kind of models, the amount of data impacts on the model, specially in the training step, so due to that, we discarded thoses datasets that offers less samples than the other ones. So the decision was to work the the `medium` dataset.
+Since the dataset offers 3 types of levels: `random`, `medium` and `mixed`, we need to analise which of them are the cleanest and optim one to use. First we used the `random` datasets, but after different trials we saw that the results was not as we expected compared to the other two types. This could be happend because those samples are sampled wiht a randomly initialized policy, making the results hard to converge to a optim result for the Decision Transformer. Another artifact we took care was the amount of samples that the dataset has. In this kind of models, the amount of data impacts on the model, specially in the training step, so due to that, we discarded thoses datasets that offers less samples than the other ones. So the decision was to work the the `medium` dataset, and all the results displayed below will be gathered using this dataset.
 
 Before start training, we analised the dataset. The number of samples corresponds to the total steps obtained from adding up the steps of each episode. This is an important point, since we trated the dataset as a sequence of episodes.
 The preproecess of the data consisted on:
@@ -91,7 +91,7 @@ The set of hyperparameters for our Decision Transformer in the Hopper Pybullet M
 
 
 ### Results
-We have conducted several rounds with different agents trained using various hyperparameter setups, and we've found that among all the parameters, slight changes in the context length led to better performance in this environment. The results of the three runs for the best agents are shown as follow:
+We have conducted several rounds with different agents trained using various hyperparameter setups, and we've found that among all the parameters, slightly increasing the context length led to better performance in this environment. The results of the three runs for the best agents are shown as follow:
 
 ![Test Bullet](https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/5c032f11-40fe-466a-9a29-1ce77fabd568)
 
@@ -101,7 +101,8 @@ https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/95f4d853-056c-454
 
 ### Environment 2: Walker2D Pybullet-v0
 #### Hypotesis
-For this environment
+
+We choosed this environment as the second task for our Decision Transformer in a continuous space, due we considered the second most feasable task from the environment. Our initial hypotesis, was that we will probably need more computational demanding hyperparameters for this environment, since the environment space dimensionality was almost doubled in comparison with the Hopper environment. We started with the same configuration, what we quickly realized that the model was not able to learn the optimal policy wit that configuration. Twitching the embeddings dimensonality (from 128 to 256), the context length (from 20 to 40) and the batch size (from 64 to 128) was crucial to make it work, since now the agent had more observations and actions features to consider before inference. In the other hand, this was considerable amount of information that will have to be processed, so to ensure a proper assimilation of the environment needs, we slowly increased the number of heads, number of layers until finding the optimal configuration for our Decision Transformer
 
 Here a quick overview of the observations and actions space dimensions:
 
@@ -110,17 +111,19 @@ Here a quick overview of the observations and actions space dimensions:
 |Box(22,)| Box(6,)| 
 
 #### Troubleshooting
+As explained in the hypothesis, we managed to find the set of hyperparameters needed for this environment. However, indirectly, the computational cost of the agents with this new environment setup was increasing significantly, and the machines that we were using were starting to reach their limits. Luckily, we managed to find a more powerful machine to continue with this more demanding configuration.
+
 ### Hyperparameters
 The set of hyperparameters for our Decision Transformer in the Hopper Walker2D Medimum env-v0:
 
-      "h_dim": 128,  
-      "num_heads": 1,
-      "num_blocks": 3, 
-      "context_len": 20,
-      "batch_size": 64,
-      "lr": 0.0001,
+      "h_dim": 256,  
+      "num_heads": 8,
+      "num_blocks": 4, 
+      "context_len": 40,
+      "batch_size": 128,
+      "lr": 0.001,
       "weight_decay": 0.0001,
-      "mlp_ratio": 1,
+      "mlp_ratio": 4,
       "dropout": 0.1,
       "train_epochs": 3000,
       "rtg_target": 5000,
@@ -134,8 +137,9 @@ The set of hyperparameters for our Decision Transformer in the Hopper Walker2D M
       "state_mean" : dataset_observations_mean,
       "state_std" : dataset_observations_std, 
       "render" : False
-      
+     
 #### Results
+We have conducted several rounds with different agents trained using various hyperparameter setups, and like in Hopper's Pybullet environment, increasing slightly the context length led to a better performance in this environment. Also as expected, increasing the dimensionality of the hidden layers of our embeddings translated into a significant reduction in the training and validation loss, allowing the training to converge quicker. The results of the three best-performing agents are shown below:
 
 ### Environment 3: Halfcheetah Pybullet-v0
 #### Hypotesis
