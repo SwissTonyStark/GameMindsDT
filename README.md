@@ -131,7 +131,7 @@ For a detailed overview, refer to our [DT-Atari README](DT-atari/README.md).
 Pushing the boundaries further, we applied the Decision Transformer to Minecraft via the MineRL environment. This experiment aimed to explore the model's potential in complex, real-world tasks based on human video demonstrations. Dive deeper into our findings in the [MineRL README](dt-mine-rl-project/README.md).
 
 <p align="center">
-  <img src="https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/d75127fd-e5a2-4f32-b0a4-2b6ec87778a8" alt="MineRL Environment">
+  <img src="https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/d75127fd-e5a2-4f32-b0a4-2b6ec87778a8" alt="MineRL Environment" width="800" height="550">
 </p>
 
 *Minecraft's complexity presents a significant challenge, testing the Decision Transformer's learning efficiency and adaptability.*
