@@ -257,6 +257,7 @@ You can choose between two ways to install the project: using Docker or creating
 The steps to build the Conda environment are described below:
 ```
 # Create Conda Environment
+
 conda create -n gamemindsDT python=3.10.12
 conda activate gamemindsDT
 pip install git+https://github.com/takuseno/d4rl-pybullet
@@ -265,10 +266,14 @@ pip install -r requirements.txt
 ###
 
 ### Considerations and Known Issues
+Some users may encounter issues with certain dependencies, particularly with ffmpeg and the H264 codec, in specific environments. Below are some important considerations:
+
+- **ffmpeg and H264 Codec Issue:** If you encounter issues related to ffmpeg and the H264 codec, you can find a solution on [Stack Overflow](https://stackoverflow.com/questions/tagged/ffmpeg+h264).
 
 ## Run the code
 ```
-#Go into project folder 
+#Go into project folder
+
 cd d4rl_pybullet_dt\code
 
 #Run the code
@@ -295,6 +300,7 @@ This utility allows users to review the environment and configuration used for a
 
 ### Test a Pretrained DT in Pybullet-V0
 Finally, with this last option, users can test any of the pretrained agents in any of the available environments. A video will be generated at the end, framing all the epochs the agent has been through.
+
 ![UserInterface - Option3 -PretrainedAgentSelected - EnvironmentSelected](https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/fe39bb34-d51a-44cb-8fb1-da8c2c4a904a)
  
 ## Conclusions
