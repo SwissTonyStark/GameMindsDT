@@ -253,19 +253,29 @@ The set of hyperparameters used for our Decision Transformer in the Ant Pybullet
 ## Installation
 You can choose between two ways to install the project: using Docker or creating a Conda environment or something similar. If you prefer to use Docker, at the root of the repository, you will find the dev-container for its installation in Visual Studio. In the same root, the README will guide you through the steps to build the Docker images.
 
-The steps to build the Conda environment are described below:
 ### In Conda
-#### Go into folder 
-cd d4rl_pybullet_dt\code
-
-#### Create Conda Environment
+The steps to build the Conda environment are described below:
+```
+# Create Conda Environment
 conda create -n gamemindsDT python=3.10.12
 conda activate gamemindsDT
 pip install git+https://github.com/takuseno/d4rl-pybullet
 pip install -r requirements.txt
+```
+###
 
-### Usage
-A simple user interface has been developed to guide users through the functionalities of the code
+### Considerations and Known Issues
+
+## Run the code
+```
+#Go into project folder 
+cd d4rl_pybullet_dt\code
+
+#Run the code
+python main.py
+```
+### User Interface Guide
+Once the code is running, a simple user interface will pop up. This simple user interface has been developed to guide the users through the functionalities of the code. There's basically 3 main options to choose:
 
 ![UserInterface - MainMenu](https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/20d8e1a1-e8d0-4585-9010-ebfd4d72b8df)
 
@@ -281,12 +291,11 @@ Once the user selects the environment, the training begins, and updates and stat
 ### Overview Pretrained Models Config
 This utility allows users to review the environment and configuration used for a certain pretrained agent.
 
-![UserInterface - Option2](https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/6d6e25d3-a21a-4987-a9e3-e75d78f8e634)
 ![UserInterface - Option2 -PretrainedAgentSelected](https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/f9add7a0-4780-4e0a-a48f-85f8c4f80dad)
 
 ### Test a Pretrained DT in Pybullet-V0
 Finally, with this last option, users can test any of the pretrained agents in any of the available environments. A video will be generated at the end, framing all the epochs the agent has been through.
-![UserInterface - Option3 -PretrainedAgentSelected - EnvironmentSelected](https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/3ca722a4-a73c-4a88-b868-ed9d09ca1579)
+![UserInterface - Option3 -PretrainedAgentSelected - EnvironmentSelected](https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/fe39bb34-d51a-44cb-8fb1-da8c2c4a904a)
  
 ## Conclusions
 
