@@ -302,11 +302,13 @@ With the testing option, users can select any of the pretrained agents to evalua
  
 ## Acknowledgements:
 
-I would like to acknowledge [takuseno](https://github.com/takuseno) the author(s) of the GitHub repository [d4rl-pybullet](https://github.com/takuseno/d4rl-pybullet) for providing the dataset and code that served as the foundation for implementing my decision transformer model. Their contributions were essential in the development of this project.
+We would like to acknowledge [takuseno](https://github.com/takuseno) the author(s) of the GitHub repository [d4rl-pybullet](https://github.com/takuseno/d4rl-pybullet) for providing the dataset and code that served as the foundation for implementing my decision transformer model. Their contributions were essential in the development of this project.
 
-Pybullet:
-* PyBullet Quickstart Guide (https://docs.google.com/document/d/10sXEhzFRSnvFcl3XxNGhnD4N2SedqwdAvK3dsihxVUA/edit#heading=h.btdfuxtf2f72)
-* Reinforcement Learning Gym Envs (https://docs.google.com/document/d/10sXEhzFRSnvFcl3XxNGhnD4N2SedqwdAvK3dsihxVUA/edit#heading=h.wz5to0x8kqmr)
+We would like to acknowledge [kzl](https://github.com/kzl)the authors of the paper [Decision Transformer: Reinforcement Learning via Sequence Modeling](https://github.com/kzl/decision-transformer) for their valuable contributions to the field of reinforcement learning. Their work has inspired and informed our own efforts in developing this project.
+
+Pybullet Official Documentation:
+* Used as a general purpouse documentation for troubleshooting with the environment - [PyBullet Quickstart Guide] (https://docs.google.com/document/d/10sXEhzFRSnvFcl3XxNGhnD4N2SedqwdAvK3dsihxVUA/edit#heading=h.btdfuxtf2f72)
+* [Reinforcement Learning Gym Envs] (https://docs.google.com/document/d/10sXEhzFRSnvFcl3XxNGhnD4N2SedqwdAvK3dsihxVUA/edit#heading=h.wz5to0x8kqmr)
 
 d3rlpy: 
 * A collection of Reinforcement Learning baselines and algorithms for model-based reinforcement learning: We have used his GlobalPositionEncoding. (https://github.com/takuseno/d3rlpy/tree/v2.3.0)
