@@ -196,6 +196,11 @@ We decided to train Atari games using a decision transformer for some reasons:
 
 For an in-depth look, visit the [DT-ATARI README](DT-atari/README.md).
 ***
+<!-- AFEGIR OMAR I SHUANG EL VOSTRE -->
+### PyBullet: Exploration and Objectives
+In this experiment, we are utilizing our Decision Transformer in PyBullet environments through the d4rl-pybullet library from this repository. Initially, the plan was to employ the MuJoCo environment from Gymnasium, but due to issues installing the library stemming from deprecated dependencies and licensing problems, we sought an alternative environment.
+
+The d4rl-pybullet library features four replicable environments: Hopper, HalfCheetah, Ant, and Walker2D. The primary objective is to assess how our decision transformer performs in these types of environments. For an in-depth examination, please visit the [DT-PYBULLET README](d4rl_pybullet_dt/README.md)
 
 ### MineRL: Exploration and Objectives
 <!-- Estic muntant a draw.io una llista d'algorismes i environments -->
@@ -210,10 +215,6 @@ We have demonstrated in previous experiments that Decision Transformers can solv
 ![hole_in_one](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/d6d4af15-0e29-4013-a6bb-d38f74e09921)
 
 For an in-depth look, visit the [MineRL README](dt-mine-rl-project/README.md).
-
-<!-- AFEGIR OMAR I SHUANG EL VOSTRE -->
-
-<!-- ALEX?? FINALMENT HI HA README? -->
 
 ***
 # Docker Integration
