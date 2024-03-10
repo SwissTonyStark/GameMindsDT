@@ -209,7 +209,7 @@ After spending countless hours trying various combinations of hyperparameters, d
 
 ### Environment 4: Ant Pybullet-v0
 #### Hypotesis
-The Ant Pybullet was by far the most challenging of the tasks available in the Pybullet environment, so we keep it as the last one in order to ensure the progress over the rest of them. Unfortunately, the bad results obtained by our agent in the Halfcheetah environment left us a bad feeling that the agent will not perform better in the Ant Environtment. Even, though we've attempted several runs with different hyperparameteres (based on the feedback gathered from previous environments), but as expected the results we're not the best so we quickly dismiss this environtment for this project.
+The Ant Pybullet task was by far the most challenging of the tasks available in the Pybullet environment, so we kept it as the last one in order to ensure progress over the rest of them. Unfortunately, the poor results obtained by our agent in the Halfcheetah environment left us with a feeling that the agent would not perform better in the Ant Environment. Even though we attempted several runs with different hyperparameters (based on the feedback gathered from previous environments), but as expected, the results were not the best so we quickly dismissed this environment for this project.
 
 Here a quick overview of the observations and actions space dimensions:
 
@@ -218,7 +218,7 @@ Here a quick overview of the observations and actions space dimensions:
 |Box(28,)| Box(8,)| 
 
 #### Troubleshooting
-Like described in the Troubleshooting section of the Halfcheetah environtment, we couldn't find yet the root cause of why the agent doesn't generalize properly in this two las enviornments. For us, this is still an open topic that we will try to follow-up after gathering more testing.
+As described in the Troubleshooting section of the Halfcheetah Pybullet environment, we have not yet found the root cause of why the agent does not generalize properly in these last two environments. For us, this is still an open topic that we will try to follow up on after gathering more testing. Below, we have selected a few of the best highlights from training and test runs for the Ant Environment, where the best attempts to follow the optimal policy can be seen:
 
 ![TrainCheckpointN8_1-ezgif com-speed](https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/08d377e2-3ee5-4b14-a885-ac3b2eff3408)
 ![TrainCheckpointN4_2-ezgif com-speed](https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/c71d1a80-815d-4a79-b71f-9b667f97452b)
