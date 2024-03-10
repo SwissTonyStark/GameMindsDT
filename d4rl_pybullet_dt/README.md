@@ -267,9 +267,9 @@ pip install -r requirements.txt
 ### Considerations and Known Issues
 Some users may encounter issues with certain dependencies, particularly with ffmpeg and the H264 codec, in specific environments. Below are some important considerations:
 
-- **ffmpeg and H264 Codec Issue - Ubuntu:** If you encounter issues related to ffmpeg and the H264 codec in your Ubuntu OS, you can find a solution [here]([https://stackoverflow.com/questions/tagged/ffmpeg+h264](https://stackoverflow.com/questions/70247344/save-video-in-opencv-with-h264-codec)).
-- **ffmpeg and H264 Codec Issue - Windows:** If you encounter issues related to ffmpeg and the H264 codec in you Windows OS, you can find a solution on [here]([https://stackoverflow.com/questions/tagged/ffmpeg+h264](https://blog.gregzaal.com/how-to-install-ffmpeg-on-windows/)).
-- 
+- **ffmpeg and H264 Codec Issue - Ubuntu:** If you encounter issues related to ffmpeg and the H264 codec in your Ubuntu OS, you can find a solution [here](https://stackoverflow.com/questions/70247344/save-video-in-opencv-with-h264-codec).
+- **ffmpeg and H264 Codec Issue - Windows:** If you encounter issues related to ffmpeg and the H264 codec in you Windows OS, you can find a solution [here](https://blog.gregzaal.com/how-to-install-ffmpeg-on-windows/).
+  
 ## Run the code
 ```
 # Go into project folder
