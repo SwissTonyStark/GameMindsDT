@@ -40,7 +40,7 @@ To do the training, we divided the samples into episoded, so at the end the numb
 We splitted the data into a training set (80%) and a validation set (20%). The test is going to be done directly using the eviroment.
 
 ## Experiments
-### Scenario 1: Hopper
+### Environment 1: Hopper Pybullet-v0
 #### Hypotesis
 This environment was the first environment where we trained and tested our Decision Transformer in a continuous space of actions and observations. Since we where starting from scratch with the training of our Decision Transformer, we didn’t want to jump straight forward into an environment of high level of complexity (in dimensionality and computational terms), so the election of the most friendly environment to start, was fundamental for the progress. Obtaining a prominent success in this first environment, will lead us towards the more complex environments and it’s challenges
 That’s where Hopper Pybullet comes intoplace. This environment shines for it’s simplicity  in terms of dimensionality in comparison with the other environments available from the same library. Here a quick overview of the actions and observations space dimensions:
@@ -58,23 +58,27 @@ This initially puzzled us, until we considered the possibility that the predicte
 
 We made the necessary fixes in the code, and we reran the test. After this changes, our first agent in the Pybullet environment was finally walking. 
 
-https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/95f4d853-056c-454c-9ecb-eb3fcd5c65cf
 
 ### Results
+We have conducted several rounds with different agents trained using various hyperparameter setups, and we've found that among all the parameters, slight changes in the context length led to better performance in this environment. The results of the three runs for the best agents are shown as follow:
 
+![Test Bullet](https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/5c032f11-40fe-466a-9a29-1ce77fabd568)
 
+From the test videos performed for those three agents, we can highlight that all three quickly started learning the policy. However, only the last agent followed the optimal policy, ensuring itself to maintain equilibrium persistently throughout all the episodes, making it the most successful in fulfilling the task
 
-### Scenario 2: Walker2D
+https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/95f4d853-056c-454c-9ecb-eb3fcd5c65cf
+
+### Environment 2: Walker2D Pybullet-v0
 #### Hypotesis
 #### Troubleshooting
 #### Results
 
-### Scenario 3: Halfcheetah
+### Environment 3: Halfcheetah Pybullet-v0
 #### Hypotesis
 #### Troubleshooting
 #### Results
 
-### Scenario 4: Ant
+### Environment 4: Ant Pybullet-v0
 #### Hypotesis
 #### Troubleshooting
 #### Results
@@ -114,9 +118,7 @@ This utility allows users to review the environment and configuration used for a
 ![UserInterface - Option2 -PretrainedAgentSelected](https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/f9add7a0-4780-4e0a-a48f-85f8c4f80dad)
 
 ### Test a Pretrained DT in Pybullet-V0
-Finally, with this last option, users can test any pretrained agent in any of the available environments. A video will be generated at the end, framing all the epochs the agent has been through.
-![UserInterface - Option3](https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/30d24623-c524-4526-830c-3a5d784bf2b3)
-![UserInterface - Option3 -PretrainedAgentSelected](https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/4ca8055a-30f8-4a98-89b7-f15f7c5777d7)
+Finally, with this last option, users can test any of the pretrained agents in any of the available environments. A video will be generated at the end, framing all the epochs the agent has been through.
 ![UserInterface - Option3 -PretrainedAgentSelected - EnvironmentSelected](https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/3ca722a4-a73c-4a88-b868-ed9d09ca1579)
  
 ## Conclusions
