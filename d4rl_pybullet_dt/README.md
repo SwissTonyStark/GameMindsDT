@@ -58,6 +58,31 @@ This initially puzzled us, until we considered the possibility that the predicte
 
 We made the necessary fixes in the code, and we reran the test. After this changes, our first agent in the Pybullet environment was finally walking. 
 
+### Hyperparameters
+The set of hyperparameters for our Decision Transformer in the Hopper Pybullet Medimum env-v0:
+
+      "h_dim": 128,  
+      "num_heads": 1,
+      "num_blocks": 3, 
+      "context_len": 20,
+      "batch_size": 64,
+      "lr": 0.0001,
+      "weight_decay": 0.0001,
+      "mlp_ratio": 1,
+      "dropout": 0.1,
+      "train_epochs": 1500,
+      "rtg_target": 5000,
+      "rtg_scale" :1,
+      "constant_retrun_to_go" : True,
+      "stochastic_start" : True,
+      "num_eval_ep" :10, 
+      "max_eval_ep_len":250, 
+      "num_test_ep":10,  
+      "max_test_ep_len":1000,
+      "state_mean" : dataset_observations_mean,
+      "state_std" : dataset_observations_std, 
+      "render" : False
+
 
 ### Results
 We have conducted several rounds with different agents trained using various hyperparameter setups, and we've found that among all the parameters, slight changes in the context length led to better performance in this environment. The results of the three runs for the best agents are shown as follow:
