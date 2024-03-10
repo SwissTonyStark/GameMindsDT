@@ -185,6 +185,7 @@ Before diving into our custom Decision Transformer, we first aimed to validate t
 We trained models on Atari games using a Decision Transformer to benchmark our approach against this visually rich and diverse environment, specially challenging due to the difficulty of credit assignment arising from the delay between actions and resulting rewards.
 For a detailed overview, refer to our <a href="https://github.com/SwissTonyStark/GameMindsDT/blob/main/DT-atari/README.md" target="_blank">DT-Atari README</a>
 
+
 <table style="padding:10px">
   <tr>
     <td><img src="/assets/seaquest_3620.gif"  alt="1" width = 350px height = 496px ></td>
