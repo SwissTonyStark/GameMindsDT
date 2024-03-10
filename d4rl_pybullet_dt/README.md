@@ -114,7 +114,7 @@ Here a quick overview of the observations and actions space dimensions:
 As explained in the hypothesis, we managed to find the set of hyperparameters needed for this environment. However, indirectly, the computational cost of the agents with this new environment setup was increasing significantly, and the machines that we were using were starting to reach their limits. Luckily, we managed to find a more powerful machine to continue with this more demanding configuration.
 
 ### Hyperparameters
-The set of hyperparameters for our Decision Transformer in the Hopper Walker2D Medimum env-v0:
+The set of hyperparameters for our Decision Transformer in the Walker2D Pybullet Medimum env-v0:
 
       "h_dim": 256,  
       "num_heads": 8,
@@ -155,13 +155,42 @@ https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/db4e9855-b892-410
 
 ### Environment 3: Halfcheetah Pybullet-v0
 #### Hypotesis
-Here a quick overview of the observations and actions space dimensions:
+According the logic followed for choosing the first environments, we placed the halfcheetah in the tird position in our to-do list. The dimensionality of the observation and action spaces of this environmant is quite similar to the Walker2D environtment, so we head-up with the hypotesis that a similar set of hyperparameters like the ones used during the fine tunning of the previous environtment will work. 
 
 | observation_space | action_space |
 |:-|:-|
 |Box(26,)| Box(6,)| 
 
 #### Troubleshooting
+As we said, we imagined that perhaps setting up as hypotesis that a set of hyperparameters really close to the one used for fine tunning the Walker2D was a good start for working with this new task. It did not catch us by suprise once we performed the first training and test, and we realized that the train was converging succesfully (at least at first look) but then during testing the agent was not moving at all(sound familiar?). Using all the knowledge we've gathered from previous experiments we've tried all sorts of possible configurations with the hyperparameters until we reached the limits of our new machine. We felt quite lost after all those training and tests (together more than 100 only in this environment), that we started considering the possibility that maybe the root cause was in our decision transformer.
+
+We spent quite a lot of time reviewing, all the replays during training and test trying to find out what was the thing we were missing after all those tests. Was then, when we find this highlights:
+Our bet after doing some research, was regarding that maybe the positional embeddings were not providing 
+### Hyperparameters
+The set of hyperparameters for our Decision Transformer in the Halfcheetah Pybullet Medimum env-v0:
+
+      "h_dim": 256,  
+      "num_heads": 8,
+      "num_blocks": 4, 
+      "context_len": 40,
+      "batch_size": 128,
+      "lr": 0.001,
+      "weight_decay": 0.0001,
+      "mlp_ratio": 4,
+      "dropout": 0.1,
+      "train_epochs": 3000,
+      "rtg_target": 5000,
+      "rtg_scale" :1,
+      "constant_retrun_to_go" : True,
+      "stochastic_start" : True,
+      "num_eval_ep" :10, 
+      "max_eval_ep_len":250, 
+      "num_test_ep":10,  
+      "max_test_ep_len":1000,
+      "state_mean" : dataset_observations_mean,
+      "state_std" : dataset_observations_std, 
+      "render" : False
+      
 #### Results
 
 ### Environment 4: Ant Pybullet-v0
@@ -173,6 +202,32 @@ Here a quick overview of the observations and actions space dimensions:
 |Box(28,)| Box(8,)| 
 
 #### Troubleshooting
+
+### Hyperparameters
+The set of hyperparameters for our Decision Transformer in the Ant Pybullet Medimum env-v0:
+
+      "h_dim": 256,  
+      "num_heads": 8,
+      "num_blocks": 4, 
+      "context_len": 40,
+      "batch_size": 128,
+      "lr": 0.001,
+      "weight_decay": 0.0001,
+      "mlp_ratio": 4,
+      "dropout": 0.1,
+      "train_epochs": 3000,
+      "rtg_target": 5000,
+      "rtg_scale" :1,
+      "constant_retrun_to_go" : True,
+      "stochastic_start" : True,
+      "num_eval_ep" :10, 
+      "max_eval_ep_len":250, 
+      "num_test_ep":10,  
+      "max_test_ep_len":1000,
+      "state_mean" : dataset_observations_mean,
+      "state_std" : dataset_observations_std, 
+      "render" : False
+
 #### Results
 
 ## Installation
