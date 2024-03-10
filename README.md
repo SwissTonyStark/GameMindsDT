@@ -1,4 +1,7 @@
 # GameMindsDT - Project Overview
+
+![GameMindstDT Atari   Minecraft](https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/232c06e1-7cb4-4d0b-b2ae-11d24c79a2ef)
+
 ## Introduction and Motivation
 Welcome to **GameMindsDT**, where we combine the potent synergy of **Decision Transformers** and **Reinforcement Learning** to conquer a myriad of gaming challenges. Our project is the epic saga of constructing a **custom Transformer model** from scratch, fine-tuning reinforcement learning models, and deploying them to triumph in an extensive variety of virtual environments. From the nostalgia of classic arcade arenas to the intricate strategies of sophisticated simulations, **GameMindsDT** stands as a vanguard in **AI-driven gameplay exploration**.
 
@@ -22,7 +25,7 @@ Let's continue with what we will see next.
   - [Team Composition and Work Distribution](#team-composition-and-work-distribution)
   - [Gantt Chart and Milestones](#gantt-chart-and-milestones)
 - [State of the Art: Decision Transformer](#state-of-the-art-decision-transformer)
-- [Algorithms and Environments](#algorithms-and-environments)
+- [Environments](#environments)
 - [Installation and Experiments](#installation-and-experiments)
   - [MineRL: Exploration and Objectives](#minerl-exploration-and-objectives)
 - [Docker Integration](#docker-integration)
@@ -158,7 +161,7 @@ We ventured through various algorithms and environments, from the traditional Op
 <!-- DRAW.IO -->
 ![Environments GameMinds DT](https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/4e11aaf8-9ae9-4721-841e-db724e772de4)
 
- *These are the main environments we have tested and experimented with*
+ *These are the main environments we have tested and experimented with.*
 
 
  
@@ -359,3 +362,4 @@ This project is licensed under the [MIT License](LICENSE).
 - [Constrained Decision Transformer a](https://www.offline-saferl.org/)
 - [Constrained Decision Transformer b](https://arxiv.org/abs/2302.07351)
 > **Published in: 2023-2024**
+> ![GameMindsDT Cover](https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/c36ded66-414c-48c1-9700-9cf727359b41)
