@@ -1,7 +1,7 @@
 # Experiment: PyBullet enviroments
-In this experiment we are using our Decision Trasnformer in PyBullet enviroments using the library d4rl-pybullet from this repository. The original idea was to use Mujoco enviroment from gymnasium, but since we had problems on installing the library due to deprecated dependencies and lisence problems, we seek another similar enviroment.
+For this experiment, we will be using our Decision Transformer in PyBullet Gym Environments-V0 using the library [d4rl-pybullet](https://github.com/takuseno/d4rl-pybullet) from [takuseno](https://github.com/takuseno)'s repository. The original idea was to use the latest Mujoco environments from Gymnasium Open Ai, but we didnt' find many datasets available and also we faced several problems installing the library due to deprecated dependencies and license issues.
 
-The library d4rl-pybullet has four replicable enviroments: **Hopper**, **Halfcheetah**, **Ant** and **Walker2D**. For our experiments we used all available enviroments. Each of these enviroments offers diferents types of dataset as seen in the following table extracted from d4rl-pybullet repository:
+The library d4rl-pybullet has four replicable enviroments: **Hopper**, **Halfcheetah**, **Ant** and **Walker2D**. For our experiments we used all available enviroments. Each of these enviroments offers diferents types of dataset as can be seen in the following table extracted from d4rl-pybullet repository:
 
 - `random` denotes datasets sampled with a randomly initialized policy.
 - `medium` denotes datasets sampled with a medium-level policy.
@@ -23,17 +23,21 @@ The library d4rl-pybullet has four replicable enviroments: **Hopper**, **Halfche
 | walker2d-bullet-mixed-v0 | Walker2DBulletEnv-v0 | 181.51 | 277.71 | 1363.94 | 9.45 | 89772 |
 
 ## Dataset
-Since the dataset offers 3 types of levels: `random`, `medium` and `mixed`, we need to analise which of them are the cleanest and optim one to use. First we used the `random` datasets, but after different trials we saw that the results was not as we expected compared to the other two types. This could be happend because those samples are sampled wiht a randomly initialized policy, making the results hard to converge to a optim result for the Decision Transformer. Another artifact we took care was the amount of samples that the dataset has. In this kind of models, the amount of data impacts on the model, specially in the training step, so due to that, we discarded thoses datasets that offers less samples than the other ones. So the decision was to work the the `medium` dataset, and all the results displayed below will be gathered using this dataset.
 
-Before start training, we analised the dataset. The number of samples corresponds to the total steps obtained from adding up the steps of each episode. This is an important point, since we trated the dataset as a sequence of episodes.
-The preproecess of the data consisted on:
-  - Check the number of steps an episode has. We removed those when the duration was less than the mean duration. The main reason is to void episode too shorts, because at training, those episoded will have a large amount of padding, thus adding noise to our data.
-  - Although the mean and the standard deviation can be extracted from the data, we wanted to ensure that it is normalized, so we jsut applied a standard score normalization to the observation space. 
+Since the dataset offers 3 types of levels: random, medium, and mixed, we need to analyze which of them is the cleanest and optimal to use. Initially, we used the random datasets, but after several trials, we observed that the results were not as expected compared to the other two types. This could have happened because those samples are sampled with a randomly initialized policy, making it hard for the results to converge to an optimal result for the Decision Transformer. Another factor we considered was the amount of samples that the dataset contains. In this type of model, the amount of data impacts the model, especially in the training step, so we discarded datasets that offer fewer samples than the others. Therefore, we decided to work with the medium dataset, and all the results displayed below will be gathered using this dataset.
 
-Additional data were needed to feed into the model. We have had to calcultae the return-to-go array and the timesteps manually since the enviroment only provides the observation space, action space, reward space and episode terminals.
+Before starting training, we analyzed the dataset. The number of samples corresponds to the total steps obtained by adding up the steps of each episode. This is an important point, as we treated the dataset as a sequence of episodes. The preprocessing of the data consisted of the following steps:
+
+  - **Normalization of episodes length:** We excluded episodes with durations shorter than the mean duration. This was done to prevent excessively short episodes, which, during training, would require significant padding, potentially introducing noise into our data
+  - **Normalization of Observation Space:** While mean and standard deviation can be derived from the data, we aimed to ensure normalization by applying standard score normalization specifically to the observation space
+  - **Generation of Additional Model Inputs:** To accommodate the model's requirements, we manually computed the return-to-go array and timesteps. This was necessary due to the limited information provided by the environment, which includes only the observation space, action space, reward space, and episode terminals
 
 ## Decision Transformer modification
-The Decision Transformer algorithm used is the same presented in the official paper, but for this experiment, some changes must be done to work wiht this dataset correctly. Sampling the actions space in order to gather knowledgement of the enviroment, we realised that the values of the actions can take any value within the range (-1,1), meaning that we are working wiht a continuous actions space. In order to work with continous space, we needed to change the linearlity of the model, instead of using a softmax we used a hyperbolic tangent. 
+The Decision Transformer algorithm used is the same as presented in the official paper. However, for this experiment, some modifications were necessary to adapt to this dataset. The environment we are working with is a continuous space environment. 
+
+This means that the action space will be within the range of [-1, 1], unlike in discrete space environments where the action space represents a probability distribution over the available actions. In continuous environments, actions are typically represented as continuous numerical values, whereas in discrete environments, actions are often indices or labels representing discrete choices.
+
+To accommodate the continuous space, we needed to modify the linearity of the model. Instead of using a softmax function, we employed a hyperbolic tangent.
 
 ## Training
 To do the training, we divided the samples into episoded, so at the end the number of samples of the data sets corresponds to the number of episodes. Due to this, the actual number of examples is much less than the initial one since it is obvious that the number of episodes << number of samples.
