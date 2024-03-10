@@ -179,8 +179,7 @@ Before we deep dive into our scratch decision transformer, we wanted to verify t
 ***
 
 ### Atari: Exploration and Objectives
-
-<img src="/assets/atari.png" width = 174px height = 204px> 
+![Vorlage_shock2_banner-atari](https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/01c5365c-5b41-4ac1-8ca2-96e37aa74294)
 
 We decided to train Atari games using a decision transformer for some reasons:
 - <b>Complexity</b>: Atari games offer a visually rich and diverse environment, in some cases more complex than other more simpler environments often used in RL. Some Atari games are specially challenging due to the difficulty of credit assignment arising from the delay between actions and resulting rewards
