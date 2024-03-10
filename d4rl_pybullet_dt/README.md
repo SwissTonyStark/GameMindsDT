@@ -209,6 +209,8 @@ After spending countless hours trying various combinations of hyperparameters, d
 
 ### Environment 4: Ant Pybullet-v0
 #### Hypotesis
+The Ant Pybullet
+
 Here a quick overview of the observations and actions space dimensions:
 
 | observation_space | action_space |
