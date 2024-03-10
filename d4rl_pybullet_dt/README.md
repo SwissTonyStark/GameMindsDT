@@ -40,8 +40,8 @@ This means that the action space will be within the range of [-1, 1], unlike in 
 To accommodate the continuous space, we needed to modify the linearity of the model. Instead of using a softmax function, we employed a hyperbolic tangent.
 
 ## Training
-To do the training, we divided the samples into episoded, so at the end the number of samples of the data sets corresponds to the number of episodes. Due to this, the actual number of examples is much less than the initial one since it is obvious that the number of episodes << number of samples.
-We splitted the data into a training set (80%) and a validation set (20%). The test is going to be done directly using the eviroment.
+To conduct the training, we organized the total samples from the selected dataset into episodes. Consequently, the actual number of episodes became significantly lower than initially anticipated, as the episodes varied in length.
+We divided the entire dataset into a training set (80%) and a validation set (20%). Testing will be performed directly using the environment.
 
 ## Experiments
 ### Environment 1: Hopper Pybullet-v0
