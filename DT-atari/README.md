@@ -60,7 +60,7 @@ Except in the case of the Breakout (trained only with mixed data) we observe tha
 
 ## Future work
 
-- Include to our dataset information of the current number of lives over the course of an episode. It's relevant information. We could try to train the model not to lose lives, as well as to accumulate the maximum reward.
+- Cook the data better: Include to our dataset information of the current number of lives over the course of an episode. It's relevant information. We could try to train the model not to lose lives, as well as to accumulate the maximum reward.
 - Crop the images (states) in patches to retain positional information, as in ViTs.
 - We changed the positional encoding with success. We could try new position encoding strategies like AliBi or RoPE.
 
