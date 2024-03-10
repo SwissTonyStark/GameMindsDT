@@ -45,6 +45,11 @@ We splitted the data into a training set (80%) and a validation set (20%). The t
 This environment was the first environment where we trained and tested our Decision Transformer in a continuous space of actions and observations. Since we where starting from scratch with the training of our Decision Transformer, we didn’t want to jump straight forward into an environment of high level of complexity (in dimensionality and computational terms), so the election of the most friendly environment to start, was fundamental for the progress. Obtaining a prominent success in this first environment, will lead us towards the more complex environments and it’s challenges
 That’s where Hopper Pybullet comes intoplace. This environment shines for it’s simplicity  in terms of dimensionality in comparison with the other environments available from the same library. Here a quick overview of the actions and observations space dimensions:
 
+
+| observation_space | action_space |
+|:-|:-|
+|Box(15,)| Box(3,)| 
+
 #### Troubleshooting
 
 Not all stories start off on the right foot, and our initial trials with our Decision Transformer were not going to be an exception. After investing a good amount of time building our early version of the model, and carefully selecting the environment to start training it, problems arose. During the model training process, we experimented with various hyperparameter configurations, and in all of them, the results were quite satisfactory, with both the average loss and validation loss decreasing correctly until they balanced each other out in most configurations. However, when it came to testing the trained models, the situation was a bit more dramatic. 
@@ -70,7 +75,7 @@ The set of hyperparameters for our Decision Transformer in the Hopper Pybullet M
       "weight_decay": 0.0001,
       "mlp_ratio": 1,
       "dropout": 0.1,
-      "train_epochs": 1500,
+      "train_epochs": 3000,
       "rtg_target": 5000,
       "rtg_scale" :1,
       "constant_retrun_to_go" : True,
@@ -95,7 +100,33 @@ https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/95f4d853-056c-454
 
 ### Environment 2: Walker2D Pybullet-v0
 #### Hypotesis
+For this environment
 #### Troubleshooting
+### Hyperparameters
+The set of hyperparameters for our Decision Transformer in the Hopper Walker2D Medimum env-v0:
+
+      "h_dim": 128,  
+      "num_heads": 1,
+      "num_blocks": 3, 
+      "context_len": 20,
+      "batch_size": 64,
+      "lr": 0.0001,
+      "weight_decay": 0.0001,
+      "mlp_ratio": 1,
+      "dropout": 0.1,
+      "train_epochs": 3000,
+      "rtg_target": 5000,
+      "rtg_scale" :1,
+      "constant_retrun_to_go" : True,
+      "stochastic_start" : True,
+      "num_eval_ep" :10, 
+      "max_eval_ep_len":250, 
+      "num_test_ep":10,  
+      "max_test_ep_len":1000,
+      "state_mean" : dataset_observations_mean,
+      "state_std" : dataset_observations_std, 
+      "render" : False
+      
 #### Results
 
 ### Environment 3: Halfcheetah Pybullet-v0
