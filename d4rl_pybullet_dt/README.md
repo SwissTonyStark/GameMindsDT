@@ -146,7 +146,9 @@ We have conducted several rounds with different agents trained using various hyp
 
 The results on test for the 3 best-performing agents:
 
-![Test Walker2D](https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/02712c70-32ab-47c1-97eb-b63913732df1)
+![Test Walker2D](https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/58eaddbc-0a79-4e48-9177-f963ef45e2d7)
+
+
 
 
 ### Environment 3: Halfcheetah Pybullet-v0
