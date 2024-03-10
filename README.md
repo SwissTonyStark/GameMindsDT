@@ -140,8 +140,10 @@ Pushing the boundaries further, we applied the Decision Transformer to Minecraft
 ## Introduction to Docker
 
 Docker played a crucial role in ensuring a consistent development environment across our team. It's an *open-source containerization platform* that enables developers to **package applications into containers—standardized executable components** combining application source code with the operating system (OS) libraries and dependencies required to run that code in any environment.
+<p align="center">
+  <img src="[https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/d75127fd-e5a2-4f32-b0a4-2b6ec87778a8](https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/c7ffea0a-fac7-4b4b-9e8d-bc1104028fe1)" alt="Docker logo" width="640" height="150">
+</p>
 
-![docker logo](https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/c7ffea0a-fac7-4b4b-9e8d-bc1104028fe1)
 
 ### Why Docker?
 
