@@ -1,107 +1,170 @@
-
-
 # Decision Transformer for MineRL
 
-We have used the [basalt benchmark](https://github.com/minerllabs/basalt-benchmark) framework to test the decision transformers. First, we tested with the Hugging Face Decision Transformer, and then we used our own implementation from scratch. So far, the only environment completed has been find Cave, where we can see that almost 50% of the time the agent ends up finding a cave. Moreover, the agent learns to navigate through the environment with surprising skill. It can get out of complex situations and avoid obstacles. We believe that for the other environments, it is necessary to create a Hierarchical Decision Transformer.
+We have utilized the [basalt benchmark](https://github.com/minerllabs/basalt-benchmark) framework to evaluate decision transformers. Initially, we began with the Hugging Face Decision Transformer, subsequently transitioning to our own custom implementation. To date, the 'Find Cave' environment is the sole completed setting, where the agent successfully locates a cave roughly 50% of the time. Furthermore, the agent exhibits impressive navigational skills, extricating itself from complex situations and skirting obstacles. For additional environments, we posit the necessity of a Hierarchical Decision Transformer.
 
-## Motivation - From theory to practice
-We have demonstrated in previous experiments that Decision Transformers can solve games and benchmark environments such as mujoco, atari, and minigrid. However, we would really like to know if DTs can be used in more complex real-world applications. Lacking data, we have decided to use Minecraft, which, despite being a game, is an environment several orders of magnitude more complex than any of the previously proposed ones. The idea is to check if it can learn anything from human video demonstrations.
+## Motivation - From Theory to Practice
+Our prior experiments have demonstrated that Decision Transformers are capable of resolving games and standard benchmarks such as Mujoco, Atari, and Minigrid. Nonetheless, their applicability in complex, real-world scenarios remains a question. Due to a lack of extensive data, we elected to utilize Minecraft—a game that, while still being a game, presents complexities far surpassing previous environments. Our objective is to ascertain whether the Decision Transformer can glean insights from human video demonstrations.
 
-![from_teory_to_practice](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/2246b179-2b43-4f8e-9995-0142e7a196af)
+![From Theory to Practice](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/2246b179-2b43-4f8e-9995-0142e7a196af)
 
 ## Hypothesis
-We hypothesize that a DT model should perform equally well or better than behavioral cloning (as used by Open AI to pre-train the VPT), and that it will be capable of learning in an environment with long-term rewards as it did in the Key-to-door minigrid environment.
+We postulate that the Decision Transformer model should exhibit performance on par or superior to that of behavioral cloning (as leveraged by OpenAI for VPT pre-training). We anticipate its capability to make effective decisions in environments characterized by long-term rewards, akin to the performance in the 'Key-to-Door' Minigrid environment.
 
-## Decision Transformer only trained with videos
-This model learns to make decisions based on the features extracted from the human video frames. The features are extracted using the VPT library. This means that it learns to navigate through Minecraft and to find caves having been trained solely and exclusively with the viewing of videos (thanks to the embeddings and the extraction of actions from the VPT library). Additionally, for the model to understand that we wanted it to find caves, the videos have been trimmed so that only a few frames from the end have been used for training. 
+## Decision Transformer Trained Exclusively with Videos
+This model formulates decisions by analyzing features extracted from frames of human gameplay videos, with the aid of the VPT library. Hence, it learns Minecraft navigation and cave discovery solely through video observation. For targeted learning, videos are trimmed to emphasize the final frames, facilitating cave-finding training.
 
-The only techniques used were to disable the inventory button and to cut the videos. An arbitrary reward has been added at the end of the episodes. No additional information has been added.
+No complex techniques were employed, barring the deactivation of the inventory button and video trimming. An arbitrary reward was appended at each episode's conclusion without additional contextual information.
 
-## How it works
-First of all, we extract the embeddings and the associated actions from the videos with the pre-trained VPT model. After that, we train our DT agent with this data on a next-action prediction task. Finally, we test our agent, using the VPT in real time to extract the embeddings and pass them to the DT agent so it can predict the best action as in an RL model.
+## How It Works
+Initially, embeddings and associated actions are extracted from the videos utilizing the pre-trained VPT model. Subsequently, our Decision Transformer agent is trained with this data to predict the next action. During testing, embeddings are extracted in real-time using VPT, which the Decision Transformer then utilizes for action prediction, akin to a conventional RL model.
 
 ### VPT
 
-OpenAI has created Video PreTraining (VPT), a semi-supervised method that utilizes a small dataset of video and corresponding actions (like keypresses and mouse movements) to train an inverse dynamics model (IDM). This IDM predicts actions in videos by considering both past and future frames, a more efficient approach than traditional behavioral cloning. With the IDM, OpenAI labels a larger set of online videos to facilitate learning through behavioral cloning, significantly reducing the need for direct supervision.
+OpenAI's Video PreTraining (VPT) is a semi-supervised methodology that employs a modest dataset of videos and corresponding actions to train an inverse dynamics model (IDM). This IDM, more efficient than traditional behavioral cloning, predicts actions by considering both past and future frames. The IDM enables labeling a broader video dataset for behavioral cloning, significantly minimizing the need for direct supervision.
 
-![vpt_schema](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/dabd6445-2d82-4a65-94df-8969acd390d2)
+![VPT Schema](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/dabd6445-2d82-4a65-94df-8969acd390d2)
 
 ### Training
 
-![training_dt](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/4983723a-06de-4a34-a3d5-829b54067e90)
+![Training DT](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/4983723a-06de-4a34-a3d5-829b54067e90)
 
 ### Playing
-![playing_dt](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/ad7ddafc-f320-4c27-a664-e339c0b7d68c)
 
+![Playing DT](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/ad7ddafc-f320-4c27-a664-e339c0b7d68c)
 
-*Credits for some images*: https://cdn.openai.com/vpt/Paper.pdf, https://arxiv.org/pdf/2106.01345.pdf, https://www.minecraft.net/
+*Credits for some images: [OpenAI VPT Paper](https://cdn.openai.com/vpt/Paper.pdf), [Arxiv Paper](https://arxiv.org/pdf/2106.01345.pdf), [Minecraft](https://www.minecraft.net/)*
 
-## Main challenges and Decissions   
+## Main Challenges and Decisions
 
-Here we present a list of the most important decisions made in the creation of our training and testing framework.
+Below is a compilation of pivotal decisions shaping our training and testing framework:
  
-* ### Custom DataCollator
-  Transform episodes, embeddings, and actions into sequences of state, action, and reward-to-go triads to correctly input them into the Decision Transformer.
-* ### 3 action logits (buttons, camera, esc button)
-    Implement a Multicategorical distribution class
-* ### Problems with temperature of camera vs buttons
-    Decouple the button action from the camera action in VPT.
-* ### Big action space buttons combinations (> 8000)
-    ActEncoderDecoder reducer to most commons 125
-* ### Downsampling
-    Disabled, we may miss important actions
-* ### Timesteps too long
-    Added a GlobalPositionEncoding (max_episode_length, sequence_length)
-* ### Not Rewards
-    Cut episodes and give and arbitrary reward at the end (for find cave env)
-* ### Gamma = 1
-    Changing the value doesn't seem to have an impact
-* ### Hiperparameter tunning
-    Not a big model
-    - 1024 embeddings
-    - 64 sequence length ( * 3 (state,action,rewards_to_go))
-    - 8 heads
-    - 6 layers (blocks)
-    - 256 hidden size
-    - Reward to go in inference
-    * The same as the end-of-episode reward
-* ### Two compatible implementations
-    - Hugging Face DT
-    - Our own DT
-* ### Install and run mine RL
-* ### Multi Environment framework
+
+### Custom DataCollator
+Transforms sequences of episodes, embeddings, and actions into structured state, action, and reward-to-go triads for accurate input into the Decision Transformer.
+
+### Action Logits
+Implemented a Multicategorical distribution class for three types of action logits: buttons, camera movements, and the escape button.
+
+### Temperature Discrepancy Between Camera and Buttons
+Addressed the issue by decoupling button actions from camera actions within the VPT framework.
+
+### Large Action Space
+Reduced an extensive set of button combinations (over 8000) down to the 125 most common actions using an ActEncoderDecoder.
+
+### Downsampling
+Opted not to downsample to prevent the loss of crucial actions.
+
+### Excessive Timesteps
+Incorporated a GlobalPositionEncoding to handle extended episodes and maintain sequence integrity.
+
+### Reward System
+Modified the reward scheme by truncating episodes and assigning an arbitrary reward at the end, particularly for the 'find cave' environment.
+
+### Discount Factor (Gamma)
+Maintained a gamma value of 1, as altering it showed negligible effects on performance.
+
+### Hyperparameter Tuning
+Configured the model with a modest size and manageable parameters, avoiding overcomplexity:
+- 1024 embeddings
+- 64 sequence length, tripled for state, action, and rewards_to_go (3 * 64)
+- 8 attention heads
+- 6 transformer blocks (layers)
+- 256 hidden units size
+- Inference reward-to-go matched with the end-of-episode reward
+
+### Compatibility Across Implementations
+Ensured compatibility with both the Hugging Face Decision Transformer and our custom-developed version.
+
+### Multi Environment Framework
+Established a versatile framework capable of handling multiple environments.
 
 ## Results
 
-* ### Good Explorer
-    The agent learns to navigate the environment without difficulties. Learns to go fast, avoid trees, jump over steps, swim, climb hills, get out of puddles, run away from enemies, …
-* ### Learns only seen tasks
-    The agent learns only tasks it has seen, for example, it doesn't know how to fight zombies, only how to escape from them.
-* ### Not only luck in Find Cave
-    It's easy to see that after training it with the end of episodes in "find cave", the agent finds more caves than by pure chance. However, there's always a luck component due to blind exploration.
-* ### The other environments have not been resolved.
-    Despite our attempts, we have been unable to solve the other environments. We suspect it's due to their complexity.
+### Proficient Explorer
+The agent has mastered navigation, quickly adapting to the environment and overcoming obstacles with ease.
+
+### Task-Specific Learning
+The agent's learning is confined to tasks it has experienced; for instance, it has not learned to combat zombies but rather to evade them.
+
+### 'Find Cave' Success Not Solely Attributable to Chance
+Empirical evidence suggests that training on the concluding segments of 'find cave' episodes enhances the agent's cave discovery rate beyond mere coincidence.
+
+### Unresolved Environments
+Other environments remain unsolved, which is likely attributed to their inherent complexity.
 
 ## Conclusions
 
-* ### VPT is Powerful
-    VPT is a very powerful model, and it's likely exportable to projects such as **autonomous driving** or similar.
-    Preprocessing VPT is expensive. It requires a day's worth of GPU work per environment.
-* ### Enough data for simple tasks.
-    With the videos, we have big data for simple actions (run, jump, avoid obstacles, climb, etc).
-* ### Find caves needs a trick
-    Cutting episodes has been effective for this case but doesn't work in other cases.
-* ### Not enough data for complex tasks.
-    It's not easy to train a decision tree (DT) on long term actions without intermediate rewards and low data availability. There are big data for simple actions, but low data for complex actions such building houses.
-* ### Long DT sequences not work.
-    Long sequences of DT don't work for long term actions with low data and not intermediate rewards.
-* ### Training and finding DT hyperparameters is relatively simple
-    Less than an hour per training round, and few parameters to adjust with not many differences.
+### The Potency of VPT
+The VPT model has proven its strength, with potential applicability in areas like autonomous driving, albeit requiring significant preprocessing resources.
+
+### Sufficient Data for Basic Tasks
+The collected videos provide ample data for training basic navigational skills, such as running and jumping.
+
+### Innovations for 'Find Cave' Training
+Trimming episode lengths has been effective for training in 'find cave' scenarios, though this method may not universally apply.
+
+### Data Insufficiency for Complex Tasks
+Training the Decision Transformer on complex, long-term tasks is challenging due to limited data and the absence of intermediate rewards.
+
+### Hyperparameter Tuning
+- Implemented a modestly sized model with the following hyperparameters:
+  - **1024 embeddings**: Ensuring sufficient representational capacity.
+  - **64 sequence length**: Multiplied by three for state, action, and rewards-to-go, providing a comprehensive context for decision-making.
+  - **8 heads**: Allowing the model to attend to different information at different positions.
+  - **6 layers (blocks)**: Deep enough to capture complex relationships.
+  - **256 hidden size**: Balancing model complexity and computational efficiency.
+  - **Reward to go in inference**: Mirrors the end-of-episode reward to guide the prediction.
+
+### Compatible Implementations
+- Employed two distinct implementations for versatility and comparison:
+  - **Hugging Face Decision Transformer**: Leveraging the established framework for baseline comparison.
+  - **Custom Decision Transformer**: Developed in-house for tailored optimization.
+
+### Installation and Running MineRL
+- Established a process for installing and executing MineRL to test the Decision Transformer's performance in a diverse gaming environment.
+
+### Multi-Environment Framework
+- Developed a framework capable of handling multiple environments, facilitating the testing and comparison of the Decision Transformer's adaptability.
+
+## Results
+
+### Good Explorer
+- The agent has adeptly learned to navigate complex environments, showcasing abilities like swift movement, obstacle avoidance, jumping, swimming, and evasion from adversaries.
+
+### Task-Specific Learning
+- Observed that the agent acquires proficiency primarily in tasks it has been explicitly exposed to; for instance, it hasn't learned combat strategies, only evasion.
+
+### Beyond Luck in 'Find Cave'
+- Post-training analysis indicates that the agent's success in finding caves exceeds what could be attributed to mere chance, suggesting effective learning. Nonetheless, random exploration does play a role due to the nature of the task.
+
+### Unsolved Environments
+- Challenges persist in other environments, which remain unresolved—likely due to their intricate complexity.
+
+## Conclusions
+
+### The Power of VPT
+- Video PreTraining (VPT) has proven exceptionally potent, with potential applicability in complex fields like autonomous driving.
+- Preprocessing with VPT is computationally intensive, demanding substantial GPU resources.
+
+### Sufficient Data for Basic Actions
+- The available video data adequately covers fundamental actions such as running, jumping, and obstacle navigation.
+
+### Tactical Episode Trimming
+- Strategically cutting episodes to the end phase proved successful for the 'Find Cave' environment but was not universally applicable.
+
+### Insufficiency of Complex Data
+- Training a Decision Transformer for long-term, complex actions is challenging with sparse data and a lack of intermediate rewards.
+
+### Sequence Length Considerations
+- Extended Decision Transformer sequences do not yield effective results for actions requiring long-term strategic planning without adequate data.
+
+### Streamlined Hyperparameter Optimization
+- Hyperparameter tuning for the Decision Transformer is relatively straightforward, with training sessions concluding within an hour and limited parameters requiring adjustments.
 
 ## Future Work
 
-* ### Hierarchical Decisión transformer
-    We believe that the other environments could probably be solved with a hierarchical DT, which could be pure or multimodal based on Minedojo
+### Hierarchical Decision Transformer
+- There is a belief that hierarchical structures in Decision Transformers could potentially address the unresolved complexities of other environments, possibly employing a pure or multimodal approach based on the Minedojo framework.
   
 ![minedojo_hdt](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/0516f842-b7dd-40e6-9352-8580fc8f1be8)
 
@@ -218,10 +281,6 @@ The agent not only learns to find caves. It also learns other basic skills such 
 [speed_runner.webm](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/4590dfba-0ed8-4622-aa47-87f18f6cced0)
 
 [good_explorer.webm](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/10781cf1-6690-4c95-a697-28ff72f835f4)
-
-
-
-
 
 ## Acknowledgements:
 **Mine_rl** MineRL is a rich Python 3 library which provides a OpenAI Gym interface for interacting with the video game Minecraft, accompanied with datasets of human gameplay. 
