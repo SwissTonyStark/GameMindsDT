@@ -80,92 +80,28 @@ The paths converge in the final stages of the project to merge progress and shar
 - Omar Aguilera Vera
 - Alex Barrachina
 
-### Gantt Chart and Milestones
-Our project timeline and key milestones were tracked using a Gantt chart, illustrating our structured approach to achieving our objectives.
+## Gantt Chart and Milestones 📅
+Our project timeline and key milestones were meticulously tracked using a Gantt chart, illustrating our structured approach to reaching our objectives.
 
-<!--DIAGRAMA GANNT -->
-![image](https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/a9e6e770-8ec6-4e02-a5be-fab2d814f058)
+<p align="center">
+  <img src="https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/a9e6e770-8ec6-4e02-a5be-fab2d814f058" alt="Gantt Chart">
+</p>
 
-Over the course of this project, we systematically approached the exploration and development of the Decision Transformer (DT). Our journey began with an in-depth analysis of existing DT environments and models, where Team A achieved complete progress, setting a robust foundation for the project. Subsequently, Team B took the reins to develop and optimize our DT from the ground up, ensuring it was tailored to our specific needs and achieving full progress in all related tasks. **AFEGIM asteriscs amb problemes o les tasques amb menys %??**
+# State of the Art: Decision Transformer 🌐
+The cornerstone of our project is **Reinforcement Learning**, specifically focusing on offline RL and data sequences rather than direct environment interaction. This project delves into the architecture of the **Decision Transformer**, reducing the RL problem to a conditional sequence modeling problem.
 
-# State of the Art: Decision Transformer
-The leitmotif of this project is centered on **Reinforcement Learning**. However, focusing on it in an offline manner and, as previously mentioned, working with data sequences and not directly interacting with an environment. This is why this project explores the architecture of the **Decision Transformer** presented in this paper, where it reduces the RL problem to a conditional sequence modeling problem. As its name suggests, it is based on **Transformers**, models _par excellence_ for solving sequence problems.
-![image](https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/10a57bff-849c-4d44-985b-4f72c83c8d03)
-Unlike basic RL algorithms that are based on estimating a function or optimizing policies, DTs directly model the relationship between **cumulative reward** (return-to-go), states, and previous actions, thus predicting the future action to achieve the desired reward.
+<p align="center">
+  <img src="https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/10a57bff-849c-4d44-985b-4f72c83c8d03" alt="Decision Transformer">
+</p>
 
-As already mentioned in the paper, the generation of the next action is based on **future desired returns**, rather than past rewards. That's why, instead of using the rewards space, so-called **return-to-go** values are fed with the states and actions.
+# Environments 🎮
+We explored a variety of algorithms and environments, ranging from OpenAI Gym to more complex simulations, each presenting unique challenges and learning opportunities.
 
-_Return-to-go_ is nothing more than the total amount of reward that is expected to be collected from a point in time until the end of the episode or task. If you are halfway through your journey, the return to go is the sum of all future rewards that you expect to earn from that midpoint to the destination. Then, the main goal of the agent will be to **maximize this value**, performing actions such that at the end of the episode it has achieved a future reward.
+<p align="center">
+  <img src="https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/4e11aaf8-9ae9-4721-841e-db724e772de4" alt="Environments GameMinds DT">
+</p>
 
-The architecture is simple; as input, we feed the DT with the **return-to-go**, state, and action. Each of these three spaces is tokenized, having a total of three times the length of each space. So, if we feed the last _K_ tokens to the DT, we will have a total of **3*K tokens**. To obtain the token embeddings, we project a linear layer for each modality, but in the case we are working with visual inputs, **convolutionals** are used instead.
-
-In addition, the Decision Transformer introduces a unique approach to handle sequence order. An **embedding of each timestep** is generated and added to each token. Since each timestep includes states, actions, and return-to-go, the traditional positional encoding can’t be applied because it won’t guarantee the actual order. Once the input is tokenized, it is passed as input to a **decoder-only transformer** (GPT).
-
-In the following block, we can see the pseudocode from the Decision Trasnformer paper. It basically describes the implementation about the DT, and a possible train and eval loop:
-
-```python
-# Algorithm 1 Decision Transformer Pseudocode (for continuous actions)
-
-# R, s, a, t: returns-to-go, states, actions, or timesteps
-# transformer: transformer with causal masking (GPT)
-# embed_s, embed_a, embed_R: linear embedding layers
-# embed_t: learned episode positional embedding
-# pred_a: linear action prediction layer
-
-# main model
-def DecisionTransformer(R, s, a, t):
-    # compute embeddings for tokens
-    pos_embedding = embed_t(t)  # per-timestep (note: not per-token)
-    s_embedding = embed_s(s) + pos_embedding
-    a_embedding = embed_a(a) + pos_embedding
-    R_embedding = embed_R(R) + pos_embedding
-
-    # interleave tokens as (R_1, s_1, a_1, ..., R_K, s_K)
-    input_embeds = stack(R_embedding, s_embedding, a_embedding)
-
-    # use transformer to get hidden states
-    hidden_states = transformer(input_embeds=input_embeds)
-
-    # select hidden states for action prediction tokens
-    a_hidden = unstack(hidden_states).actions
-
-    # predict action
-    return pred_a(a_hidden)
-
-# training loop
-for (R, s, a, t) in dataloader:  # dims: (batch_size, K, dim)
-    a_preds = DecisionTransformer(R, s, a, t)
-    loss = mean((a_preds - a)**2)  # L2 loss for continuous actions
-    optimizer.zero_grad(); loss.backward(); optimizer.step()
-
-# evaluation loop
-target_return = 1  # for instance, expert-level return
-R, s, a, t, done = [target_return], [env.reset()], [], [1], False
-while not done:  # autoregressive generation/sampling
-    # sample next action
-    action = DecisionTransformer(R, s, a, t)[-1]  # for cts actions
-    new_s, r, done, _ = env.step(action)
-
-    # append new tokens to sequence
-    R = R + [R[-1] - r]  # decrement returns-to-go with reward
-    s, a, t = s + [new_s], a + [action], t + [len(R)]
-
-    # only keep context length of K
-    R, s, a, t = R[-K:], s[-K:], a[-K:], t[-K:]
-```
-
-# Environments
-We ventured through various algorithms and environments, from the traditional OpenAI Gym settings to complex strategic simulations, each offering unique challenges and learning opportunities.
-
-<!-- DIAGRAMA AMB ELS LLISTATS D'ALGORISMES UTILITZATS I ENVIRONMENTS -->
-<!-- DRAW.IO -->
-![Environments GameMinds DT](https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/4e11aaf8-9ae9-4721-841e-db724e772de4)
-
- *These are the main environments we have tested and experimented with.*
-
-
- 
-# Installation and Experiments
+# Installation and Experiments 🔧
 For installation instructions and detailed experiment walkthroughs, refer to the specific README files linked below. Here's a quick start:
 
 ```bash
@@ -173,53 +109,37 @@ git clone https://github.com/SwissTonyStark/GameMindsDT.git
 cd GameMindsDT
 pip install -r requirements.txt
 ```
-### Preliminary experiments
-Before we deep dive into our scratch decision transformer, we wanted to verify that the DT algorithm outperforms some classic RL algorithm. So the main objective of these experiments is to **verify the power of the DT algorithm in comparison to other classical algorithms**. Note that the DT used on this short experiments is an already implemented one found in the d3rlpy library. Visit the [Preliminars experiments README](experiments/README.md)
+## Preliminary Experiments 🚀
+Before diving into our custom Decision Transformer, we first aimed to validate the algorithm's effectiveness against classical RL algorithms. These initial tests utilized an existing Decision Transformer implementation from the d3rlpy library. For a detailed overview, refer to our [Preliminary Experiments README](experiments/README.md).
 
-![key_to_door](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/d05b3385-73c9-4abb-a1d0-c03e06b9646f)
+<p align="center">
+  <img src="https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/d05b3385-73c9-4abb-a1d0-c03e06b9646f" alt="key_to_door">
+</p>
 
-*The agent is trying to get the key to unlock the door to find the next level.*
-***
+*Here, the agent is tasked with finding a key to unlock the door, progressing to the next level.*
 
-### Atari: Exploration and Objectives
-![Vorlage_shock2_banner-atari](https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/01c5365c-5b41-4ac1-8ca2-96e37aa74294)
+## Atari: Exploration and Objectives 🕹️
+We trained models on Atari games using a Decision Transformer to benchmark our approach against complex environments.
 
-We decided to train Atari games using a decision transformer for some reasons:
-- <b>Complexity</b>: Atari games offer a visually rich and diverse environment, in some cases more complex than other more simpler environments often used in RL. Some Atari games are specially challenging due to the difficulty of credit assignment arising from the delay between actions and resulting rewards
-- <b>Benchmarking</b>: Atari games serve as a well-established benchmark for RL algorithms, that allows us to compare the performance of owr model with other RL techniques.
+<p align="center">
+  <img src="https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/01c5365c-5b41-4ac1-8ca2-96e37aa74294" alt="Atari Games">
+</p>
 
-<table style="padding:10px">
-  <tr>
-    <td><img src="/assets/seaquest_3620.gif"  width = 300px height = 425px ></td>
-    <td><img src="/assets/spaceinvaders_1350.gif"  width = 300px height = 425px ></td>
-  </tr>
-</table>
+*Atari games provide a rich platform for demonstrating the Decision Transformer's capabilities.*
 
-For an in-depth look, visit the [DT-ATARI README](DT-atari/README.md).
-***
-<!-- AFEGIR OMAR I SHUANG EL VOSTRE -->
+## MineRL: Exploration and Objectives ⛏️
+Pushing the boundaries further, we applied the Decision Transformer to Minecraft via the MineRL environment. This experiment aimed to explore the model's potential in complex, real-world tasks based on human video demonstrations. Dive deeper into our findings in the [MineRL README](dt-mine-rl-project/README.md).
 
-### PyBullet: Exploration and Objectives
-In this experiment, we are utilizing our Decision Transformer in PyBullet environments through the d4rl-pybullet library from this repository. Initially, the plan was to employ the MuJoCo environment from Gymnasium, but due to issues installing the library stemming from deprecated dependencies and licensing problems, we sought an alternative environment.
+<p align="center">
+  <img src="https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/d75127fd-e5a2-4f32-b0a4-2b6ec87778a8" alt="MineRL Environment">
+</p>
 
-The d4rl-pybullet library features four replicable environments: Hopper, HalfCheetah, Ant, and Walker2D. The primary objective is to assess how our decision transformer performs in these types of environments. For an in-depth examination, please visit the [DT-PyBullet README](d4rl_pybullet_dt/README.md)
+*Minecraft's complexity presents a significant challenge, testing the Decision Transformer's learning efficiency and adaptability.*
 
-### MineRL: Exploration and Objectives
-<!-- Estic muntant a draw.io una llista d'algorismes i environments -->
-
-![image](https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/d75127fd-e5a2-4f32-b0a4-2b6ec87778a8)
-
-We have demonstrated in previous experiments that Decision Transformers can solve games and benchmark environments such as mujoco, atari, and minigrid. However, we would really like to know if DTs can be used in more complex real-world applications. Lacking data, we have decided to use Minecraft, which, despite being a game, is an environment several orders of magnitude more complex than any of the previously proposed ones. The idea is to check if it can learn anything from human video demonstrations.
-
-![hole_in_one](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/d6d4af15-0e29-4013-a6bb-d38f74e09921)
-
-*For an in-depth look, visit the [MineRL README](dt-mine-rl-project/README.md).*
-
-***
-# Docker Integration
+## Docker Integration 🐳
 ## Introduction to Docker
 
-Docker played a crucial role in ensuring a consistent development environment across our team. Is an *open-source containerization platform* that enables developers to **package applications into containers—standardized executable components** combining application source code with the operating system (OS) libraries and dependencies required to run that code in any environment.
+Docker played a crucial role in ensuring a consistent development environment across our team. It's an *open-source containerization platform* that enables developers to **package applications into containers—standardized executable components** combining application source code with the operating system (OS) libraries and dependencies required to run that code in any environment.
 
 ![docker logo](https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/c7ffea0a-fac7-4b4b-9e8d-bc1104028fe1)
 
@@ -249,8 +169,7 @@ The base image includes PyTorch, CUDA, and other necessary dependencies. Navigat
 cd GameMindsDT/
 docker build -t nvidia-pytorch:base .
 ```
-Then will you have installed the base image to run our project in a container! But keep reading, you will need to add some extensions,
-new images which contain more dependencies.
+Then you will have installed the base image to run our project in a container! But keep reading, you will need to add some extensions, new images which contain more dependencies.
 
 #### Building the MineRL Image
 The MineRL image is required if you wish to work with the MineRL experiment. Navigate to the directory containing the Dockerfile for MineRL.
@@ -271,8 +190,7 @@ cd GameMindsDT/d4rl_pybullet_dt
 docker build -t pybullet-dt .
 ```
 #### Running a Container
-Once you have built the image you need, you can run a container based on that image. Make sure to replace `nvidia-pytorch:base`, `minerl-dt`, or `pybullet-dt` with the name of the image you have built.
-You will find your images in Docker Desktop, it's recommendable to check if you have them all, but you won't need to run them manually. Visual Studio Code does it for you, it runs an instance of them.
+Once you have built the image you need, you can run a container based on that image. Make sure to replace `nvidia-pytorch:base`, `minerl-dt`, or `pybullet-dt` with the name of the image you have built. You will find your images in Docker Desktop, it's recommendable to check if you have them all, but you won't need to run them manually. Visual Studio Code does it for you, it runs an instance of them.
 
 #### Setting Up Development Environment in VSCode
 After building the images, open the project in Visual Studio Code. Use the "Reopen in Container" feature from the top menu. Select the desired container from the available options.
@@ -280,6 +198,7 @@ After building the images, open the project in Visual Studio Code. Use the "Reop
 The Docker containers are defined in the `./devcontainer` directory, where you can find their configurations.
 
 That's it! You are now ready to work with Docker and use the built images for your projects with MineRL and PyBullet.
+
 ## Resources
 Overview of our repository structure and data flow diagrams to navigate through our project's architecture efficiently.
 
@@ -301,12 +220,6 @@ DT s'ha adaptat be a l'Atari, hem estat optimistes.., referenciar els problemes 
 
 ## License
 This project is licensed under the [MIT License](LICENSE).
-
-<!-- PART ANTIGA PER APROFITAR -->
-<!-- A partir d'aqui esta el readme tal qual anterior -->
-<!-- La idea es comparar amb la nova versio i acabar-ho de completar tot -->
-<!-- Estic reorganitzant tot -->
-
 
 ## Glossary
 
