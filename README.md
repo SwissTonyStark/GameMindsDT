@@ -1,7 +1,7 @@
 # GameMindsDT - Project Overview
 
 <p align="center">
-  <img src="https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/232c06e1-7cb4-4d0b-b2ae-11d24c79a2ef" alt="GameMindstDT Atari & Minecraft">
+  <img src="https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/232c06e1-7cb4-4d0b-b2ae-11d24c79a2ef" alt="GameMindstDT Atari & Minecraft" width="896" height="512">
 </p>
 
 ## Introduction and Motivation 🌟
