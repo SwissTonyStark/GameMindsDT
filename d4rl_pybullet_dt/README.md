@@ -43,8 +43,9 @@ We splitted the data into a training set (80%) and a validation set (20%). The t
 ### Environment 1: Hopper Pybullet-v0
 #### Hypotesis
 This environment was the first environment where we trained and tested our Decision Transformer in a continuous space of actions and observations. Since we where starting from scratch with the training of our Decision Transformer, we didn’t want to jump straight forward into an environment of high level of complexity (in dimensionality and computational terms), so the election of the most friendly environment to start, was fundamental for the progress. Obtaining a prominent success in this first environment, will lead us towards the more complex environments and it’s challenges
-That’s where Hopper Pybullet comes intoplace. This environment shines for it’s simplicity  in terms of dimensionality in comparison with the other environments available from the same library. Here a quick overview of the actions and observations space dimensions:
+That’s where Hopper Pybullet comes intoplace. This environment shines for it’s simplicity  in terms of dimensionality in comparison with the other environments available from the same library. 
 
+Here a quick overview of the observations and actions space dimensions:
 
 | observation_space | action_space |
 |:-|:-|
@@ -101,6 +102,13 @@ https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/95f4d853-056c-454
 ### Environment 2: Walker2D Pybullet-v0
 #### Hypotesis
 For this environment
+
+Here a quick overview of the observations and actions space dimensions:
+
+| observation_space | action_space |
+|:-|:-|
+|Box(22,)| Box(6,)| 
+
 #### Troubleshooting
 ### Hyperparameters
 The set of hyperparameters for our Decision Transformer in the Hopper Walker2D Medimum env-v0:
@@ -131,11 +139,23 @@ The set of hyperparameters for our Decision Transformer in the Hopper Walker2D M
 
 ### Environment 3: Halfcheetah Pybullet-v0
 #### Hypotesis
+Here a quick overview of the observations and actions space dimensions:
+
+| observation_space | action_space |
+|:-|:-|
+|Box(26,)| Box(6,)| 
+
 #### Troubleshooting
 #### Results
 
 ### Environment 4: Ant Pybullet-v0
 #### Hypotesis
+Here a quick overview of the observations and actions space dimensions:
+
+| observation_space | action_space |
+|:-|:-|
+|Box(28,)| Box(8,)| 
+
 #### Troubleshooting
 #### Results
 
