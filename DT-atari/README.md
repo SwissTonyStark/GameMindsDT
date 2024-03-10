@@ -124,6 +124,7 @@ Decision transformer
 
 https://github.com/kzl/decision-transformer
 https://github.com/nikhilbarhate99/min-decision-transformer
+https://huggingface.co/docs/transformers/main/en/model_doc/decision_transformer
 https://huggingface.co/edbeeching/decision_transformer_atari
 https://arxiv.org/pdf/2106.01345.pdf
 
