@@ -284,19 +284,19 @@ Once the code is running, a simple user interface will pop up. This simple user 
 ![UserInterface - MainMenu](https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/20d8e1a1-e8d0-4585-9010-ebfd4d72b8df)
 
 ### Train a DT in Pybullet-V0 from Scratch
-With this option, users can select their desired environment from the available options to start the training.
+With this option, users can select the desired environment from the available options to start the training a new agent.
 
 ![UserInterface - Option1 -EnvSelected](https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/a7c1fe66-ff24-4ec8-96ea-dcec1a3145be)
 
-Once the user selects the environment, the training begins, and updates and stats of the training progress are displayed in real-time. Training metrics are not only displayed but also registered in Weights&Biases for further analysis. Videos are generated locally (and logged in Weights&Biases) throughout the training process, allowing users to visualize the training progress of the agent.
+Once the user selects the environment, training begins, and updates and statistics of the training progress are displayed in real-time. Training metrics are not only displayed but also registered in Weights & Biases for further analysis. Videos are generated locally (and logged in Weights & Biases) throughout the training process, allowing users to visualize the training progress of the agent along different checkpoints for the whole training.
 
 ### Overview Pretrained Models Config
-This utility allows users to review the environment and configuration used for a certain pretrained agent.
+This utility allows users to review the configuration and hyperparameters of the selected pretrained agent, as well as the environment in which it was trained
 
 ![UserInterface - Option2 -PretrainedAgentSelected](https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/f9add7a0-4780-4e0a-a48f-85f8c4f80dad)
 
 ### Test a Pretrained DT in Pybullet-V0
-Finally, with this last option, users can test any of the pretrained agents in any of the available environments. A video will be generated at the end, framing all the epochs the agent has been through.
+With the testing option, users can select any of the pretrained agents to evaluate its performance in any of the available environments. The testing process will generate a video at the end, capturing the interactions of the agent with the environment throughout all the test epochs
 
 ![UserInterface - Option3 -PretrainedAgentSelected - EnvironmentSelected](https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/fe39bb34-d51a-44cb-8fb1-da8c2c4a904a)
  
