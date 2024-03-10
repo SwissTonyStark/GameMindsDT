@@ -59,17 +59,9 @@ Some examples of the performance after training:
   </tr>
 </table>
 
-Our results are, in some cases, better than other RL techniques.
+Except in the case of the Breakout (trained only with mixed data) we observe that our DT obtains similar, or in some cases even higher scores than those obtained in our previous preliminar comparative using the DT of D3rl.
 
-| Game     | our DT |    CQL | QR-DQN | Random |    DQN |MulD-KL |    
-| -------- | ------ | ------ | ------ | ------ | ------ | ------ |
-| Qbert    |  12822 |  14012 |    156 |    164 |   4590 |   6098 |
-| Seaquest |   1800 |    779 |    250 |     68 |   2793 |   4321 |
-| Breakout |     18 |     61 |    6,8 |      2 |    304 |    216 |
-| Space inv|    776 |      ? |      ? |    148 |   1450 |    461 |
-
-sources https://www.researchgate.net/publication/284219036_Policy_Distillation
-        https://arxiv.org/pdf/2106.01345.pdf
+![atari_results](/assets/atari_comparative.png)
 
 ## Conclusions & Future work
 TODO
