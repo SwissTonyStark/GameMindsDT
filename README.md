@@ -70,8 +70,6 @@ The second team is responsible for checking the performance of different RL algo
 Finally, in the last steps of the project, these paths converge at the same point to merge the progress and share it. The last objective is to test the DT implementation with the Minecraft environment, specifically using MineRL.
 
 ### Team Composition and Work Distribution
-#### Supervisor
-- **Txus Bach**
 #### Team A
 - **[Pol Fernández Blánquez](https://www.linkedin.com/in/polfernandezblanquez/)**
 - **Edgar Planell**
