@@ -16,8 +16,7 @@ We implemented from scratch another Decision Transformer to try to solve Atari g
 We use a different version of gym and a dedicated version of D4rl, to have access to the Atari datasets
 
 The original paper uses Tanh (hyperbolic tangents) instead of LayerNorm  after the embeddings, but we obtained the same or worst results using Tanhs.
-We adapted the position encoding with an alternative version that improves the performance thanks to the d3lply library
-https://github.com/takuseno/d3rlpy
+We adapted the position encoding with an alternative version that improves the performance thanks to the d3lply library.
 
 We have used hyperparameter values similar to those of the original paper:
 - embedding dimension 128
@@ -29,10 +28,6 @@ We have used hyperparameter values similar to those of the original paper:
   - Seaquest 1450
   - Space Invaders 20000
   - Breakout 90
-
-We inspired our implementation on the following repositories:
-- https://github.com/kzl/decision-transformer
-- https://github.com/nikhilbarhate99/min-decision-transformer
 
 ## Results
 
@@ -63,9 +58,13 @@ Except in the case of the Breakout (trained only with mixed data) we observe tha
 
 ![atari_results](/assets/atari_comparative.png)
 
-<!-- ## Conclusions & Future work -->
+## Future work
 
+- Include to our dataset information of the current number of lives over the course of an episode. It's relevant information. We could try to train the model not to lose lives, as well as to accumulate the maximum reward.
+- Crop the images (states) in patches to retain positional information, as in ViTs.
+- We changed the positional encoding with success. We could try new position encoding strategies like AliBi or RoPE.
 
+Some of these proposals are addressed in a variant of the DT called  Multi-game DT, that we started to implement (and which we explain below)
 
 ## Installation:
 
@@ -97,7 +96,7 @@ python ./code/main.py
 
 ## Multi-game Decision Transformer
 
-if we had time, we decided to explore one of the DT variants. We chose the multi-game decision transformer, a variant of the DT that tries to produce generalist reinforcement learning agents, trained to play simultaneously on up to 46 Atari games with a single transformer-based model (with a single set of weights). As we are interested in the transfer ability of pretained agents to new games, we tried to fine-tuning a novel game (that is not in the original dataset) using a checkpoint of a pre-trained multi-game DT. 
+As an extra exercise, we decided to explore the multi-game decision transformer, a variant of the DT that tries to produce generalist reinforcement learning agents, trained to play simultaneously on up to 46 Atari games with a single transformer-based model (with a single set of weights). As we are interested in the transfer ability of pretained agents to new games, we tried to fine-tuning a novel game (that is not in the original dataset) using a checkpoint of a pre-trained multi-game DT. 
 
 We train the model to predict the next return, action, and reward discrete token in a sequence via standard cross-entropy loss. While we may not directly use all of the predicted quantities, the task of predicting them encourages structure and representation learning of the environments.
 As the DT has to serve a variety of environments, we standardized the possible actions, rewards and returns-to-go in a uniform quantization. We divide each observation image into a collection of M patches in a similar way that in ViTs. Each patch is additively combined with a trainable position encoding and linearly projected into the input token embedding space. 
@@ -122,11 +121,13 @@ https://github.com/takuseno/d3rlpy
 
 Decision transformer
 
-https://github.com/kzl/decision-transformer
-https://github.com/nikhilbarhate99/min-decision-transformer
+We inspired our implementation on the following repositories:
+- https://github.com/kzl/decision-transformer
+- https://github.com/nikhilbarhate99/min-decision-transformer
+other important references:
+https://arxiv.org/pdf/2106.01345.pdf
 https://huggingface.co/docs/transformers/main/en/model_doc/decision_transformer
 https://huggingface.co/edbeeching/decision_transformer_atari
-https://arxiv.org/pdf/2106.01345.pdf
 
 Multi-game DT
 
