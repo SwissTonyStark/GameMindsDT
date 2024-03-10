@@ -180,7 +180,7 @@ Before diving into our custom Decision Transformer, we first aimed to validate t
 
 ## Atari: Exploration and Objectives 🕹️
 <p align="center">
-  <img src="https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/01c5365c-5b41-4ac1-8ca2-96e37aa74294" alt="Atari Games" width="260" height="105">
+  <img src="https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/01c5365c-5b41-4ac1-8ca2-96e37aa74294" alt="Atari logo" width="200" height="103">
 </p>
 *Atari games provide a rich platform for demonstrating the Decision Transformer's capabilities.*
 
@@ -196,12 +196,14 @@ For a detailed overview, refer to our [DT-Atari README](DT-atari/README.md).
 </table>
 
 ## MineRL: Exploration and Objectives ⛏️
-![hole_in_one](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/d6d4af15-0e29-4013-a6bb-d38f74e09921)
+<p align="center">
+  <img src="https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/d75127fd-e5a2-4f32-b0a4-2b6ec87778a8" alt="Minecraft" width="512" height="150">
+</p>
 
-Pushing the boundaries further, we applied the Decision Transformer to Minecraft via the MineRL environment. This experiment aimed to explore the model's potential in complex, real-world tasks based on human video demonstrations. Dive deeper into our findings in the [MineRL README](dt-mine-rl-project/README.md).
+Pushing the boundaries further, we applied the Decision Transformer to Minecraft via the MineRL environment. This experiment aimed to explore the model's potential in complex, real-world tasks based on human video demonstrations. Dive deeper into our findings in the [MineRL README](#dt-mine-rl-project/README.md).
 
 <p align="center">
-  <img src="https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/d75127fd-e5a2-4f32-b0a4-2b6ec87778a8" alt="MineRL Environment" width="512" height="150">
+  <img src="https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/d6d4af15-0e29-4013-a6bb-d38f74e09921" alt="Hooe in one" width="" height="">
 </p>
 
 *Minecraft's complexity presents a significant challenge, testing the Decision Transformer's learning efficiency and adaptability.*
@@ -273,7 +275,7 @@ That's it! You are now ready to work with Docker and use the built images for yo
 ## Resources
 Overview of our repository structure and data flow diagrams to navigate through our project's architecture efficiently.
 
-<!-- ADJUNTAR DIAGRAMA FLOWS DE LES CARPETES? -->
+>![image](https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/42be917e-72f8-49d8-97b7-57624d1b7a2e)
 
 ## Conclusions
 Summarizing our journey, achievements, challenges faced, and the insights gained through the development of GameMindsDT.
