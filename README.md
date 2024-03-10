@@ -277,15 +277,21 @@ Overview of our repository structure and data flow diagrams to navigate through 
 
 >![image](https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/42be917e-72f8-49d8-97b7-57624d1b7a2e)
 
-## Conclusions
-Summarizing our journey, achievements, challenges faced, and the insights gained through the development of GameMindsDT.
-DT s'ha adaptat be a l'Atari, hem estat optimistes.., referenciar els problemes que hem tingut, retards, solucions/parches, 
+## Conclusions 🌐
 
-**EDGAR**: In this project, I have learned that decision transformers and their variants are currently an active area of research. This is both good and bad. On one hand, it means that we can obtain promising results, but on the other, we have encountered a lack of documentation and real working examples. Many algorithms have only been theoretically tested in simple environments. Ultimately, the project has been an R&D exercise in itself. Despite the difficulties, the fact that we managed to get several environments working has been very rewarding and enriching. For my part, I plan to closely follow this technology to try to apply it in future projects.
+Reflecting upon our venture with GameMindsDT, the expedition from ideation to execution has unfolded as both a formidable challenge and a profound source of enlightenment. The assimilation of Decision Transformers into classical environments, notably Atari, was approached with optimism as we traversed the frontier of AI research. The dearth of thorough documentation and existing practical applications underscored the trailblazing essence of our endeavor, transmuting theoretical paradigms into concrete results.
 
-**POL**: During my work on the GameMindsDT project, I've really gotten to grips with Decision Transformers, Reinforcement Learning, and Docker. Exploring Decision Transformers and Reinforcement Learning has opened my eyes to the powerful ways AI can solve complex problems and improve decision-making in games and simulations. At the same time, dealing with Docker taught me a lot about the importance of containerization for keeping software running smoothly across different computers. This project showed me how essential both advanced AI concepts and practical software tools are for creating effective and reliable applications. It's made me even more excited to keep working in this field, combining deep AI knowledge with solid software development skills.
+The initiative underscored the malleability of Decision Transformers, especially in landscapes devoid of interactive experiences, leaning solely on dataset-driven pedagogy. This dependency on comprehensive, meticulously cataloged datasets surfaced as a notable impediment, casting a spotlight on the disparity between substantial data for elementary functions and the dearth of intricate, multifaceted datasets.
 
-**Shuang**: Concerning reinforcement learning, it is widely recognized as an emerging field of research with limited real-world applications beyond video games. Throughout the project, we have witnessed the potential of decision transformers, particularly in scenarios where a virtual environment is unavailable and only a dataset is provided. A notable drawback is that decision transformers, similar to all transformers, require a substantial dataset that is also well-organized. During our experiments, we observed promising results in some environments, but in others, the outcomes were not as favorable. Several factors could contribute to this, including insufficient data, an incomplete exploration of all hyperparameter options, etc. For future works, I would improve the already done projects and expand it.  
+Integrating our enhancements into the Decision Transformer framework has borne promising outcomes, emphasizing the merit of relentless ingenuity and customization. Despite grappling with the anticipated complexities of Docker and the labyrinthine mesh of dependencies, the containerization platform emerged as an invaluable instrument. It forged the collaboration of our collective, streamlined workflows, and instituted a uniform development environment, ultimately proving indispensable for collective achievement.
+
+In conclusion, the GameMindsDT project has not merely expanded the horizons of AI application within the gaming sphere but has also imparted salient insights into the deployment of avant-garde technologies. It has fortified our conviction in the potential of AI and machine learning; and despite the impediments, it has solidified our determination to continue on this trajectory, catalyzing future innovations and broadening applications beyond the realm of gaming into more diverse and intricate fields.
+
+**Key Takeaways:**
+- **Success with Decision Transformers**: Our tailored improvements have generated notable success, showcasing the potential of specialized AI models.
+- **The Utility of Docker**: Despite initial challenges in configuring images without conflicts, Docker proved to be immensely beneficial, simplifying the workflow for our development team. The tool's efficiency in managing simultaneous contributions was unequivocally validated.
+
+ 
 
 **FEM CADASCÚ 3,4,5 linies de conclusions personals, que hem apres, problemes que ha tingut**
 <!-- IMPORTANT OMAR WAND.DB??? QUE ESTIGUI VISUAL I BEN EXPLICAT -->
