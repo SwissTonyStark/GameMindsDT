@@ -257,7 +257,6 @@ You can choose between two ways to install the project: using Docker or creating
 The steps to build the Conda environment are described below:
 ```
 # Create Conda Environment
-
 conda create -n gamemindsDT python=3.10.12
 conda activate gamemindsDT
 pip install git+https://github.com/takuseno/d4rl-pybullet
@@ -268,15 +267,15 @@ pip install -r requirements.txt
 ### Considerations and Known Issues
 Some users may encounter issues with certain dependencies, particularly with ffmpeg and the H264 codec, in specific environments. Below are some important considerations:
 
-- **ffmpeg and H264 Codec Issue:** If you encounter issues related to ffmpeg and the H264 codec, you can find a solution on [Stack Overflow](https://stackoverflow.com/questions/tagged/ffmpeg+h264).
-
+- **ffmpeg and H264 Codec Issue - Ubuntu:** If you encounter issues related to ffmpeg and the H264 codec in your Ubuntu OS, you can find a solution [here]([https://stackoverflow.com/questions/tagged/ffmpeg+h264](https://stackoverflow.com/questions/70247344/save-video-in-opencv-with-h264-codec)).
+- **ffmpeg and H264 Codec Issue - Windows:** If you encounter issues related to ffmpeg and the H264 codec in you Windows OS, you can find a solution on [here]([https://stackoverflow.com/questions/tagged/ffmpeg+h264](https://blog.gregzaal.com/how-to-install-ffmpeg-on-windows/)).
+- 
 ## Run the code
 ```
-#Go into project folder
-
+# Go into project folder
 cd d4rl_pybullet_dt\code
 
-#Run the code
+# Run the code
 python main.py
 ```
 ### User Interface Guide
@@ -287,11 +286,9 @@ Once the code is running, a simple user interface will pop up. This simple user 
 ### Train a DT in Pybullet-V0 from Scratch
 With this option, users can select their desired environment from the available options to start the training.
 
-![UserInterface - Option1](https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/04843564-1ff9-4f28-9500-69b04f0ef09a)
+![UserInterface - Option1 -EnvSelected](https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/a7c1fe66-ff24-4ec8-96ea-dcec1a3145be)
 
 Once the user selects the environment, the training begins, and updates and stats of the training progress are displayed in real-time. Training metrics are not only displayed but also registered in Weights&Biases for further analysis. Videos are generated locally (and logged in Weights&Biases) throughout the training process, allowing users to visualize the training progress of the agent.
-
-![UserInterface - Option1 -EnvSelected](https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/a7c1fe66-ff24-4ec8-96ea-dcec1a3145be)
 
 ### Overview Pretrained Models Config
 This utility allows users to review the environment and configuration used for a certain pretrained agent.
