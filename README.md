@@ -179,14 +179,21 @@ Before diving into our custom Decision Transformer, we first aimed to validate t
 *Here, the agent is tasked with finding a key to unlock the door, progressing to the next level.*
 
 ## Atari: Exploration and Objectives 🕹️
+<p align="center">
+  <img src="https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/01c5365c-5b41-4ac1-8ca2-96e37aa74294" alt="Atari Games" width="260" height="105">
+</p>
+*Atari games provide a rich platform for demonstrating the Decision Transformer's capabilities.*
+
 We trained models on Atari games using a Decision Transformer to benchmark our approach against this visually rich and diverse environment, specially challenging due to the difficulty of credit assignment arising from the delay between actions and resulting rewards.
 For a detailed overview, refer to our [DT-Atari README](DT-atari/README.md).
 
-<p align="center">
-  <img src="https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/01c5365c-5b41-4ac1-8ca2-96e37aa74294" alt="Atari Games" width="400" height="205">
-</p>
 
-*Atari games provide a rich platform for demonstrating the Decision Transformer's capabilities.*
+<table style="padding:10px">
+  <tr>
+    <td><img src="/assets/seaquest_3620.gif"  alt="1" width = 350px height = 496px ></td>
+     <td><img src="/assets/spaceinvaders_1350.gif"  alt="1" width = 350px height = 496px ></td>
+  </tr>
+</table>
 
 ## MineRL: Exploration and Objectives ⛏️
 Pushing the boundaries further, we applied the Decision Transformer to Minecraft via the MineRL environment. This experiment aimed to explore the model's potential in complex, real-world tasks based on human video demonstrations. Dive deeper into our findings in the [MineRL README](dt-mine-rl-project/README.md).
