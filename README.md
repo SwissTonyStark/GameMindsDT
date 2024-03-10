@@ -1,25 +1,26 @@
 # GameMindsDT - Project Overview
 
-![GameMindstDT Atari   Minecraft](https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/232c06e1-7cb4-4d0b-b2ae-11d24c79a2ef)
+<p align="center">
+  <img src="https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/232c06e1-7cb4-4d0b-b2ae-11d24c79a2ef" alt="GameMindstDT Atari & Minecraft">
+</p>
 
-## Introduction and Motivation
+## Introduction and Motivation 🌟
 Welcome to **GameMindsDT**, where we combine the potent synergy of **Decision Transformers** and **Reinforcement Learning** to conquer a myriad of gaming challenges. Our project is the epic saga of constructing a **custom Transformer model** from scratch, fine-tuning reinforcement learning models, and deploying them to triumph in an extensive variety of virtual environments. From the nostalgia of classic arcade arenas to the intricate strategies of sophisticated simulations, **GameMindsDT** stands as a vanguard in **AI-driven gameplay exploration**.
 
-### Reinforcement Learning: A Primer
+### Reinforcement Learning: A Primer 📚
 **Reinforcement learning (RL)** is a specialized branch of machine learning that empowers an agent to learn by perceiving and interpreting its environment. The agent operates within this environment, striving to maximize a reward function tied to its actions.
 In conventional scenarios, RL algorithms operate online, learning directly through environmental interaction. This iterative learning process involves the agent receiving environmental observations, taking actions, and earning rewards, which leads to the discovery of the next state.
 
-![image](https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/ae47e1ce-a98a-4348-a918-3505bbba5206)
+<p align="center">
+  <img src="https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/ae47e1ce-a98a-4348-a918-3505bbba5206" alt="RL Image">
+</p>
 
 However, the challenge arises when a simulation environment is unavailable. Constructing such an environment can be complex and resource-intensive.
 
-
-### The Offline RL Paradigm
+### The Offline RL Paradigm 🔁
 Conversely, in **offline RL**, an agent leverages pre-collected data, bypassing the need for direct environmental interaction. This data, typically stored as sequences, may originate from humans or other agents. The pivotal concern here is data quality; subpar or insufficient data can severely impact the optimization of the agent's policy.
 
-Let's continue with what we will see next.
-
-> # Table of Contents
+> # Table of Contents 📖
 > - [Objectives and Hypothesis](#objectives-and-hypothesis)
 > - [Project Management](#project-management)
 >   - [Team Composition and Work Distribution](#team-composition-and-work-distribution)
@@ -35,8 +36,8 @@ Let's continue with what we will see next.
 > - [Licence](#license)
 > - [Glossary](#glossary)
 
-# Objectives and Hypothesis
-Our goal was to explore the realms of AI in gaming beyond traditional approaches, hypothesizing that Decision Transformers can provide a more nuanced understanding and execution of game strategies. We aimed to unlock the untapped potential of these transformers across a broad spectrum of games and tasks, pushing the limits of AI capabilities in virtual environments. The main objectives are:
+# Objectives and Hypothesis 🎯
+Our goal was to explore the realms of AI in gaming beyond traditional approaches, hypothesizing that Decision Transformers can provide a more nuanced understanding and execution of game strategies. We aimed to unlock the untapped potential of these transformers across a broad spectrum of games and tasks, pushing the limits of AI capabilities in virtual environments.
 
 ## **Exploration of the Decision Transformer** 🚀
 
@@ -63,20 +64,21 @@ Our goal was to explore the realms of AI in gaming beyond traditional approaches
 
 - Check the model's performance in more complex environments, using **Minecraft** as a simulation environment.
 
-# Project Management
-Regarding to the planning, it has been divided into two different paths, forming two teams to tackle the proposed objectives:
-The first team aims to analyze the original paper and implement a Decision Transformer (DT) from scratch. This includes carrying out all the tasks to train the model: model definition and training.
-The second team is responsible for checking the performance of different RL algorithms along with the DT, testing the various existing environments that can be used for the DT implementation.
-Finally, in the last steps of the project, these paths converge at the same point to merge the progress and share it. The last objective is to test the DT implementation with the Minecraft environment, specifically using MineRL.
+# Project Management 🛠️
+Regarding the planning, it has been divided into two different paths, forming two teams to tackle the proposed objectives:
+- The first team is responsible for evaluating the performance of various RL algorithms alongside the DT, testing various existing environments for DT implementation.
+The paths converge in the final stages of the project to merge progress and share insights, with the ultimate goal of testing the DT implementation in the Minecraft environment, specifically using MineRL.
+- The second team focuses on analyzing the original paper and implementing a Decision Transformer (DT) from scratch, including all tasks related to model definition and training.
 
-### Team Composition and Work Distribution
-#### Team A: *Research and testing the current available environments and Docker container developement for training the Decision Transformer in MineRL environment*
-- **[Pol Fernández Blánquez](https://www.linkedin.com/in/polfernandezblanquez/)**
-- **Edgar Planell**
-#### Team B: *Research and creating a Decision Transformer from scratch, for testing and comparing it with diferent experiments*
-- **Shuang Long Ji Qiu**
-- **Omar Aguilera Vera**
-- **Alex Barrachina**
+## Team Composition and Work Distribution 🧑‍🤝‍🧑
+**Team A:** Research and testing current available environments and Docker container development for training the Decision Transformer in MineRL environment
+- [Pol Fernández Blánquez](https://www.linkedin.com/in/polfernandezblanquez/)
+- Edgar Planell
+
+**Team B:** Research and creating a Decision Transformer from scratch, for testing and comparing it with different experiments
+- Shuang Long Ji Qiu
+- Omar Aguilera Vera
+- Alex Barrachina
 
 ### Gantt Chart and Milestones
 Our project timeline and key milestones were tracked using a Gantt chart, illustrating our structured approach to achieving our objectives.
@@ -196,6 +198,7 @@ We decided to train Atari games using a decision transformer for some reasons:
 For an in-depth look, visit the [DT-ATARI README](DT-atari/README.md).
 ***
 <!-- AFEGIR OMAR I SHUANG EL VOSTRE -->
+
 ### PyBullet: Exploration and Objectives
 In this experiment, we are utilizing our Decision Transformer in PyBullet environments through the d4rl-pybullet library from this repository. Initially, the plan was to employ the MuJoCo environment from Gymnasium, but due to issues installing the library stemming from deprecated dependencies and licensing problems, we sought an alternative environment.
 
@@ -206,14 +209,11 @@ The d4rl-pybullet library features four replicable environments: Hopper, HalfChe
 
 ![image](https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/d75127fd-e5a2-4f32-b0a4-2b6ec87778a8)
 
-
-<!-- EDGAR -->
-
 We have demonstrated in previous experiments that Decision Transformers can solve games and benchmark environments such as mujoco, atari, and minigrid. However, we would really like to know if DTs can be used in more complex real-world applications. Lacking data, we have decided to use Minecraft, which, despite being a game, is an environment several orders of magnitude more complex than any of the previously proposed ones. The idea is to check if it can learn anything from human video demonstrations.
 
 ![hole_in_one](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/d6d4af15-0e29-4013-a6bb-d38f74e09921)
 
-For an in-depth look, visit the [MineRL README](dt-mine-rl-project/README.md).
+*For an in-depth look, visit the [MineRL README](dt-mine-rl-project/README.md).*
 
 ***
 # Docker Integration
