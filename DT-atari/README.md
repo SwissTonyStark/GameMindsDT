@@ -59,19 +59,20 @@ Some examples of the performance after training:
   </tr>
 </table>
 
-Except in the case of the Breakout (trained only with mixed data) we observe that our DT obtains similar, or in some cases even higher scores than those obtained in our previous preliminar comparative using the DT of D3rl.
+Except in the case of the Breakout (trained only with mixed data) we observe that our DT obtains similar, or in some cases even higher scores than those obtained in our previous preliminar comparative using the DT of D3rl. We ran 100 episodes of each game for each algorithm and we averaged the results.
 
 ![atari_results](/assets/atari_comparative.png)
 
 ## Conclusions & Future work
-TODO
+
+
 
 ## Installation:
 
 Installation options:
 
 1/Just run our colab:
-https://colab.research.google.com/drive/1KhUZoDw-3lbm41GLiuoboDp6pn4dfAoe?usp=sharing
+[DT-atari](https://colab.research.google.com/drive/1KhUZoDw-3lbm41GLiuoboDp6pn4dfAoe?usp=sharing)
 
 2/Local installation:
 Dependencies can be installed with the following commands:
@@ -95,8 +96,43 @@ python ./code/main.py
 
 
 ## Multi-game Decision Transformer
-TODO
+
+if we had time, we decided to explore one of the DT variants. We chose the multi-game decision transformer, a variant of the DT that tries to produce generalist reinforcement learning agents, trained to play simultaneously on up to 46 Atari games with a single transformer-based model (with a single set of weights). As we are interested in the transfer ability of pretained agents to new games, we tried to fine-tuning a novel game (that is not in the original dataset) using a checkpoint of a pre-trained multi-game DT. 
+
+We train the model to predict the next return, action, and reward discrete token in a sequence via standard cross-entropy loss. While we may not directly use all of the predicted quantities, the task of predicting them encourages structure and representation learning of the environments.
+As the DT has to serve a variety of environments, we standardized the possible actions, rewards and returns-to-go in a uniform quantization. We divide each observation image into a collection of M patches in a similar way that in ViTs. Each patch is additively combined with a trainable position encoding and linearly projected into the input token embedding space. 
+
+<img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhA0HI4agTrV67FzYHiM02BPlK2Ez61uiktVeSNuLii_C7Tuf1V5hJXmblx5HIFmX7PbT9jhPhNvafM7GZIILSPzY690Sb6O75231kBdXcgBHT1lTFEzVpZaY_ngqtAZs-VspXscd5x30hH8k62sr8GLZeLVX6qGnFeSjcqAIdS85jNjZUIQzoeUn2dLw/s1280/image5.png">
+
+On inference-time, instead of manually fixing the initial rewards-to-go of the entire episode, we use kind a variation of return-conditioned policies that automatically generates expert-level returns at every timestep, using a binary classifier that identifies whether or not the behavior is expert-level before taking an action at time t. 
+
+Currently we have managed to adapt the original code so that the model starts training a new game (fine-tuning a pretrained model), but we are still missing the evaluation function.
+You can see our progress in this colab:
+[Multi-game-DT fine-tuning](https://colab.research.google.com/drive/1SbHa5kluw8BnfsCjitUErp0XlpWO5Lv9#scrollTo=3C8ay4GGDWI9)
 
 ## Acknowledgements:
+
+Datasets of Atari games
+
+https://github.com/takuseno/d4rl-atari
+
+Alternative global position encoder
+
+https://github.com/takuseno/d3rlpy
+
+Decision transformer
+
+https://github.com/kzl/decision-transformer
+https://github.com/nikhilbarhate99/min-decision-transformer
+https://huggingface.co/edbeeching/decision_transformer_atari
+https://arxiv.org/pdf/2106.01345.pdf
+
+Multi-game DT
+
+https://openreview.net/references/pdf?id=LCr7cYytgP
+https://openreview.net/references/attachment?id=plw8BUq0F_&name=supplementary_material
+https://github.com/etaoxing/multigame-dt
+https://github.com/google-research/google-research/tree/master/multi_game_dt
+https://github.com/luciferkonn/MDT
 
 
