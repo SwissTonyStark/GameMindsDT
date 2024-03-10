@@ -144,6 +144,10 @@ We have conducted several rounds with different agents trained using various hyp
 ![TrainingLoss-Train-Walker2D](https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/a2a3e92d-4751-4e32-b597-104393289366)
 ![ValidationLoss-Train-Walker2D](https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/89ae508c-c9b1-4efc-9d00-e368b9957635)
 
+The results on test for the 3 best-performing agents:
+
+![Test Walker2D](https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/02712c70-32ab-47c1-97eb-b63913732df1)
+
 
 ### Environment 3: Halfcheetah Pybullet-v0
 #### Hypotesis
