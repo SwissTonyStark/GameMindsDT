@@ -84,7 +84,7 @@ The paths converge in the final stages of the project to merge progress and shar
 Our project timeline and key milestones were meticulously tracked using a Gantt chart, illustrating our structured approach to reaching our objectives.
 
 <p align="center">
-  <img src="https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/a9e6e770-8ec6-4e02-a5be-fab2d814f058" alt="Gantt Chart">
+  <img src="(https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/3a504abd-a889-439a-a7e4-f855cffbb242" alt="Gantt Chart">
 </p>
 
 # State of the Art: Decision Transformer 🌐
