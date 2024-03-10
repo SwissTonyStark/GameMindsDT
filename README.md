@@ -19,21 +19,21 @@ Conversely, in **offline RL**, an agent leverages pre-collected data, bypassing 
 
 Let's continue with what we will see next.
 
-# Table of Contents
-- [Objectives and Hypothesis](#objectives-and-hypothesis)
-- [Project Management](#project-management)
-  - [Team Composition and Work Distribution](#team-composition-and-work-distribution)
-  - [Gantt Chart and Milestones](#gantt-chart-and-milestones)
-- [State of the Art: Decision Transformer](#state-of-the-art-decision-transformer)
-- [Environments](#environments)
-- [Installation and Experiments](#installation-and-experiments)
-  - [MineRL: Exploration and Objectives](#minerl-exploration-and-objectives)
-- [Docker Integration](#docker-integration)
-- [Resources](#resources)
-- [Conclusions](#conclusions)
-- [References and Acknowledgements](#references-and-acknowledgements)
-- [Licence](#license)
-- [Glossary](#glossary)
+> # Table of Contents
+> - [Objectives and Hypothesis](#objectives-and-hypothesis)
+> - [Project Management](#project-management)
+>   - [Team Composition and Work Distribution](#team-composition-and-work-distribution)
+>   - [Gantt Chart and Milestones](#gantt-chart-and-milestones)
+> - [State of the Art: Decision Transformer](#state-of-the-art-decision-transformer)
+> - [Environments](#environments)
+> - [Installation and Experiments](#installation-and-experiments)
+>   - [MineRL: Exploration and Objectives](#minerl-exploration-and-objectives)
+> - [Docker Integration](#docker-integration)
+> - [Resources](#resources)
+> - [Conclusions](#conclusions)
+> - [References and Acknowledgements](#references-and-acknowledgements)
+> - [Licence](#license)
+> - [Glossary](#glossary)
 
 # Objectives and Hypothesis
 Our goal was to explore the realms of AI in gaming beyond traditional approaches, hypothesizing that Decision Transformers can provide a more nuanced understanding and execution of game strategies. We aimed to unlock the untapped potential of these transformers across a broad spectrum of games and tasks, pushing the limits of AI capabilities in virtual environments. The main objectives are:
@@ -70,10 +70,10 @@ The second team is responsible for checking the performance of different RL algo
 Finally, in the last steps of the project, these paths converge at the same point to merge the progress and share it. The last objective is to test the DT implementation with the Minecraft environment, specifically using MineRL.
 
 ### Team Composition and Work Distribution
-#### Team A
+#### Team A: *Research and testing the current available environments and Docker container developement for training the Decision Transformer in MineRL environment*
 - **[Pol Fernández Blánquez](https://www.linkedin.com/in/polfernandezblanquez/)**
 - **Edgar Planell**
-#### Team B
+#### Team B: *Research and creating a Decision Transformer from scratch, for testing and comparing it with diferent experiments*
 - **Shuang Long Ji Qiu**
 - **Omar Aguilera Vera**
 - **Alex Barrachina**
