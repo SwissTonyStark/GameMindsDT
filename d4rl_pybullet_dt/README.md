@@ -141,6 +141,10 @@ The set of hyperparameters for our Decision Transformer in the Hopper Walker2D M
 #### Results
 We have conducted several rounds with different agents trained using various hyperparameter setups, and like in Hopper's Pybullet environment, increasing slightly the context length led to a better performance in this environment. Also as expected, increasing the dimensionality of the hidden layers of our embeddings translated into a significant reduction in the training and validation loss, allowing the training to converge quicker. The results of the three best-performing agents are shown below:
 
+![TrainingLoss-Train-Walker2D](https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/a2a3e92d-4751-4e32-b597-104393289366)
+![ValidationLoss-Train-Walker2D](https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/89ae508c-c9b1-4efc-9d00-e368b9957635)
+
+
 ### Environment 3: Halfcheetah Pybullet-v0
 #### Hypotesis
 Here a quick overview of the observations and actions space dimensions:
