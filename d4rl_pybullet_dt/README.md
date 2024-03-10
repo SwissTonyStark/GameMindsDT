@@ -300,6 +300,19 @@ With the testing option, users can select any of the pretrained agents to evalua
 
 ![UserInterface - Option3 -PretrainedAgentSelected - EnvironmentSelected](https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/fe39bb34-d51a-44cb-8fb1-da8c2c4a904a)
  
-## Conclusions
+## Acknowledgements:
 
+I would like to acknowledge [takuseno](https://github.com/takuseno) the author(s) of the GitHub repository [d4rl-pybullet](https://github.com/takuseno/d4rl-pybullet) for providing the dataset and code that served as the foundation for implementing my decision transformer model. Their contributions were essential in the development of this project.
+
+Pybullet:
+* PyBullet Quickstart Guide (https://docs.google.com/document/d/10sXEhzFRSnvFcl3XxNGhnD4N2SedqwdAvK3dsihxVUA/edit#heading=h.btdfuxtf2f72)
+* Reinforcement Learning Gym Envs (https://docs.google.com/document/d/10sXEhzFRSnvFcl3XxNGhnD4N2SedqwdAvK3dsihxVUA/edit#heading=h.wz5to0x8kqmr)
+
+d3rlpy: 
+* A collection of Reinforcement Learning baselines and algorithms for model-based reinforcement learning: We have used his GlobalPositionEncoding. (https://github.com/takuseno/d3rlpy/tree/v2.3.0)
+  
+hugging_face:
+* Used the Hugging Face library to use the GPT-2 model and the Decision Transformer model - [Reinforcment Learning Models - Desicion Transformer](https://huggingface.co/docs/transformers/main/model_doc/decision_transformer)
+  
+  
 
