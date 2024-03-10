@@ -196,6 +196,8 @@ For a detailed overview, refer to our [DT-Atari README](DT-atari/README.md).
 </table>
 
 ## MineRL: Exploration and Objectives ⛏️
+![hole_in_one](https://github.com/SwissTonyStark/GameMindsDT/assets/155813568/d6d4af15-0e29-4013-a6bb-d38f74e09921)
+
 Pushing the boundaries further, we applied the Decision Transformer to Minecraft via the MineRL environment. This experiment aimed to explore the model's potential in complex, real-world tasks based on human video demonstrations. Dive deeper into our findings in the [MineRL README](dt-mine-rl-project/README.md).
 
 <p align="center">
