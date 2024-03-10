@@ -279,22 +279,17 @@ Overview of our repository structure and data flow diagrams to navigate through 
 
 ## Conclusions 🌐
 
-Reflecting upon our venture with GameMindsDT, the expedition from ideation to execution has unfolded as both a formidable challenge and a profound source of enlightenment. The assimilation of Decision Transformers into classical environments, notably Atari, was approached with optimism as we traversed the frontier of AI research. The dearth of thorough documentation and existing practical applications underscored the trailblazing essence of our endeavor, transmuting theoretical paradigms into concrete results.
+Reflecting on our GameMindsDT project, moving from the start to finish has been both a big challenge and a great learning experience. Using Decision Transformers in classic games like Atari was done with hope and careful planning as we moved forward in AI research. We noticed a lack of detailed guides and real examples, which showed we were doing something new and exciting.
 
-The initiative underscored the malleability of Decision Transformers, especially in landscapes devoid of interactive experiences, leaning solely on dataset-driven pedagogy. This dependency on comprehensive, meticulously cataloged datasets surfaced as a notable impediment, casting a spotlight on the disparity between substantial data for elementary functions and the dearth of intricate, multifaceted datasets.
+The project showed us how flexible Decision Transformers can be, especially in situations where we only have data to learn from and no real game interaction. Depending on a lot of well-organized data was a big hurdle, highlighting the gap between having enough simple data and not having enough for more complex tasks.
 
-Integrating our enhancements into the Decision Transformer framework has borne promising outcomes, emphasizing the merit of relentless ingenuity and customization. Despite grappling with the anticipated complexities of Docker and the labyrinthine mesh of dependencies, the containerization platform emerged as an invaluable instrument. It forged the collaboration of our collective, streamlined workflows, and instituted a uniform development environment, ultimately proving indispensable for collective achievement.
+Adding our improvements to the Decision Transformer model led to good results, showing the importance of constant creativity and making changes. Despite facing expected difficulties with Docker and dealing with many dependencies, Docker turned out to be very helpful. It made working together easier, made our workflows smoother, and made sure everyone had the same development environment, which was key for our teamwork.
 
-In conclusion, the GameMindsDT project has not merely expanded the horizons of AI application within the gaming sphere but has also imparted salient insights into the deployment of avant-garde technologies. It has fortified our conviction in the potential of AI and machine learning; and despite the impediments, it has solidified our determination to continue on this trajectory, catalyzing future innovations and broadening applications beyond the realm of gaming into more diverse and intricate fields.
+In the end, the GameMindsDT project didn't just push the limits of using AI in gaming but also gave us valuable insights into using new technologies. It strengthened our belief in the power of AI and machine learning. Despite the challenges, it made us more determined to keep going in this direction, sparking new ideas and extending the use of AI beyond gaming to more complex areas.
 
 **Key Takeaways:**
-- **Success with Decision Transformers**: Our tailored improvements have generated notable success, showcasing the potential of specialized AI models.
-- **The Utility of Docker**: Despite initial challenges in configuring images without conflicts, Docker proved to be immensely beneficial, simplifying the workflow for our development team. The tool's efficiency in managing simultaneous contributions was unequivocally validated.
-
- 
-
-**FEM CADASCÚ 3,4,5 linies de conclusions personals, que hem apres, problemes que ha tingut**
-<!-- IMPORTANT OMAR WAND.DB??? QUE ESTIGUI VISUAL I BEN EXPLICAT -->
+- **Success with Decision Transformers**: Our custom changes have led to significant success, showing what's possible with specialized AI models.
+- **The Benefit of Docker**: Despite some setup challenges, Docker was extremely useful, making it easier for our team to work together. Its ability to manage work from multiple developers was clearly a big plus.
 
 
 ## License
