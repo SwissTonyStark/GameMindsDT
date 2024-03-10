@@ -63,7 +63,7 @@ Except in the case of the Breakout (trained only with mixed data) we observe tha
 
 ![atari_results](/assets/atari_comparative.png)
 
-## Conclusions & Future work
+<!-- ## Conclusions & Future work -->
 
 
 
