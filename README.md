@@ -158,7 +158,7 @@ while not done:  # autoregressive generation/sampling
 We explored a variety of algorithms and environments, ranging from OpenAI Gym to more complex simulations, each presenting unique challenges and learning opportunities.
 
 <p align="center">
-  <img src="https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/4e11aaf8-9ae9-4721-841e-db724e772de4" alt="Environments GameMinds DT" width="800" height="800">
+  <img src="https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/4e11aaf8-9ae9-4721-841e-db724e772de4" alt="Environments GameMinds DT" width="700" height="700">
 </p>
 
 # Installation and Experiments 🔧
