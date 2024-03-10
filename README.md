@@ -189,8 +189,7 @@ We decided to train Atari games using a decision transformer for some reasons:
 <table style="padding:10px">
   <tr>
     <td><img src="/assets/seaquest_3620.gif"  width = 300px height = 425px ></td>
-    <td><img src="/assets/qbert_19000.gif"  width = 300px height = 425px ></td>
-     <td><img src="/assets/spaceinvaders_1350.gif"  width = 300px height = 425px ></td>
+    <td><img src="/assets/spaceinvaders_1350.gif"  width = 300px height = 425px ></td>
   </tr>
 </table>
 
