@@ -10,7 +10,7 @@ We implemented from scratch another Decision Transformer to try to solve Atari g
 - convolutional encoder: In a transition, the state is an image of the game screen. In fact, a stack of images of the last 4 transitions (to catch information like velocity objects). The state is fed into a convolutional encoder instead of a linear layer to obtain token embeddings. The fact that the states are images and take up much more space complicates the data management.
 - cross-entropy loss function: An Atari game typically have a discrete set of actions (e.g., jump, move left, shoot). So, we use the cross-entropy loss function instead of the mean-squared error. 
 
-<img src="https://cosmoquester.github.io/assets/post_files/2021-06-29-decision-transformer/Untitled.png"  alt="1" width = 670px height = 496px >
+<img src="https://cosmoquester.github.io/assets/post_files/2021-06-29-decision-transformer/Untitled.png"  alt="1" width = 700px height = 496px >
 
 
 We use a different version of gym and a dedicated version of D4rl, to have access to the Atari datasets
