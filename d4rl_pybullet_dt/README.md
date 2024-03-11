@@ -120,7 +120,7 @@ As explained in the hypothesis, we managed to find the set of hyperparameters ne
 #### Hyperparameters
 The set of hyperparameters used for our Decision Transformer in the Walker2D Pybullet Medimum env-v0:
 
-      "h_dim": 256,  
+      "h_dim": 128,  
       "num_heads": 8,
       "num_blocks": 4, 
       "context_len": 40,
@@ -129,7 +129,7 @@ The set of hyperparameters used for our Decision Transformer in the Walker2D Pyb
       "weight_decay": 0.0001,
       "mlp_ratio": 4,
       "dropout": 0.1,
-      "train_epochs": 3000,
+      "train_epochs": 2000,
       "rtg_target": 5000,
       "rtg_scale" :1,
       "constant_retrun_to_go" : True,
