@@ -3,7 +3,7 @@ import torch
 import numpy as np
 import cv2
 import glob
-import gym
+import datetime
 
 from scipy.stats import linregress
 
@@ -49,56 +49,73 @@ def clear_console():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 def print_logo():
-    with open(os.path.join(os.getcwd(),'code','logo.txt'), 'r') as file:
+    #with open(os.path.join(os.getcwd(),'code','logo.txt'), 'r') as file:
+    with open(os.path.join(os.getcwd(),'logo.txt'), 'r') as file:
         logo = file.read()
     print(logo)
 
 def display_main_menu():
-    print("--------------------- MAIN MENU ---------------------")
-    print("1. Train a Decision Transformer from scratch")
-    print("2. Overview Pretrained Decision Transformer config")
-    print("3. Test a Decision Transformer in Gym-V0 Environments")
-    print("exit. Finish runtime execution")
+    print("  --------------------- MAIN MENU ---------------------")
+    print("  1. Train a Decision Transformer from scratch")
+    print("  2. Overview Pretrained Decision Transformer config")
+    print("  3. Test a Decision Transformer in Gym-V0 Environments")
+    print("  4. Exit runtime execution")
 
 
 
-def show_environments():
-    print('\u2198 Available environments for training:')
+def show_training_environments():
+    print('  ├→ Available environments for training:')
+    print("\r")
     for i, env_name in enumerate(env_dict.keys(), start=1):
-        print(f"{i}. {env_name}")
+        print(f"     {i}. {env_name}")
     
     while True:
         try:
-            selection = int(input("\nSelect an environment by entering its number: "))
+            selection = int(input("\n  Select an environment by entering its number: "))
             if 1 <= selection <= len(env_dict):
                 selected_env = list(env_dict.keys())[selection - 1]
                 return selected_env
             else:
-                print("Invalid selection. Please enter a valid number.")
+                print("  Invalid selection. Please enter a valid number.")
         except ValueError:
-            print("Invalid input. Please enter a number.")
+            print("  Invalid input. Please enter a number.")
 
-
+def show_testing_environments():
+    print('  ├→ Available environments for testing:')
+    print("\r")
+    for i, env_name in enumerate(env_dict.keys(), start=1):
+        print(f"     {i}. {env_name}")
+    
+    while True:
+        try:
+            selection = int(input("\n  Select an environment by entering its number: "))
+            if 1 <= selection <= len(env_dict):
+                selected_env = list(env_dict.keys())[selection - 1]
+                return selected_env
+            else:
+                print("  Invalid selection. Please enter a valid number.")
+        except ValueError:
+            print("  Invalid input. Please enter a number.")
 
 def show_configurations():
     
     config, env_name, _ = load_config_from_checkpoint()
     if config and env_name:
-        print("\n╔═══════════════════════════════════════╗")
-        print("║             Models Config             ║")
-        print("╚═══════════════════════════════════════╝")
+        print("\n  ╔═══════════════════════════════════════╗")
+        print("  ║             Models Config             ║")
+        print("  ╚═══════════════════════════════════════╝")
         for key, value in config.items():
-            print(f" \u27ad {key}: {value}")
+            print(f"   →  {key}: {value}")
 
-        print("\n╔═══════════════════════════════════════╗")
-        print("║     Agent's Training Environment      ║")
-        print("╚═══════════════════════════════════════╝")
-        print(f" Environment name: {env_name}")
+        print("\n  ╔═══════════════════════════════════════╗")
+        print("  ║     Agent's Training Environment      ║")
+        print("  ╚═══════════════════════════════════════╝")
+        print(f"   → Environment name: {env_name}")
         
-        input("\nPress ENTER to return to Main Menu.")
+        input("\n  Press ENTER to return to Main Menu.")
         navigate_main_menu()
     else:
-        print("Model's configuration or environment name not available.")
+        print("  Model's configuration or environment name not available.")
 
 
 def navigate_main_menu():
@@ -112,18 +129,17 @@ def navigate_main_menu():
     env_name = None  
     pretrained_file_name = None
     
-
+    
     while not option_selected:
 
-        option = input("\nPlease, select one of the options available: ")
-        
         # Convert input to integer
         try:
+            option = input("\n  Please, select one of the options available: ")
             option = int(option)
         except ValueError:
             clear_console()
             print_logo()
-            print("Invalid Entry. Please, select one of the options available")
+            display_main_menu()
             continue
         
         #==> Option 1
@@ -131,10 +147,10 @@ def navigate_main_menu():
             clear_console()
             print_logo()
 
-            print("\n╔════════════════════════════════════════════════════════╗")
-            print("║  Selected: Train a Decision Transformer from scratch   ║")
-            print("╚════════════════════════════════════════════════════════╝")
-            env_name = show_environments()
+            print("\n  ╔════════════════════════════════════════════════════════╗")
+            print("  ║  Selected: Train a Decision Transformer from scratch   ║")
+            print("  ╚════════════════════════════════════════════════════════╝")
+            env_name = show_training_environments()
             trigger_train = True
             #Jump to main
             option_selected = True
@@ -145,9 +161,9 @@ def navigate_main_menu():
             clear_console()
             print_logo()
             
-            print("\n╔═════════════════════════════════════════════════════════╗")
-            print("║  Selected: Overview & Edit Environment's model config   ║")
-            print("╚═════════════════════════════════════════════════════════╝")
+            print("\n  ╔═════════════════════════════════════════════════════════╗")
+            print("  ║  Selected: Overview & Edit Environment's model config   ║")
+            print("  ╚═════════════════════════════════════════════════════════╝")
 
             show_configurations()
             
@@ -157,28 +173,39 @@ def navigate_main_menu():
             clear_console()
             print_logo()
 
-            print("\n╔═════════════════════════════════════════════════════════════════╗")
-            print("║  Selected: Test a Decision Transformer in Gym-V0 Environments   ║")
-            print("╚═════════════════════════════════════════════════════════════════╝")
-            print("Selected: Test a Decision Transformer in Gym-V0 Environments")
+            print("\n  ╔═════════════════════════════════════════════════════════════════╗")
+            print("  ║  Selected: Test a Decision Transformer in Gym-V0 Environments   ║")
+            print("  ╚═════════════════════════════════════════════════════════════════╝")
+
             # Select pretrained file .pt
             config, env_name, pretrained_file_name = load_config_from_checkpoint()
             # Select environment to test
-            env_name = show_environments()
+            env_name = show_testing_environments()
             trigger_test = True
             #Jump to main
             option_selected = True
        
         #==> Option Exit   
-        elif option.lower() == "exit":
-            print("Exiting the program. Goodbye :)!")
+        elif option == 4:
+            clear_console()
+            print_logo()
+            print("  Exiting the program. Goodbye! :)")
             #Jump to main
             option_selected = True
-
-        else:
-            print("Invalid option. Please select a valid option.")
+            
 
     return trigger_train, trigger_test, env_name, pretrained_file_name
+
+
+def execution_stats(start_time):
+    end_time = datetime.datetime.now()
+    execution_time = end_time - start_time
+
+    print("\n  ╔════════════════════════════════════════╗")
+    print("  ║  Execution completed at:", end_time.strftime("| %H:%M h |"),"  ║")
+    print("  ║  Total execution time:", execution_time, " ║")
+    print("  ╚════════════════════════════════════════╝")
+
 
 """
 ============================================
@@ -300,7 +327,7 @@ def discounted_returns(rewards, discount_rate=0.99):
 def get_video_filename(video_dir): 
   glob_mp4 = os.path.join(dir, "*.mp4")
   mp4list = glob.glob(glob_mp4)
-  assert len(mp4list) > 0, "couldnt find video files"
+  assert len(mp4list) > 0, "could not find video files"
   return mp4list[-1]
 
 
@@ -314,7 +341,7 @@ def generate_video_opencv(video_frames, video_name):
 
     #path_save_video = os.path.join(os.getcwd(), 'videos', video_name+'.mp4')
     os.makedirs(videos_directory, exist_ok=True)  
-    print("Path where the videos will be stored:", videos_directory)
+    print("  Path where the videos will be stored:", videos_directory)
    
     #Check for existing files (Avoid Overwritting)
     
@@ -339,7 +366,7 @@ def generate_video_opencv(video_frames, video_name):
 
     # Release video writer
     video_writer.release()
-    print("Video succesfully stored at: ", video_file)
+    print("  Video succesfully stored at: ", video_file)
 
     return video_file
     
@@ -368,7 +395,7 @@ def generate_video_opencv_v2(video_frames, video_name):
 
     #path_save_video = os.path.join(os.getcwd(), 'videos', video_name+'.mp4')
     os.makedirs(videos_directory, exist_ok=True)  
-    print("Path where the videos will be stored:", videos_directory)
+    print("  Path where the videos will be stored:", videos_directory)
    
     #Check for existing files (Avoid Overwritting)
     
@@ -392,65 +419,62 @@ def generate_video_opencv_v2(video_frames, video_name):
         # Apply sharpening to enhance edges and details.
         frame_sharpening = cv2.filter2D(frame, -1, sharpening_kernel[1]) # Edge enhancement kernel as preference
         
-        # Aplicar suavizado Gaussiano al frame para mejorar la calidad visual
+        # Apply Gaussian Smooth (blur) to enhance visual quality
         frame_smoothed = cv2.GaussianBlur(frame_sharpening, (5, 5), 0)
 
-        # Ajustar el contraste y el brillo para mejorar la claridad
+        # Adjust brightness and contrast 
         frame_contrasted = cv2.convertScaleAbs(frame_smoothed, alpha=1.2, beta=10)
         
-        # Convertir el frame de RGB a BGR (formato de color utilizado por OpenCV)
+        # Convert the frame from RGB to BGR (color format used by OpenCV)
         frame_bgr = cv2.cvtColor(frame_smoothed, cv2.COLOR_RGB2BGR)
         
-        # Escribir el frame en el video
+        # Write the frame in the video
         video_writer.write(frame_bgr)
     
     # Release video writer
     video_writer.release()
-    print("Video succesfully stored at: ", video_file)
+    print("  Video succesfully stored at: ", video_file)
 
     return video_file
 
 def load_config_from_checkpoint():
-    # Obtener la lista de archivos en el directorio actual
+    # Obtain a list of files in the current directory
     files = os.listdir(os.path.join(os.getcwd(),'checkpoints'))
     
-    # Filtrar solo los archivos .pt
+    # Filter them by .pt files
     pt_files = [f for f in files if f.endswith('.pt')]
     
     if not pt_files:
-        print("No .pt files found in current directory.")
+        print("  No .pt files found in current directory.") 
         return None
     
-    print("\u21aa Pretrained model files .pt available:")
+    print("  ├→ Pretrained model files .pt available:")
+    print("\r")
     for i, f in enumerate(pt_files, start=1):
-        print(f"  {i}. {f}")
+        print(f"     {i}. {f}")
     
-    # Pedir al usuario que seleccione un archivo por su índice
+    # User selects .pt file
     while True:
         try:
-            selection = int(input("\nWrite the number of the .pt file you're interested to load: "))
+            selection = int(input("\n  Type the number of the .pt file you're interested to load: "))
             if 1 <= selection <= len(pt_files):
                 break
             else:
-                print("Número fuera de rango. Por favor, seleccione un número válido.")
+                print("  Número fuera de rango. Por favor, seleccione un número válido.")
         except ValueError:
-            print("Entrada inválida. Por favor, introduzca un número válido.")
+            print("  Entrada inválida. Por favor, introduzca un número válido.")
     
-    # Obtener el nombre del archivo seleccionado
+    # Obtain .pt file name
     file_name = pt_files[selection - 1]
     
-    # Cargar el archivo .pt seleccionado
+    # Load .pt file selected
     checkpoint = torch.load(os.path.join(os.getcwd(),'checkpoints',file_name), map_location=torch.device('cuda'))
     
-    # Obtener la configuración del modelo
+    # Obtain model's config and env_name 
     config = checkpoint['config']
     model_state_dict = checkpoint['model_state_dict']
     optimizer_state_dict = checkpoint['optimizer_state_dict']
     env_name = checkpoint['env_name']
-
-    #clear_console()
-    #print_logo()
-    #print("Models config:",config,"\nEnvironment name: ",env_name)
 
     return config, env_name, file_name
 

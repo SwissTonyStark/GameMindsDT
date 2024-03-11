@@ -41,6 +41,7 @@ class MaskedSelfAttention(nn.Module):
         attn_logits = attn_logits / torch.sqrt(torch.tensor(k.size(-1)))
         # (B, N, T, T)
         # apply mask
+        
         #mask = torch.zeros(T, x.shape[0]).bool()
         subsequent_mask = torch.triu(input=torch.ones(T, T), diagonal=1).bool() 
         selfattn_mask = subsequent_mask.to(device) # + padding mask
@@ -155,8 +156,8 @@ class DecisionTransformer(nn.Module):
         self.state_embed = nn.Linear(in_features=state_dim, out_features=h_dim)
         self.act_embed = nn.Linear(in_features=act_dim, out_features=h_dim)
         self.rtg_embed = nn.Linear(in_features=rtg_dim, out_features=h_dim)
-        #self.pos_embed = nn.Embedding(num_embeddings=max_timesteps, embedding_dim=h_dim)
-        self.pos_embed = GlobalPositionEncoding(h_dim, max_timesteps + 1, context_len)
+        self.pos_embed = nn.Embedding(num_embeddings=max_timesteps, embedding_dim=h_dim)
+        #self.pos_embed = GlobalPositionEncoding(h_dim, max_timesteps + 1, context_len)
 
         self.norm = nn.LayerNorm(h_dim)
         

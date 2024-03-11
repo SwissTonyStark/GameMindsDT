@@ -144,17 +144,17 @@ class Trainer():
                     rewards_to_go[0, t] = running_rtg 
                     
 
-                    if t < self.hyperparameters['h_dim']:
-                        _, _, act_preds  = self.model.forward(timesteps[:,:self.hyperparameters['h_dim']],
-                                                    states[:,:self.hyperparameters['h_dim']],
-                                                    actions[:,:self.hyperparameters['h_dim']],
-                                                    rewards_to_go[:,:self.hyperparameters['h_dim']])
+                    if t < self.hyperparameters['context_len']:
+                        _, _, act_preds  = self.model.forward(timesteps[:,:self.hyperparameters['context_len']],
+                                                    states[:,:self.hyperparameters['context_len']],
+                                                    actions[:,:self.hyperparameters['context_len']],
+                                                    rewards_to_go[:,:self.hyperparameters['context_len']])
                         act = act_preds[0, t].detach() 
                     else:
-                        _, _, act_preds  = self.model.forward(timesteps[:,t-self.hyperparameters['h_dim']+1:t+1],
-                                                    states[:,t-self.hyperparameters['h_dim']+1:t+1],
-                                                    actions[:,t-self.hyperparameters['h_dim']+1:t+1],
-                                                    rewards_to_go[:,t-self.hyperparameters['h_dim']+1:t+1])
+                        _, _, act_preds  = self.model.forward(timesteps[:,t-self.hyperparameters['context_len']+1:t+1],
+                                                    states[:,t-self.hyperparameters['context_len']+1:t+1],
+                                                    actions[:,t-self.hyperparameters['context_len']+1:t+1],
+                                                    rewards_to_go[:,t-self.hyperparameters['context_len']+1:t+1])
                         act = act_preds[0, -1].detach()
                          
                     act = act.cpu().numpy()
@@ -197,11 +197,12 @@ class Trainer():
 
         return best_acum_reward 
 
+
+
     def train(self, train_loader: DataLoader, val_loader: DataLoader):
 
-        #03/03/24: Provisional:
-        #timestamp_project = datetime.datetime.now().strftime("%d_%m_%Y") # Original
-        timestamp_project = '03_03_2024' # provisional
+        
+        timestamp_project = datetime.datetime.now().strftime("%d_%m_%Y") 
         
         # WandB initialization
         wandb_project_name = "Training DT ["+ self.env_name + '] ['+timestamp_project+']'
@@ -238,13 +239,12 @@ class Trainer():
         # Track gradients (Tracks the Optimizer, Criterion and other Pytorch functions recognized)
         wandb.watch(self.model)
 
-        #Environment Evaluation Checkpoints
+        #Initialize Environment Evaluation Checkpoints
         eval_checkpoint = 1
         eval_period = math.floor((0.1) * self.hyperparameters["train_epochs"]) #10% of the training epochs
         next_eval_checkpoint = eval_period
 
-        
-         # Initialize tqdm progess bar
+        # Initialize tqdm progess bar
         epoch_range = tqdm(range(self.hyperparameters['train_epochs']), desc=f'Training in Progress')
 
         # Train & Validation data losses' windows

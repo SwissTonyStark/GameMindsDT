@@ -32,7 +32,7 @@ class TestAgent():
              render=False):
 
         agent_name = self.agent.__class__.__name__.lower()
-
+        
         wandb_project_name = "Testing DT ["+ self.env_name + '] ['+datetime.datetime.now().strftime("%d_%m_%Y")+']'
         wandb_run_name = 'Test Run ['+datetime.datetime.now().strftime("%H.%M.%S")+']'
         wandb.init(project=wandb_project_name, name=wandb_run_name)
@@ -125,7 +125,7 @@ class TestAgent():
 
                     total_timesteps += 1
 
-                    # add state in placeholder and normalize
+                    # Add state in placeholder and normalize
                     states[0, t] = torch.from_numpy(running_state).to(self.device)
                     states[0, t] = (states[0, t] - state_mean) / (state_std+1e-6)
 
@@ -160,7 +160,7 @@ class TestAgent():
                     
                     video_frames.append(self.env.render(mode="rgb_array")) #mode="rgb_array" or mode="human"
                     
-                    # add action in placeholder (Actions Buffered)
+                    # Add action in placeholder (Actions Buffered)
                     
                     actions[0, t] = torch.cuda.FloatTensor(act)
                     #print("Tensor Act_Buffer", actions)
@@ -172,22 +172,6 @@ class TestAgent():
                     
                     wandb.log({"Episode Return-to-go": np.sum(episode_returns)}, step=total_timesteps)
                     
-                    wandb.log({"ObsDim1": running_state[0]}, step=total_timesteps)
-                    wandb.log({"ObsDim2": running_state[1]}, step=total_timesteps)
-                    wandb.log({"ObsDim3": running_state[2]}, step=total_timesteps)
-                    wandb.log({"ObsDim4": running_state[3]}, step=total_timesteps)
-                    wandb.log({"ObsDim5": running_state[4]}, step=total_timesteps)
-                    wandb.log({"ObsDim6": running_state[5]}, step=total_timesteps)
-                    wandb.log({"ObsDim7": running_state[6]}, step=total_timesteps)
-                    wandb.log({"ObsDim8": running_state[7]}, step=total_timesteps)
-                    wandb.log({"ObsDim9": running_state[8]}, step=total_timesteps)
-                    wandb.log({"ObsDim10": running_state[9]}, step=total_timesteps)
-                    wandb.log({"ObsDim11": running_state[10]}, step=total_timesteps)
-                    wandb.log({"ObsDim12": running_state[11]}, step=total_timesteps)
-                    wandb.log({"ObsDim13": running_state[12]}, step=total_timesteps)
-                    wandb.log({"ObsDim14": running_state[13]}, step=total_timesteps)
-                    wandb.log({"ObsDim15": running_state[14]}, step=total_timesteps)
-
                     # Update Potential & Return_to_go data windows
                     window_potential.append(self.env.potential)
                     window_return_to_go.append(np.sum(episode_returns))

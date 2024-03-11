@@ -5,7 +5,7 @@ import numpy as np
 import gym
 import logging
 import d4rl_pybullet
-import datetime
+
 
 from torch.utils.data import DataLoader
 from tabulate import tabulate
@@ -44,7 +44,7 @@ def main_loop(trigger_train, trigger_test, env_name, pretrained_file_name):
     """
 
     # Environment creation
-    print('Environment Selected: ',env_name)
+    print('\n  Environment Selected: ',env_name)
 
     env = gym.make(env_name)
     
@@ -63,7 +63,7 @@ def main_loop(trigger_train, trigger_test, env_name, pretrained_file_name):
     """
 
     terminals_pos, num_episodes = get_episodes(raw_terminals)
-    logging.info(f'Showing episodes information...')
+    logging.info(f' Showing episodes information...')
 
     episodes = list_episodes(terminals_pos)
     timesteps, steps_per_episode = get_timesteps(episodes, len(raw_obs))
@@ -88,14 +88,14 @@ def main_loop(trigger_train, trigger_test, env_name, pretrained_file_name):
     # Remove episodes wiht lees than mean_timestep
 
     rm_episode_idx = [idx for idx, mean in enumerate(steps_per_episode) if mean < mean_timestep]
-    logging.info(f'Removing {len(rm_episode_idx)} eps out of {len(episodes)} eps...')
-    logging.info(f'Remaining episoded should be {len(episodes) - len(rm_episode_idx)} eps.')
+    logging.info(f' Removing {len(rm_episode_idx)} eps out of {len(episodes)} eps...')
+    logging.info(f' Remaining episoded should be {len(episodes) - len(rm_episode_idx)} eps.')
     final_episodes = [(start,end) for start, end in episodes if (end-start) >= mean_timestep]
 
     assert len(episodes) - len(rm_episode_idx) == len(final_episodes), "Error: Episodes size"
 
     observations, actions, rewards, terminals = get_data_set(raw_obs, raw_actions, raw_rewards, raw_terminals, final_episodes)
-    logging.info(f'Final total samples: {observations.shape[0]} out of {raw_obs.shape[0]} original samples.')
+    logging.info(f' Final total samples: {observations.shape[0]} out of {raw_obs.shape[0]} original samples.')
 
     # Dataset normalizations
 
@@ -118,7 +118,7 @@ def main_loop(trigger_train, trigger_test, env_name, pretrained_file_name):
             "weight_decay": 0.0001,
             "mlp_ratio": 1,
             "dropout": 0.1,
-            "train_epochs": 1500, 
+            "train_epochs": 1500,
             "rtg_target": 3600,
             "rtg_scale" :1,
             "constant_retrun_to_go" : True,
@@ -158,21 +158,21 @@ def main_loop(trigger_train, trigger_test, env_name, pretrained_file_name):
         },
 
         'halfcheetah-bullet-medium-v0': {
-            "h_dim": 256,  
-            "num_heads": 4,
+            "h_dim": 512,  
+            "num_heads": 1,
             "num_blocks": 3, 
-            "context_len": 100,
-            "batch_size": 128,
-            "lr": 0.0001,
-            "weight_decay": 0.0005,
+            "context_len": 40,
+            "batch_size": 64,
+            "lr": 0.001,
+            "weight_decay": 0.0001,
             "mlp_ratio": 1,
-            "dropout": 0.2,
-            "train_epochs": 3000,
+            "dropout": 0.1,
+            "train_epochs": 1000,
             "rtg_target": 6000,
             "rtg_scale" :1,
-            "constant_retrun_to_go" : False,
+            "constant_retrun_to_go" : True,
             "stochastic_start" : True,
-            "num_eval_ep" :3, 
+            "num_eval_ep" :5, 
             "max_eval_ep_len":250, 
             "num_test_ep":10,  
             "max_test_ep_len":1000,
@@ -187,7 +187,7 @@ def main_loop(trigger_train, trigger_test, env_name, pretrained_file_name):
             "num_blocks": 3, 
             "context_len": 20,
             "batch_size": 64,
-            "lr": 0.0001,
+            "lr": 0.001,
             "weight_decay": 0.0001,
             "mlp_ratio": 1,
             "dropout": 0.1,
@@ -206,19 +206,19 @@ def main_loop(trigger_train, trigger_test, env_name, pretrained_file_name):
         },
 
         'ant-bullet-medium-v0': {
-            "h_dim": 256,  
-            "num_heads": 2,
-            "num_blocks": 3, 
-            "context_len": 100,
-            "batch_size": 64,
-            "lr": 0.0001,
+            "h_dim": 128,  
+            "num_heads": 8,
+            "num_blocks": 4, 
+            "context_len": 90,
+            "batch_size": 128,
+            "lr": 0.001,
             "weight_decay": 0.0001,
-            "mlp_ratio": 1,
+            "mlp_ratio": 4,
             "dropout": 0.1,
-            "train_epochs": 3000,
+            "train_epochs": 3000, 
             "rtg_target": 6000,
             "rtg_scale" :1,
-            "constant_retrun_to_go" : False,
+            "constant_retrun_to_go" : True,
             "stochastic_start" : True,
             "num_eval_ep" :3, 
             "max_eval_ep_len":250, 
@@ -230,16 +230,16 @@ def main_loop(trigger_train, trigger_test, env_name, pretrained_file_name):
         },
 
         'ant-bullet-mixed-v0': {
-            "h_dim": 256,  
-            "num_heads": 2,
-            "num_blocks": 3, 
-            "context_len": 20,
-            "batch_size": 64,
-            "lr": 0.0001,
+            "h_dim": 128,  
+            "num_heads": 8,
+            "num_blocks": 4, 
+            "context_len": 90,
+            "batch_size": 128,
+            "lr": 0.001,
             "weight_decay": 0.0001,
-            "mlp_ratio": 1,
+            "mlp_ratio": 4,
             "dropout": 0.1,
-            "train_epochs": 3000,
+            "train_epochs": 3000, 
             "rtg_target": 6000,
             "rtg_scale" :1,
             "constant_retrun_to_go" : True,
@@ -254,16 +254,16 @@ def main_loop(trigger_train, trigger_test, env_name, pretrained_file_name):
         },
 
         'walker2d-bullet-medium-v0': { 
-            "h_dim": 128,  
-            "num_heads": 1,
-            "num_blocks": 3, 
-            "context_len": 20,
-            "batch_size": 64,
+            "h_dim": 256,  
+            "num_heads": 8,
+            "num_blocks": 4, 
+            "context_len": 40,
+            "batch_size": 128,
             "lr": 0.0001,
             "weight_decay": 0.0001,
-            "mlp_ratio": 1,
+            "mlp_ratio": 4,
             "dropout": 0.1,
-            "train_epochs": 1500,
+            "train_epochs": 3000,
             "rtg_target": 5000,
             "rtg_scale" :1,
             "constant_retrun_to_go" : True,
@@ -278,16 +278,16 @@ def main_loop(trigger_train, trigger_test, env_name, pretrained_file_name):
         },
 
         'walker2d-bullet-mixed-v0': { 
-            "h_dim": 128,  
-            "num_heads": 1,
-            "num_blocks": 3, 
-            "context_len": 20,
-            "batch_size": 64,
+            "h_dim": 256,  
+            "num_heads": 8,
+            "num_blocks": 4, 
+            "context_len": 40,
+            "batch_size": 128,
             "lr": 0.0001,
             "weight_decay": 0.0001,
-            "mlp_ratio": 1,
+            "mlp_ratio": 4,
             "dropout": 0.1,
-            "train_epochs": 1500,
+            "train_epochs": 3000,
             "rtg_target": 5000,
             "rtg_scale" :1,
             "constant_retrun_to_go" : True,
@@ -343,8 +343,8 @@ def main_loop(trigger_train, trigger_test, env_name, pretrained_file_name):
 
     model_cfg = {
         "state_dim": env.observation_space.shape[0],
-        "act_dim": env.action_space.shape[0], # act_dim=Contextlength?
-        "h_dim": hparams['h_dim'],  #embed_dim
+        "act_dim": env.action_space.shape[0], 
+        "h_dim": hparams['h_dim'],  
         "num_heads": hparams['num_heads'],
         "num_blocks": hparams['num_blocks'],
         "context_len": hparams['context_len'],
@@ -359,6 +359,10 @@ def main_loop(trigger_train, trigger_test, env_name, pretrained_file_name):
     ============================================
     """
     if trigger_train:
+
+        print("\n  ╔═══════════════════════════════════════╗")
+        print("  ║            Training Starts            ║")
+        print("  ╚═══════════════════════════════════════╝")
         
         model_dt = DecisionTransformer(**model_cfg).to(device)
         criterion = nn.MSELoss()
@@ -387,7 +391,7 @@ def main_loop(trigger_train, trigger_test, env_name, pretrained_file_name):
             save_dir = os.path.join("checkpoints", f'state-{env.unwrapped.spec.id}_{count}.pt')
             count += 1
 
-        logging.info(f"Saving checkpoint to {save_dir}...")
+        logging.info(f" Saving checkpoint to {save_dir}...")
 
         # Save the parameters,weights and biases, optimizers, environment name and model's config.
         checkpoint = {
@@ -398,7 +402,9 @@ def main_loop(trigger_train, trigger_test, env_name, pretrained_file_name):
         }
         torch.save(checkpoint, save_dir)
 
-        print("Training Completed Succesfully!")
+        print("\n  ╔═══════════════════════════════════════╗")
+        print("  ║    Training Completed Succesfully!    ║")
+        print("  ╚═══════════════════════════════════════╝")
 
 
     """
@@ -408,18 +414,22 @@ def main_loop(trigger_train, trigger_test, env_name, pretrained_file_name):
     """
 
     if trigger_test:
+    
+        print("\n  ╔═══════════════════════════════════════╗")
+        print("  ║             Testing Starts            ║")
+        print("  ╚═══════════════════════════════════════╝")
 
         
         load_dir = os.path.join(os.getcwd(),'checkpoints',pretrained_file_name)
-        print("Weights will be loaded from: ", load_dir)
+        print(" Weights will be loaded from: ", load_dir)
 
         # Load the weights and config from the pretrained Decision Transformer model (.pt file)
         checkpoint = torch.load(load_dir, map_location=torch.device('cuda'))
-        print("Weights loaded succesfully")
+        print(" Weights loaded succesfully")
         #Instantiate the Decision Transformer Model using the .pt file
         agent = DecisionTransformer(**checkpoint['config']).to(device)
         agent.load_state_dict(checkpoint['model_state_dict'])
-        print("Model Initialization Succesful")
+        print(" Model Initialization Succesful")
 
         test_agent = TestAgent(agent,device,env,env_name)
 
@@ -435,14 +445,19 @@ def main_loop(trigger_train, trigger_test, env_name, pretrained_file_name):
                         render = hparams["render"]
                         )
 
-        print ("Test results:", test_results)
+        print(" Test results:", test_results)
 
-        print("Test Completed Succesfully!")
-          
-   
+        print("\n  ╔═══════════════════════════════════════╗")
+        print("  ║     Testing Completed Succesfully!    ║")
+        print("  ╚═══════════════════════════════════════╝")
+
+
+        
 
 
 if __name__ == "__main__":
+    
+    start_time = datetime.datetime.now()
     clear_console()
     print_logo()
     trigger_train, trigger_test, env_name, pretrained_file_name = navigate_main_menu() 
@@ -450,11 +465,8 @@ if __name__ == "__main__":
     if trigger_train or trigger_test:
         main_loop(trigger_train, trigger_test, env_name, pretrained_file_name)
 
+    execution_stats(start_time)
      
 
-
-print ("\n","/"*60)
-print (" "*20,"Execution completed at:",datetime.datetime.now().strftime("%H:%MH%S"))
-print ("/"*60)
 
 
