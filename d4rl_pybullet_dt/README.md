@@ -69,7 +69,7 @@ This initially puzzled us, until we considered the possibility that the predicte
 We made the necessary fixes in the code, and we reran the test. After this changes, our first agent in the Pybullet environment was finally walking. 
 
 #### Hyperparameters
-The set of hyperparameters used for our Decision Transformer in the Hopper Pybullet Medimum env-v0:
+The proposed set of hyperparameters for our Decision Transformer in the Hopper Pybullet Medimum env-v0:
 
       "h_dim": 128,  
       "num_heads": 1,
@@ -118,7 +118,7 @@ Here a quick overview of the observations and actions space dimensions:
 As explained in the hypothesis, we managed to find the set of hyperparameters needed for this environment. However, indirectly, the computational cost of the agents with this new environment setup was increasing significantly, and the machines that we were using were starting to reach their limits. Luckily, we managed to find a more powerful machine to continue with this more demanding configuration.
 
 #### Hyperparameters
-The set of hyperparameters used for our Decision Transformer in the Walker2D Pybullet Medimum env-v0:
+The proposed set of hyperparameters for our Decision Transformer in the Walker2D Pybullet Medimum env-v0:
 
       "h_dim": 128,  
       "num_heads": 8,
@@ -179,7 +179,7 @@ Above, you can see the most common result after training (Video on the left), wh
 After conducting some research (the information available was quite limited, especially for this early version of the library), we decided to bet on the possibility that the problem might be related to positional embeddings. Therefore, we implemented Global Positional Embedding for our Decision Transformer and ran trains and tests again. Unfortunately, the results were not better, but worse. To this day, we continue to search for the possible root cause.
 
 #### Hyperparameters
-The set of hyperparameters used for our Decision Transformer in the Halfcheetah Pybullet Medimum env-v0:
+The proposed set of hyperparameters for our Decision Transformer in the Halfcheetah Pybullet Medimum env-v0:
 
       "h_dim": 256,  
       "num_heads": 8,
@@ -230,7 +230,7 @@ As described in the Troubleshooting section of the Halfcheetah Pybullet environm
 
 
 #### Hyperparameters
-The set of hyperparameters used for our Decision Transformer in the Ant Pybullet Medimum env-v0:
+The proposed set of hyperparameters for our Decision Transformer in the Ant Pybullet Medimum env-v0:
 
       "h_dim": 256,  
       "num_heads": 8,
