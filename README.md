@@ -34,7 +34,6 @@ Conversely, in **offline RL**, an agent leverages pre-collected data, bypassing 
 > - [Conclusions](#conclusions)
 > - [References and Acknowledgements](#references-and-acknowledgements)
 > - [Licence](#license)
-> - [Glossary](#glossary)
 
 # Objectives and Hypothesis 🎯
 Our goal was to explore the realms of AI in gaming beyond traditional approaches, hypothesizing that Decision Transformers can provide a more nuanced understanding and execution of game strategies. We aimed to unlock the untapped potential of these transformers across a broad spectrum of games and tasks, pushing the limits of AI capabilities in virtual environments.
@@ -296,15 +295,15 @@ The project showed us how flexible Decision Transformers can be, especially in s
 Adding our improvements to the Decision Transformer model led to good results, showing the importance of constant creativity and making changes. Despite facing expected difficulties with Docker and dealing with many dependencies, Docker turned out to be very helpful. It made working together easier, made our workflows smoother, and made sure everyone had the same development environment, which was key for our teamwork.
 
 In the end, the GameMindsDT project didn't just push the limits of using AI in gaming but also gave us valuable insights into using new technologies. It strengthened our belief in the power of AI and machine learning. Despite the challenges, it made us more determined to keep going in this direction, sparking new ideas and extending the use of AI beyond gaming to more complex areas.
-
+<!--
 **Key Takeaways:**
 - **Success with Decision Transformers**: Our custom changes have led to significant success, showing what's possible with specialized AI models.
 - **The Benefit of Docker**: Despite some setup challenges, Docker was extremely useful, making it easier for our team to work together. Its ability to manage work from multiple developers was clearly a big plus.
-
+-->
 
 ## License
 This project is licensed under the [MIT License](LICENSE).
-
+<!--
 ## Glossary
 
 **Decision Transformers (DT)**: A novel approach to reinforcement learning that frames the RL problem as a conditional sequence modeling task, leveraging Transformer architectures to predict future actions based on past states, actions, and desired future rewards. [More info](https://arxiv.org/abs/2106.01345)
@@ -334,7 +333,7 @@ This project is licensed under the [MIT License](LICENSE).
 **Hierarchical Decision Transformer**: A variant of the Decision Transformer that introduces a hierarchical structure into the model to handle more complex decision-making scenarios with longer sequences or multiple objectives. While specific papers on "Hierarchical Decision Transformers" might not be available, the concept builds on principles found in both decision transformers and hierarchical reinforcement learning. [More info on HRL](https://arxiv.org/abs/1604.06057)
 
 **Constrained Decision Transformer**: Another variant of the Decision Transformer designed to operate under specific constraints, optimizing the policy within given boundaries to ensure safe or compliant behavior in sensitive environments. Like the Hierarchical Decision Transformer, specific references might be conceptual, reflecting advancements in constrained RL and decision transformers. [More info on Constrained RL](https://arxiv.org/abs/2005.00513)
-
+-->
 ## References and Acknowledgements
 - [Decision Transformer: Reinforcement Learning via Sequence Modeling](https://arxiv.org/abs/2106.01345)
 - [d3rlpy](https://d3rlpy.readthedocs.io/en/v2.3.0/)
