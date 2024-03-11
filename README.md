@@ -193,7 +193,7 @@ For a detailed overview, refer to our <a href="https://github.com/SwissTonyStark
   </tr>
 </table>
 
-### PyBullet: Exploration and Objectives
+### PyBullet: Exploration and Objectives 🦾
 <p align="center">
   <img src="assets/bullet.png" alt="PyBullet" width="312" height="150">
 </p>
