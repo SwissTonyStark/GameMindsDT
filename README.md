@@ -20,9 +20,9 @@ However, the challenge arises when a simulation environment is unavailable. Cons
 ### The Offline RL Paradigm 🔁
 Conversely, in **offline RL**, an agent leverages pre-collected data, bypassing the need for direct environmental interaction. This data, typically stored as sequences, may originate from humans or other agents. The pivotal concern here is data quality; subpar or insufficient data can severely impact the optimization of the agent's policy.
 
-> # Table of Contents 📖
- - [Objectives and Hypothesis](#objectives-and-hypothesis)
- - [Project Management](#project-management)
+# Table of Contents 📖
+ - [Objectives and Hypothesis](#objectives-and-hypothesis-🎯)
+ - [Project Management](#project-management-🛠️)
    - [Team Composition and Work Distribution](#team-composition-and-work-distribution)
    - [Gantt Chart and Milestones](#gantt-chart-and-milestones)
  - [State of the Art: Decision Transformer](#state-of-the-art-decision-transformer)
