@@ -215,7 +215,7 @@ python download_data.py --env=[env] # Where env is the name of the environment, 
 
 ### Go into the folder
 ```bash
-cd to dt_mine_rl
+cd dt_mine_rl
 ```
 
 ### Train the model
