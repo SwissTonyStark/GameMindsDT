@@ -195,7 +195,7 @@ For a detailed overview, refer to our <a href="https://github.com/SwissTonyStark
 
 ### PyBullet: Exploration and Objectives
 <p align="center">
-  <img src="https://github.com/SwissTonyStark/GameMindsDT/assets/bullet.png" alt="Minecraft" width="512" height="150">
+  <img src="assets/bullet.png" alt="PyBullet" width="512" height="150">
 </p>
 In this experiment, we are utilizing our Decision Transformer in PyBullet environments through the d4rl-pybullet library from this repository. Initially, the plan was to employ the MuJoCo environment from Gymnasium, but due to issues installing the library stemming from deprecated dependencies and licensing problems, we sought an alternative environment.
 
