@@ -277,7 +277,7 @@ Some users may encounter issues with certain dependencies, particularly with ffm
 ## Run the code
 ```
 # Go into project folder
-cd d4rl_pybullet_dt\code
+cd d4rl_pybullet_dt/code
 
 # Run the code
 python main.py
