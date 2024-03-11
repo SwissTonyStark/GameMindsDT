@@ -1,4 +1,4 @@
-# Experiment: PyBullet Gym Environments-V0 
+PyBullet Gym Environments-V0 
 For this experiment, we will be using our Decision Transformer in PyBullet Gym Environments-V0 using the library [d4rl-pybullet](https://github.com/takuseno/d4rl-pybullet) from [takuseno](https://github.com/takuseno)'s repository. The original idea was to use the latest Mujoco environments from Gymnasium Open Ai, but we didnt' find many datasets available and also we faced several problems installing the library due to deprecated dependencies and license issues.
 
 The library d4rl-pybullet has four replicable enviroments: **Hopper**, **Halfcheetah**, **Ant** and **Walker2D**. For our experiments we used all available enviroments. Each of these enviroments offers diferents types of dataset as can be seen in the following table extracted from d4rl-pybullet repository:
