@@ -21,19 +21,19 @@ However, the challenge arises when a simulation environment is unavailable. Cons
 Conversely, in **offline RL**, an agent leverages pre-collected data, bypassing the need for direct environmental interaction. This data, typically stored as sequences, may originate from humans or other agents. The pivotal concern here is data quality; subpar or insufficient data can severely impact the optimization of the agent's policy.
 
 > # Table of Contents 📖
-> - [Objectives and Hypothesis](#objectives-and-hypothesis)
-> - [Project Management](#project-management)
->   - [Team Composition and Work Distribution](#team-composition-and-work-distribution)
->   - [Gantt Chart and Milestones](#gantt-chart-and-milestones)
-> - [State of the Art: Decision Transformer](#state-of-the-art-decision-transformer)
-> - [Environments](#environments)
-> - [Installation and Experiments](#installation-and-experiments)
->   - [MineRL: Exploration and Objectives](#minerl-exploration-and-objectives)
-> - [Docker Integration](#docker-integration)
-> - [Resources](#resources)
-> - [Conclusions](#conclusions)
-> - [References and Acknowledgements](#references-and-acknowledgements)
-> - [Licence](#license)
+ - [Objectives and Hypothesis](#objectives-and-hypothesis)
+ - [Project Management](#project-management)
+   - [Team Composition and Work Distribution](#team-composition-and-work-distribution)
+   - [Gantt Chart and Milestones](#gantt-chart-and-milestones)
+ - [State of the Art: Decision Transformer](#state-of-the-art-decision-transformer)
+ - [Environments](#environments)
+ - [Installation and Experiments](#installation-and-experiments)
+   - [MineRL: Exploration and Objectives](#minerl-exploration-and-objectives)
+ - [Docker Integration](#docker-integration)
+ - [Resources](#resources)
+ - [Conclusions](#conclusions)
+ - [References and Acknowledgements](#references-and-acknowledgements)
+ - [Licence](#license)
 
 # Objectives and Hypothesis 🎯
 Our goal was to explore the realms of AI in gaming beyond traditional approaches, hypothesizing that Decision Transformers can provide a more nuanced understanding and execution of game strategies. We aimed to unlock the untapped potential of these transformers across a broad spectrum of games and tasks, pushing the limits of AI capabilities in virtual environments.
