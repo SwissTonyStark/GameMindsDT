@@ -199,6 +199,12 @@ For a detailed overview, refer to our <a href="https://github.com/SwissTonyStark
 </p>
 In this experiment, we are utilizing our Decision Transformer in PyBullet environments through the d4rl-pybullet library from this repository. Initially, the plan was to employ the MuJoCo environment from Gymnasium, but due to issues installing the library stemming from deprecated dependencies and licensing problems, we sought an alternative environment.
 
+![HopperPybulletTest-Success-ezgif com-speed](https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/8883785e-fc51-456a-9f23-66f44700daba)
+![TestWalker2D-Trim-Trim-ezgif com-speed](https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/5c54d164-8409-4332-906d-f738b20ec842)
+![test_decisiontransformer_halfcheetah-bullet-medium-v0_walksbackward](https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/4e7d38f9-bd68-4e65-bf1c-4cbbd4b012c1)
+![TrainCheckpointN8_1-ezgif com-speed](https://github.com/SwissTonyStark/GameMindsDT/assets/149005566/4dd7d418-0b0f-4320-b1ef-157d203791b9)
+
+
 The d4rl-pybullet library features four replicable environments: Hopper, HalfCheetah, Ant, and Walker2D. The primary objective is to assess how our decision transformer performs in these types of environments. For an in-depth examination, please visit the [DT-PyBullet README](d4rl_pybullet_dt/README.md)
 
 ## MineRL: Exploration and Objectives ⛏️
