@@ -21,8 +21,8 @@ However, the challenge arises when a simulation environment is unavailable. Cons
 Conversely, in **offline RL**, an agent leverages pre-collected data, bypassing the need for direct environmental interaction. This data, typically stored as sequences, may originate from humans or other agents. The pivotal concern here is data quality; subpar or insufficient data can severely impact the optimization of the agent's policy.
 
 # Table of Contents 📖
- - [Objectives and Hypothesis](#objectives-and-hypothesis-🎯)
- - [Project Management](#project-management-🛠️)
+ - [Objectives and Hypothesis](#objectives-and-hypothesis)
+ - [Project Management](#project-management)
    - [Team Composition and Work Distribution](#team-composition-and-work-distribution)
    - [Gantt Chart and Milestones](#gantt-chart-and-milestones)
  - [State of the Art: Decision Transformer](#state-of-the-art-decision-transformer)
@@ -35,7 +35,7 @@ Conversely, in **offline RL**, an agent leverages pre-collected data, bypassing 
  - [References and Acknowledgements](#references-and-acknowledgements)
  - [Licence](#license)
 
-# Objectives and Hypothesis 🎯
+# Objectives and Hypothesis
 Our goal was to explore the realms of AI in gaming beyond traditional approaches, hypothesizing that Decision Transformers can provide a more nuanced understanding and execution of game strategies. We aimed to unlock the untapped potential of these transformers across a broad spectrum of games and tasks, pushing the limits of AI capabilities in virtual environments.
 
 ## **Exploration of the Decision Transformer** 🚀
@@ -63,13 +63,13 @@ Our goal was to explore the realms of AI in gaming beyond traditional approaches
 
 - Check the model's performance in more complex environments, using **Minecraft** as a simulation environment.
 
-# Project Management 🛠️
+# Project Management
 Regarding the planning, it has been divided into two different paths, forming two teams to tackle the proposed objectives:
 - The first team is responsible for evaluating the performance of various RL algorithms alongside the DT, testing various existing environments for DT implementation.
 The paths converge in the final stages of the project to merge progress and share insights, with the ultimate goal of testing the DT implementation in the Minecraft environment, specifically using MineRL.
 - The second team focuses on analyzing the original paper and implementing a Decision Transformer (DT) from scratch, including all tasks related to model definition and training.
 
-## Team Composition and Work Distribution 🧑‍🤝‍🧑
+## Team Composition and Work Distribution
 **Team A:** Research and testing current available environments and Docker container development for training the Decision Transformer in MineRL environment
 - [Pol Fernández Blánquez](https://www.linkedin.com/in/polfernandezblanquez/)
 - Edgar Planell
@@ -79,13 +79,13 @@ The paths converge in the final stages of the project to merge progress and shar
 - Omar Aguilera Vera
 - Alex Barrachina
 
-## Gantt Chart and Milestones 📅
+## Gantt Chart and Milestones
 Our project timeline and key milestones were meticulously tracked using a Gantt chart, illustrating our structured approach to reaching our objectives.
 
 <img width="1087" alt="Gannt" src="https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/d640f614-b9a4-4b8c-be01-b9ca77b8c669">
 
 
-# State of the Art: Decision Transformer 🌐
+# State of the Art: Decision Transformer
 The leitmotif of this project is centered on **Reinforcement Learning**. However, focusing on it in an offline manner and, as previously mentioned, working with data sequences and not directly interacting with an environment. This is why this project explores the architecture of the **Decision Transformer** presented in this paper, where it reduces the RL problem to a conditional sequence modeling problem. As its name suggests, it is based on **Transformers**, models _par excellence_ for solving sequence problems.
 
 <p align="center">
@@ -153,7 +153,7 @@ while not done:  # autoregressive generation/sampling
     # only keep context length of K
     R, s, a, t = R[-K:], s[-K:], a[-K:], t[-K:]
 ```
-# Environments 🎮
+# Environments
 We explored a variety of algorithms and environments, ranging from OpenAI Gym to more complex simulations, each presenting unique challenges and learning opportunities.
 
 <p align="center">
@@ -168,7 +168,7 @@ git clone https://github.com/SwissTonyStark/GameMindsDT.git
 cd GameMindsDT
 pip install -r requirements.txt
 ```
-## Preliminary Experiments 🚀
+## Preliminary Experiments
 Before diving into our custom Decision Transformer, we first aimed to validate the algorithm's effectiveness against classical RL algorithms. These initial tests utilized an existing Decision Transformer implementation from the d3rlpy library. For a detailed overview, refer to our [Preliminary Experiments README](experiments/README.md).
 
 <p align="center">
@@ -177,7 +177,7 @@ Before diving into our custom Decision Transformer, we first aimed to validate t
 
 *Here, the agent is tasked with finding a key to unlock the door, progressing to the next level.*
 
-## Atari: Exploration and Objectives 🕹️
+## Atari: Exploration and Objectives
 <p align="center">
   <img src="https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/01c5365c-5b41-4ac1-8ca2-96e37aa74294" alt="Atari logo" width="200" height="103">
 </p>
@@ -192,7 +192,7 @@ For a detailed overview, refer to our <a href="https://github.com/SwissTonyStark
   </tr>
 </table>
 
-### PyBullet: Exploration and Objectives 🦾
+### PyBullet: Exploration and Objectives
 <p align="center">
   <img src="assets/bullet.png" alt="PyBullet" width="312" height="150">
 </p>
@@ -203,7 +203,7 @@ In this experiment, we are utilizing our Decision Transformer in PyBullet enviro
 
 The d4rl-pybullet library features four replicable environments: Hopper, HalfCheetah, Ant, and Walker2D. The primary objective is to assess how our decision transformer performs in these types of environments. For an in-depth examination, please visit the [DT-PyBullet README](d4rl_pybullet_dt/README.md)
 
-## MineRL: Exploration and Objectives ⛏️
+## MineRL: Exploration and Objectives
 <p align="center">
   <img src="https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/d75127fd-e5a2-4f32-b0a4-2b6ec87778a8" alt="Minecraft" width="512" height="150">
 </p>
@@ -216,7 +216,7 @@ Pushing the boundaries further, we applied the Decision Transformer to Minecraft
 
 *Minecraft's complexity presents a significant challenge, testing the Decision Transformer's learning efficiency and adaptability.*
 
-## Docker Integration 🐳
+## Docker Integration
 ## Introduction to Docker
 
 Docker played a crucial role in ensuring a consistent development environment across our team. It's an *open-source containerization platform* that enables developers to **package applications into containers—standardized executable components** combining application source code with the operating system (OS) libraries and dependencies required to run that code in any environment.
@@ -285,7 +285,7 @@ Overview of our repository structure and data flow diagrams to navigate through 
 
 >![image](https://github.com/SwissTonyStark/GameMindsDT/assets/146961986/42be917e-72f8-49d8-97b7-57624d1b7a2e)
 
-## Conclusions 🌐
+## Conclusions
 
 Reflecting on our GameMindsDT project, moving from the start to finish has been both a big challenge and a great learning experience. Using Decision Transformers in classic games like Atari was done with hope and careful planning as we moved forward in AI research. We noticed a lack of detailed guides and real examples, which showed we were doing something new and exciting.
 
